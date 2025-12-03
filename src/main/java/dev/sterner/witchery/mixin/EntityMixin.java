@@ -1,21 +1,23 @@
 package dev.sterner.witchery.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
+import dev.sterner.witchery.core.registry.WitcheryItems;
 import dev.sterner.witchery.features.death.DeathPlayerAttachment;
 import dev.sterner.witchery.features.death.DeathTransformationHelper;
+import dev.sterner.witchery.features.poppet.PoppetHandler;
 import dev.sterner.witchery.features.poppet.VoodooPoppetLivingEntityAttachment;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.AABB;
-import net.neoforged.neoforge.common.extensions.IEntityExtension;
-import net.neoforged.neoforge.fluids.FluidType;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Entity.class)
@@ -108,4 +110,18 @@ public abstract class EntityMixin {
     }
 
 
+    @Inject(method = "setRemainingFireTicks", at = @At("HEAD"))
+    private void witchery$poppet(int remainingFireTicks, CallbackInfo ci){
+        Entity entity = (Entity) (Object) this;
+        if (remainingFireTicks > 0 && entity instanceof ItemEntity item && item.getItem().is(WitcheryItems.INSTANCE.getVOODOO_POPPET().get())) {
+            var targetEntity = PoppetHandler.INSTANCE.getBoundEntity(entity.level(), item.getItem());
+            var targetPlayer = PoppetHandler.INSTANCE.getBoundPlayer(entity.level(), item.getItem());
+            if (targetEntity != null) {
+                targetEntity.setRemainingFireTicks(80);
+
+            } else if (targetPlayer != null) {
+                targetPlayer.setRemainingFireTicks(80);
+            }
+        }
+    }
 }

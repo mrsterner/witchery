@@ -357,16 +357,18 @@ object PoppetHandler {
      * Gets any living entity bound to a poppet
      */
     fun getBoundEntity(level: Level, poppet: ItemStack): LivingEntity? {
-        if (level is ServerLevel) {
-            val entityId = poppet.get(WitcheryDataComponents.ENTITY_ID_COMPONENT.get())
-            if (entityId != null) {
-                val uuid = UUID.fromString(entityId)
-                for (entity in level.allEntities) {
-                    if (entity is LivingEntity && entity.uuid == uuid) {
-                        return entity
-                    }
-                }
+        if (level is ServerLevel && poppet.has(WitcheryDataComponents.ENTITY_ID_COMPONENT.get())) {
+            val entityIdStr = poppet.get(WitcheryDataComponents.ENTITY_ID_COMPONENT.get()) ?: return null
+
+            val uuid = try {
+                UUID.fromString(entityIdStr)
+            } catch (e: IllegalArgumentException) {
+                return null
             }
+
+            return level.allEntities
+                .filterIsInstance<LivingEntity>()
+                .firstOrNull { it.uuid == uuid }
         }
 
         return null

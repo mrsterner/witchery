@@ -4,6 +4,7 @@ import dev.sterner.witchery.core.registry.WitcheryBlocks
 import dev.sterner.witchery.core.registry.WitcheryDataComponents
 import dev.sterner.witchery.core.registry.WitcheryItems
 import dev.sterner.witchery.core.util.WitcheryUtil
+import dev.sterner.witchery.features.poppet.PoppetHandler
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.sounds.SoundEvents
@@ -11,12 +12,11 @@ import net.minecraft.sounds.SoundSource
 import net.minecraft.tags.BlockTags
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.InteractionResult
+import net.minecraft.world.InteractionResultHolder
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.Mob
 import net.minecraft.world.entity.player.Player
-import net.minecraft.world.item.Item
-import net.minecraft.world.item.ItemStack
-import net.minecraft.world.item.Items
+import net.minecraft.world.item.*
 import net.minecraft.world.item.context.UseOnContext
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.BedBlock
@@ -74,6 +74,47 @@ open class BoneNeedleItem(properties: Properties) : Item(properties.durability(1
         return super.useOn(context)
     }
 
+    override fun use(
+        level: Level,
+        player: Player,
+        usedHand: InteractionHand
+    ): InteractionResultHolder<ItemStack?> {
+        if (player.offhandItem.`is`(WitcheryItems.VOODOO_POPPET.get())) {
+            ItemUtils.startUsingInstantly(level, player, InteractionHand.MAIN_HAND)
+        }
+        return super.use(level, player, usedHand)
+    }
+
+    override fun getUseDuration(stack: ItemStack, entity: LivingEntity): Int {
+        return 50
+    }
+
+    override fun getUseAnimation(stack: ItemStack): UseAnim {
+        return UseAnim.BOW
+    }
+
+    override fun finishUsingItem(
+        stack: ItemStack,
+        level: Level,
+        livingEntity: LivingEntity
+    ): ItemStack {
+        val item = livingEntity.offhandItem
+
+        val boundPlayer = PoppetHandler.getBoundPlayer(level, item)
+        val boundEntity = PoppetHandler.getBoundEntity(level, item)
+
+        if (boundPlayer == null && boundEntity == null) return super.finishUsingItem(stack, level, livingEntity)
+
+        boundPlayer?.hurt(level.damageSources().cactus(), 2f)
+
+        boundEntity?.hurt(level.damageSources().cactus(), 2f)
+
+        item.damageValue += 16
+        if (item.damageValue >= item.maxDamage) {
+            item.shrink(1)
+        }
+        return super.finishUsingItem(stack, level, livingEntity)
+    }
 
     override fun interactLivingEntity(
         stack: ItemStack,
