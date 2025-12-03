@@ -21,7 +21,12 @@ class HungerProtectionPoppet : PoppetType {
 
     override fun onActivate(owner: LivingEntity, source: DamageSource?): Boolean {
         if (owner is Player) {
-            owner.foodData.foodLevel = owner.foodData.foodLevel + 2
+
+            owner.foodData.foodLevel = (owner.foodData.foodLevel + 6).coerceAtMost(20)
+            owner.foodData.setSaturation((owner.foodData.saturationLevel + 6.0f).coerceAtMost( owner.foodData.foodLevel.toFloat()))
+
+            owner.removeEffect(MobEffects.HUNGER)
+
             owner.level().playSound(
                 null,
                 owner.x, owner.y, owner.z,
