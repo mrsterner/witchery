@@ -7,6 +7,7 @@ import dev.sterner.witchery.core.util.WitcheryUtil
 import dev.sterner.witchery.features.affliction.AfflictionPlayerAttachment
 import dev.sterner.witchery.features.affliction.TransformationPlayerAttachment
 import dev.sterner.witchery.features.affliction.event.TransformationHandler
+import dev.sterner.witchery.features.affliction.werewolf.WerewolfAbility.Companion.hasMoonCharm
 import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
@@ -172,17 +173,17 @@ object WerewolfSpecificEventHandler {
 
 
     private fun tryForceTurnWerewolfToHuman(player: Player, data: AfflictionPlayerAttachment.Data) {
-        if (data.getWerewolfLevel() < 3) {
+        if (data.getWerewolfLevel() < 3 && !hasMoonCharm(player)) {
             TransformationHandler.removeForm(player)
-        } else if (data.getWerewolfLevel() < 5) {
+        } else if (data.getWerewolfLevel() < 5 && !hasMoonCharm(player)) {
             TransformationHandler.removeForm(player)
         }
     }
 
     private fun tryForceTurnToWerewolf(player: Player, data: AfflictionPlayerAttachment.Data) {
-        if (data.getWerewolfLevel() < 3) {
+        if (data.getWerewolfLevel() < 3 && !hasMoonCharm(player)) {
             TransformationHandler.setWolfForm(player)
-        } else if (data.getWerewolfLevel() < 5) {
+        } else if (data.getWerewolfLevel() < 5 && !hasMoonCharm(player)) {
             TransformationHandler.setWereWolfForm(player)
         }
     }
