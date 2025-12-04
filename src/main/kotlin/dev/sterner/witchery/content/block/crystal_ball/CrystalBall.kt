@@ -1,9 +1,12 @@
 package dev.sterner.witchery.content.block.crystal_ball
 
+import dev.sterner.witchery.core.registry.WitcheryTarotEffects
 import dev.sterner.witchery.features.curse.CursePlayerAttachment
+import dev.sterner.witchery.features.tarot.TarotPlayerAttachment
 import net.minecraft.ChatFormatting
 import net.minecraft.core.BlockPos
 import net.minecraft.network.chat.Component
+import net.minecraft.network.chat.HoverEvent
 import net.minecraft.world.InteractionResult
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.BlockGetter
@@ -57,6 +60,35 @@ class CrystalBall(properties: Properties) : Block(properties) {
                     )
                 }
             }
+
+            val tarot = TarotPlayerAttachment.getData(player)
+            if (tarot.drawnCards.isNotEmpty()) {
+                for (i in tarot.drawnCards.indices) {
+                    val cardNumber = tarot.drawnCards[i]
+                    val isReversed = tarot.reversedCards.getOrNull(i) ?: false
+                    val effect = WitcheryTarotEffects.getByCardNumber(cardNumber)
+
+                    val nameText: String = effect?.getDisplayName(isReversed)?.string ?: "Unknown Card"
+                    val desc: Component = effect?.getDescription(isReversed) ?: Component.literal("No description.")
+
+                    val nameComponent = if (isReversed && nameText.endsWith("(Reversed)")) {
+                        val mainName = nameText.removeSuffix("(Reversed)").trim()
+                        val reversedText = "(Reversed)"
+
+                        Component.literal(mainName).withStyle(ChatFormatting.GOLD)
+                            .append(Component.literal(" $reversedText").withStyle(ChatFormatting.RED))
+                    } else {
+                        Component.literal(nameText).withStyle(ChatFormatting.GOLD)
+                    }
+
+                    val message = nameComponent.withStyle { style ->
+                        style.withHoverEvent(HoverEvent(HoverEvent.Action.SHOW_TEXT, desc))
+                    }
+
+                    player.displayClientMessage(message, false)
+                }
+            }
+
         }
 
         return super.useWithoutItem(state, level, pos, player, hitResult)

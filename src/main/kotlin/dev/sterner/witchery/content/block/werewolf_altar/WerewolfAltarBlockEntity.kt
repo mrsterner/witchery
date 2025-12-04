@@ -19,6 +19,9 @@ import net.minecraft.core.NonNullList
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
+import net.minecraft.sounds.SoundEvent
+import net.minecraft.sounds.SoundEvents
+import net.minecraft.sounds.SoundSource
 import net.minecraft.world.ContainerHelper
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.ItemInteractionResult
@@ -52,25 +55,30 @@ class WerewolfAltarBlockEntity(
                 pStack.shrink(3)
                 items[0] = ItemStack(Items.GOLD_INGOT, 3).copy()
                 WerewolfLeveling.setHasGivenGold(pPlayer)
-
+                play()
             } else if (items[0].isEmpty && pStack.`is`(Items.MUTTON) && pStack.count >= 30) {
                 pStack.shrink(30)
                 items[0] = ItemStack(Items.MUTTON, 30)
-
+                play()
             } else if (items[0].isEmpty && pStack.`is`(WitcheryItems.TONGUE_OF_DOG.get()) && pStack.count >= 10) {
                 pStack.shrink(10)
                 items[0] = ItemStack(WitcheryItems.TONGUE_OF_DOG.get(), 10).copy()
-
+                play()
             } else {
                 if (pPlayer.mainHandItem.isEmpty) {
                     pPlayer.setItemInHand(InteractionHand.MAIN_HAND, items[0])
                     items.clear()
+                    play()
                 }
             }
             setChanged()
         }
 
         return super.onUseWithItem(pPlayer, pStack, pHand)
+    }
+
+    fun play(){
+        level?.playSound(null, blockPos, SoundEvents.ITEM_PICKUP, SoundSource.BLOCKS)
     }
 
 
