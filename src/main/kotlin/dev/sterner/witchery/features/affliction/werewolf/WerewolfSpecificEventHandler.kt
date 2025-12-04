@@ -59,7 +59,7 @@ object WerewolfSpecificEventHandler {
         val bl3 =
             player.fallDistance > 0.0f && !player.onGround() && !player.onClimbable() && !player.isInWater && !player.isPassenger
 
-        if (wereLevel >= 6 && player.isSprinting && bl3) {
+        if (wereLevel >= 6 && bl3) {
             AfflictionPlayerAttachment.smartUpdate(player) {
                 incrementAirSlayMonster()
             }

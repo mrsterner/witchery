@@ -10,6 +10,7 @@ import dev.sterner.witchery.client.UrnPotionSelectionHandler
 import dev.sterner.witchery.client.colors.PotionColor
 import dev.sterner.witchery.client.colors.RitualChalkColors
 import dev.sterner.witchery.client.hud.DraggableHuds
+import dev.sterner.witchery.client.hud.QuestHudRenderer
 import dev.sterner.witchery.client.layer.DemonHeadFeatureRenderer
 import dev.sterner.witchery.client.model.*
 import dev.sterner.witchery.client.model.poppet.ArmorPoppetModel
@@ -220,6 +221,7 @@ class WitcheryClient(modContainer: ModContainer, modEventBus: IEventBus) {
         DraggableHuds.renderInfusionHud(event.guiGraphics, event.partialTick)
         DraggableHuds.renderManifestHud(event.guiGraphics, event.partialTick)
         DraggableHuds.renderBarkHud(event.guiGraphics, event.partialTick)
+        QuestHudRenderer.render(event.guiGraphics)
 
         DeathClientSpecificEventHandler.renderHud(event.guiGraphics)
         VampireClientSpecificEventHandler.renderHud(event.guiGraphics)
@@ -245,11 +247,17 @@ class WitcheryClient(modContainer: ModContainer, modEventBus: IEventBus) {
                 PacketDistributor.sendToServer(DismountBroomC2SPayload())
             }
         }
+
+        while (WitcheryKeyMappings.TOGGLE_QUEST_HUD.consumeClick()) {
+            QuestHudRenderer.toggle()
+        }
+
         UrnPotionSelectionHandler.tick(Minecraft.getInstance())
         OreHighlightRenderer.tick()
         TabletGazeTracker.tick()
         DebugAABBRenderer.tick()
         HudEditorScreen.handleKeyPress()
+        QuestHudRenderer.tick()
     }
 
     private fun bindContainerRenderers(event: RegisterMenuScreensEvent) {

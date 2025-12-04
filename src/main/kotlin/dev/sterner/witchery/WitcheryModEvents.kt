@@ -49,6 +49,7 @@ object WitcheryModEvents {
         event.register(WitcheryKeyMappings.OPEN_ABILITY_SELECTION)
         event.register(WitcheryKeyMappings.UTILITY_BUTTON)
         event.register(WitcheryKeyMappings.EDIT_HUD)
+        event.register(WitcheryKeyMappings.TOGGLE_QUEST_HUD)
     }
 
     @SubscribeEvent

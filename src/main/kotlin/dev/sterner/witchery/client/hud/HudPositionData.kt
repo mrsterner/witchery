@@ -9,7 +9,8 @@ import net.minecraft.network.codec.StreamCodec
 data class HudPositionData(
     val infusionCoord: Coord = Coord(10, -1),
     val manifestationCoord: Coord = Coord(28, -1),
-    val barkBeltCoord: Coord = Coord(-1, -1)
+    val barkBeltCoord: Coord = Coord(-1, -1),
+    val questHudCoord: Coord = Coord(50, 15)
 ) {
 
     data class Coord(val x: Int, val y: Int){
@@ -36,10 +37,10 @@ data class HudPositionData(
             instance.group(
                 Coord.CODEC.fieldOf("infusion").forGetter { it.infusionCoord },
                 Coord.CODEC.fieldOf("manifestation").forGetter { it.manifestationCoord },
-                Coord.CODEC.fieldOf("barkBelt").forGetter { it.barkBeltCoord }
+                Coord.CODEC.fieldOf("barkBelt").forGetter { it.barkBeltCoord },
+                Coord.CODEC.optionalFieldOf("questHud", Coord(40, 15)).forGetter { it.questHudCoord }
             ).apply(instance, ::HudPositionData)
         }
-
 
         val STREAM_CODEC: StreamCodec<RegistryFriendlyByteBuf, HudPositionData> = StreamCodec.composite(
             Coord.STREAM_CODEC,
@@ -48,6 +49,8 @@ data class HudPositionData(
             HudPositionData::manifestationCoord,
             Coord.STREAM_CODEC,
             HudPositionData::barkBeltCoord,
+            Coord.STREAM_CODEC,
+            HudPositionData::questHudCoord,
             ::HudPositionData
         )
     }
@@ -75,6 +78,14 @@ data class HudPositionData(
             Coord(x, y)
         } else {
             barkBeltCoord
+        }
+    }
+
+    fun getQuestHudPos(screenWidth: Int, screenHeight: Int): Coord {
+        return if (questHudCoord.y == -1) {
+            Coord(questHudCoord.x, screenHeight / 2 - (47 / 2))
+        } else {
+            questHudCoord
         }
     }
 }

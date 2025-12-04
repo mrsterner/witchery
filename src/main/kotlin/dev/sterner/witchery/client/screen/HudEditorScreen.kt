@@ -2,6 +2,7 @@ package dev.sterner.witchery.client.screen
 
 
 import dev.sterner.witchery.client.hud.HudPositionData
+import dev.sterner.witchery.client.hud.HudPositionData.*
 import dev.sterner.witchery.core.registry.WitcheryKeyMappings
 import dev.sterner.witchery.features.misc.HudPlayerAttachment
 import net.minecraft.client.Minecraft
@@ -23,7 +24,8 @@ class HudEditorScreen : Screen(Component.literal("HUD Editor")) {
     enum class ElementType {
         INFUSION,
         MANIFESTATION,
-        BARK_BELT
+        BARK_BELT,
+        QUEST_HUD
     }
 
     data class HudElement(
@@ -76,6 +78,18 @@ class HudEditorScreen : Screen(Component.literal("HUD Editor")) {
                 88,
                 16,
                 "Bark Belt"
+            )
+        )
+
+        val (questX, questY) = positions.getQuestHudPos(width, height)
+        hudElements.add(
+            HudElement(
+                ElementType.QUEST_HUD,
+                questX - 4,
+                questY - 4,
+                64,
+                64,
+                "Quests"
             )
         )
 
@@ -188,17 +202,22 @@ class HudEditorScreen : Screen(Component.literal("HUD Editor")) {
         var infusionCoord = HudPositionData.Coord(10, -1)
         var manifestationCoord = HudPositionData.Coord(28, -1)
         var barkCoord = HudPositionData.Coord(-1, -1)
+        var questCoord = HudPositionData.Coord(10, -1)
 
         for (el in hudElements) {
             when (el.type) {
                 ElementType.INFUSION -> {
-                    infusionCoord = HudPositionData.Coord(el.x + 4, el.y + 4)
+                    infusionCoord = Coord(el.x + 4, el.y + 4)
                 }
                 ElementType.MANIFESTATION -> {
-                    manifestationCoord = HudPositionData.Coord(el.x + 4, el.y + 4)
+                    manifestationCoord = Coord(el.x + 4, el.y + 4)
                 }
                 ElementType.BARK_BELT -> {
-                    barkCoord = HudPositionData.Coord(el.x + 4, el.y + 4)
+                    barkCoord = Coord(el.x + 4, el.y + 4)
+                }
+
+                ElementType.QUEST_HUD -> {
+                    questCoord = Coord(el.x + 4, el.y + 4)
                 }
             }
         }
@@ -206,7 +225,8 @@ class HudEditorScreen : Screen(Component.literal("HUD Editor")) {
         val newPositions = HudPositionData(
             infusionCoord,
             manifestationCoord,
-            barkCoord
+            barkCoord,
+            questCoord
         )
 
         HudPlayerAttachment.setHudPositions(player, newPositions)

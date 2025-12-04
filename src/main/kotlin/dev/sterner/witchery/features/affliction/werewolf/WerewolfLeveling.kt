@@ -139,7 +139,7 @@ object WerewolfLeveling {
             return
         }
 
-        val newData = AfflictionPlayerAttachment.smartUpdate(player, sync = false) {
+        val newData = AfflictionPlayerAttachment.smartUpdate(player, sync = true) {
             incrementPigmenKilled()
         }
 
@@ -152,7 +152,7 @@ object WerewolfLeveling {
             return
         }
 
-        val newData = AfflictionPlayerAttachment.smartUpdate(player, sync = false) {
+        val newData = AfflictionPlayerAttachment.smartUpdate(player, sync = true) {
             withKilledHornedOne(true)
         }
 
@@ -165,7 +165,7 @@ object WerewolfLeveling {
             return
         }
 
-        AfflictionPlayerAttachment.smartUpdate(player, sync = false) {
+        AfflictionPlayerAttachment.smartUpdate(player, sync = true) {
             incrementKilledWolves()
         }
     }
@@ -175,7 +175,7 @@ object WerewolfLeveling {
             return
         }
 
-        val newData = AfflictionPlayerAttachment.smartUpdate(player, sync = false) {
+        val newData = AfflictionPlayerAttachment.smartUpdate(player, sync = true) {
             withOfferedTongue(true)
         }
 
@@ -188,7 +188,7 @@ object WerewolfLeveling {
             return
         }
 
-        AfflictionPlayerAttachment.smartUpdate(player, sync = false) {
+        AfflictionPlayerAttachment.smartUpdate(player, sync = true) {
             incrementKilledSheep()
         }
     }
@@ -198,7 +198,7 @@ object WerewolfLeveling {
             return
         }
 
-        val newData = AfflictionPlayerAttachment.smartUpdate(player, sync = false) {
+        val newData = AfflictionPlayerAttachment.smartUpdate(player, sync = true) {
             withOfferedMutton(true)
         }
 
@@ -210,7 +210,7 @@ object WerewolfLeveling {
             return
         }
 
-        val newData = AfflictionPlayerAttachment.smartUpdate(player, sync = false) {
+        val newData = AfflictionPlayerAttachment.smartUpdate(player, sync = true) {
             withGivenGold(true)
         }
 

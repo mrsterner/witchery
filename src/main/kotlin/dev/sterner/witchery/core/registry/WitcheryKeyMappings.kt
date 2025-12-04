@@ -34,4 +34,10 @@ object WitcheryKeyMappings {
         "key.categories.witchery"
     )
 
+    val TOGGLE_QUEST_HUD = KeyMapping(
+        "key.witchery.toggle_quest_hud",
+        InputConstants.Type.KEYSYM,
+        InputConstants.KEY_J,
+        "key.categories.witchery"
+    )
 }
