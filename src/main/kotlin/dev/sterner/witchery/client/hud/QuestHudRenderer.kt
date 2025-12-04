@@ -77,9 +77,6 @@ object QuestHudRenderer {
 
         newlyCompleted.forEach { quest ->
             questCompletionAnimations[quest.id] = QuestAnimation()
-            minecraft.soundManager.play(
-                SimpleSoundInstance.forUI(SoundEvents.PLAYER_LEVELUP, 1.5f, 1.2f)
-            )
         }
 
         lastCompletedQuests = currentQuests.filter { it.isComplete }.map { it.id }.toSet()
@@ -386,7 +383,7 @@ object QuestHudRenderer {
         requirement.halfVillagers?.let { max ->
             quests.add(QuestState(
                 "half_blood_$nextLevel",
-                "Create half-blood villagers",
+                "Suck half-blood of villagers",
                 data.getVillagersHalfBlood().size,
                 max,
                 data.getVillagersHalfBlood().size >= max
@@ -426,7 +423,7 @@ object QuestHudRenderer {
         requirement.villagesVisited?.let { max ->
             quests.add(QuestState(
                 "villages_$nextLevel",
-                "Visit villages",
+                "Visit villages as bat",
                 data.getVisitedVillages().size,
                 max,
                 data.getVisitedVillages().size >= max

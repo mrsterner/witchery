@@ -22,12 +22,12 @@ open class WerewolfAltarBlockEntityRenderer(ctx: BlockEntityRendererProvider.Con
     override fun getRenderBoundingBox(blockEntity: WerewolfAltarBlockEntity): AABB {
         val pos = blockEntity.blockPos
         return AABB(
-            pos.x - 0.0,
-            pos.y - 0.0,
-            pos.z - 0.0,
-            pos.x + 0.0,
+            pos.x - 2.0,
+            pos.y - 2.0,
+            pos.z - 2.0,
+            pos.x + 2.0,
             pos.y + 2.0,
-            pos.z + 0.0
+            pos.z + 2.0
         )
     }
 
