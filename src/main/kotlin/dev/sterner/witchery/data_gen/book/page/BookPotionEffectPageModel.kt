@@ -17,7 +17,6 @@ import net.minecraft.world.level.ItemLike
 class BookPotionEffectPageModel :
     BookPageModel<BookPotionEffectPageModel?>(Witchery.id("potion_effect")) {
 
-    // Changed to include capacity: Pair<ItemStack, Triple<Int, BookTextHolder, BookTextHolder>>
     var items: MutableList<Pair<ItemStack, Triple<Int, BookTextHolder, BookTextHolder>>> = mutableListOf()
     var title: BookTextHolderModel = BookTextHolderModel("")
     var text: BookTextHolderModel = BookTextHolderModel("")
@@ -26,25 +25,20 @@ class BookPotionEffectPageModel :
         val json = super.toJson(entryId, provider)
         json.add("title", title.toJson(provider))
 
-        // Create custom JSON array for items with capacity
-        val itemsArray = com.google.gson.JsonArray()
+        val itemsArray = JsonArray()
         for ((stack, triple) in this.items) {
-            val itemObj = com.google.gson.JsonObject()
+            val itemObj = JsonObject()
 
-            // Encode the ItemStack
             val stackJson = ItemStack.CODEC.encodeStart(
                 provider.createSerializationContext(JsonOps.INSTANCE),
                 stack
             ).getOrThrow()
             itemObj.add("item", stackJson)
 
-            // Add capacity
             itemObj.addProperty("capacity", triple.first)
 
-            // Add texts - directly use component if available, otherwise use string/key
-            val textsObj = com.google.gson.JsonObject()
+            val textsObj = JsonObject()
 
-            // For text
             if (triple.second.hasComponent()) {
                 textsObj.add("text", ComponentSerialization.CODEC.encodeStart(
                     provider.createSerializationContext(JsonOps.INSTANCE),
