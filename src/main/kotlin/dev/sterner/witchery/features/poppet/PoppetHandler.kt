@@ -167,38 +167,49 @@ object PoppetHandler {
         damagePoppet: Int = 0
     ): ItemStack? {
 
-        val (accessoryFound, accessoryItem) = AccessoryHandler.checkPoppet(owner, poppetType.item)
-        if (accessoryFound && accessoryItem != null && isPoppetBoundToLiving(accessoryItem, owner)) {
-            if (damagePoppet > 0 && owner.level() is ServerLevel) {
-                accessoryItem.hurtAndBreak(damagePoppet, owner.level() as ServerLevel, null) { _ ->
-                    AccessoryHandler.removeAccessory(owner, poppetType.item)
+        if (owner is Player) {
+            val (accessoryFound, accessoryItem, slot) =
+                AccessoryHandler.checkPoppet(owner, poppetType.item)
+
+            if (accessoryFound && accessoryItem != null && slot != null &&
+                isPoppetBoundToLiving(accessoryItem, owner)
+            ) {
+                if (damagePoppet > 0 && owner.level() is ServerLevel) {
+                    val level = owner.level() as ServerLevel
+
+                    accessoryItem.hurtAndBreak(damagePoppet, level, owner) {
+                        AccessoryHandler.removeAccessory(owner, poppetType.item)
+                    }
                 }
+
+                return accessoryItem
             }
-            return accessoryItem.copy()
         }
 
         if (owner is Player) {
             for (hand in InteractionHand.entries) {
                 val handItem = owner.getItemInHand(hand)
+
                 if (handItem.`is`(poppetType.item) && isPoppetBoundToLiving(handItem, owner)) {
                     if (damagePoppet > 0 && owner.level() is ServerLevel) {
-                        handItem.hurtAndBreak(damagePoppet, owner.level() as ServerLevel, null) { _ ->
+                        handItem.hurtAndBreak(damagePoppet, owner.level() as ServerLevel, owner) {
                             owner.setItemInHand(hand, ItemStack.EMPTY)
                         }
                     }
-                    return handItem.copy()
+                    return handItem
                 }
             }
 
             for (i in 0 until owner.inventory.containerSize) {
                 val invItem = owner.inventory.getItem(i)
+
                 if (invItem.`is`(poppetType.item) && isPoppetBoundToLiving(invItem, owner)) {
                     if (damagePoppet > 0 && owner.level() is ServerLevel) {
-                        invItem.hurtAndBreak(damagePoppet, owner.level() as ServerLevel, null) { _ ->
+                        invItem.hurtAndBreak(damagePoppet, owner.level() as ServerLevel, owner) {
                             owner.inventory.setItem(i, ItemStack.EMPTY)
                         }
                     }
-                    return invItem.copy()
+                    return invItem
                 }
             }
         }
@@ -206,18 +217,26 @@ object PoppetHandler {
         if (owner.level() is ServerLevel) {
             val level = owner.level() as ServerLevel
             val poppetData = PoppetLevelAttachment.getPoppetData(level)
+
             val blockPoppet = poppetData.poppetDataMap.find {
-                it.poppetItemStack.`is`(poppetType.item) && isPoppetBoundToLiving(it.poppetItemStack, owner)
+                it.poppetItemStack.`is`(poppetType.item) &&
+                        isPoppetBoundToLiving(it.poppetItemStack, owner)
             }
 
             if (blockPoppet != null) {
                 if (damagePoppet > 0) {
-                    blockPoppet.poppetItemStack.hurtAndBreak(damagePoppet, level, null) { _ ->
+                    blockPoppet.poppetItemStack.hurtAndBreak(damagePoppet, level, owner) {
                         poppetData.poppetDataMap.remove(blockPoppet)
                     }
                 }
-                PoppetLevelAttachment.updatePoppetItem(level, blockPoppet.blockPos, blockPoppet.poppetItemStack)
-                return blockPoppet.poppetItemStack.copy()
+
+                PoppetLevelAttachment.updatePoppetItem(
+                    level,
+                    blockPoppet.blockPos,
+                    blockPoppet.poppetItemStack
+                )
+
+                return blockPoppet.poppetItemStack
             }
         }
 
@@ -304,7 +323,8 @@ object PoppetHandler {
         owner: LivingEntity,
         poppetType: PoppetType
     ): Pair<ItemStack?, PoppetLocation?> {
-        val (accessoryFound, accessoryItem) = AccessoryHandler.checkPoppet(owner, poppetType.item)
+        val (accessoryFound, accessoryItem, slot) = AccessoryHandler.checkPoppet(owner, poppetType.item)
+
         if (accessoryFound && accessoryItem != null && isPoppetBoundToLiving(accessoryItem, owner)) {
             return Pair(accessoryItem, PoppetLocation.ACCESSORY)
         }

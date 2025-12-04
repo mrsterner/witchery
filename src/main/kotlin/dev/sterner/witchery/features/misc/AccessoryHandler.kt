@@ -10,44 +10,24 @@ import net.minecraft.world.item.ItemStack
 import top.theillusivec4.curios.api.CuriosApi
 import top.theillusivec4.curios.api.type.capability.ICurioItem
 
-/**
- * Utility class for handling accessory-related operations for living entities, particularly players.
- * Provides methods to check for specific items in accessory slots, with or without consumption.
- */
+
 object AccessoryHandler {
 
-    /**
-     * Checks if a specified item exists in the accessory slots of a living entity.
-     * If the item exists and is linked to the entity's profile, it optionally consumes one instance of the item.
-     *
-     * @param livingEntity the living entity to check, expected to be a player.
-     * @param item the item to check for in the accessory slots.
-     * @return a pair containing a boolean indicating if the item was found and matches the profile,
-     *         and an optional {@link ItemStack} copy of the matched item (null if not found).
-     */
-    fun checkPoppet(livingEntity: LivingEntity, item: Item): Pair<Boolean, ItemStack?> {
-        var found = false
-        var itemStack: ItemStack? = null
+    fun checkPoppet(living: LivingEntity, item: Item): Triple<Boolean, ItemStack?, Int?> {
+        val curioInventory = CuriosApi.getCuriosInventory(living).orElse(null) ?: return Triple(false, null, null)
+        val equippedCurios = curioInventory.equippedCurios
 
-        if (livingEntity is Player) {
-
-            val list: List<ItemStack> = WitcheryUtil.allEquippedAccessories(livingEntity)
-                .filter { it.item is PoppetItem }
-                .filter { it.`is`(item) }
-
-            for (accessory in list) {
-                val profile = accessory.get(DataComponents.PROFILE)
-                val profileMatches = profile?.gameProfile == livingEntity.gameProfile
-
-                if (profileMatches) {
-                    found = true
-                    itemStack = accessory.copy()
-                    break
+        for (slot in 0 until equippedCurios.slots) {
+            val stack = equippedCurios.getStackInSlot(slot)
+            if (!stack.isEmpty && stack.`is`(item)) {
+                val profile = stack.get(DataComponents.PROFILE)
+                if (living is Player && profile?.gameProfile == living.gameProfile) {
+                    return Triple(true, stack, slot)
                 }
             }
         }
 
-        return Pair(found, itemStack)
+        return Triple(false, null, null)
     }
 
     /**
