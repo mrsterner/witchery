@@ -173,9 +173,9 @@ object WerewolfSpecificEventHandler {
 
 
     private fun tryForceTurnWerewolfToHuman(player: Player, data: AfflictionPlayerAttachment.Data) {
-        if (data.getWerewolfLevel() < 3 && !hasMoonCharm(player)) {
+        if (data.getWerewolfLevel() < 3 && !hasMoonCharm(player) && TransformationHandler.isWolf(player)) {
             TransformationHandler.removeForm(player)
-        } else if (data.getWerewolfLevel() < 5 && !hasMoonCharm(player)) {
+        } else if (data.getWerewolfLevel() < 5 && !hasMoonCharm(player) && TransformationHandler.isWerewolf(player)) {
             TransformationHandler.removeForm(player)
         }
     }
