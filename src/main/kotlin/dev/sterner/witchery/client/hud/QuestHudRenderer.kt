@@ -28,14 +28,10 @@ object QuestHudRenderer {
     private var lastCompletedQuests = setOf<String>()
     private val questStates = mutableMapOf<String, QuestState>()
 
-    private val lastQuestStates = mutableMapOf<String, QuestState>()
-    private val questFadeTimers = mutableMapOf<String, Float>()
-
     private const val ANIMATION_SPEED = 0.15f
-    private const val TITLE_COLOR = 0xFFD700 // Gold
-    private const val QUEST_COLOR = 0xE0E0E0 // Light gray
-    private const val COMPLETE_COLOR = 0x40FF40 // Light green
-    private const val FADE_SPEED = 0.05f // speed of fading quests in/out
+    private const val TITLE_COLOR = 0xFFD700
+    private const val QUEST_COLOR = 0xE0E0E0
+    private const val COMPLETE_COLOR = 0x40FF40
 
     data class QuestAnimation(
         var progress: Float = 0f,
@@ -87,25 +83,6 @@ object QuestHudRenderer {
         }
 
         lastCompletedQuests = currentQuests.filter { it.isComplete }.map { it.id }.toSet()
-
-        lastQuestStates.entries.removeIf { (id, _) ->
-            val fade = questFadeTimers.getOrDefault(id, 0f)
-            val newFade = fade + FADE_SPEED
-            questFadeTimers[id] = newFade
-            newFade >= 1f
-        }
-
-        questStates.keys.forEach { id ->
-            if (!lastQuestStates.containsKey(id)) {
-                lastQuestStates[id] = questStates[id]!!
-                questFadeTimers[id] = 1f
-            }
-        }
-
-        questFadeTimers.keys.forEach { id ->
-            val fade = questFadeTimers[id]!!
-            questFadeTimers[id] = (fade - FADE_SPEED).coerceAtLeast(0f)
-        }
 
         questCompletionAnimations.entries.removeIf { (_, anim) ->
             anim.progress += 0.05f
@@ -221,7 +198,6 @@ object QuestHudRenderer {
             val questY = y + (animation?.bounceOffset?.toInt() ?: 0)
             val questAlpha = ((animation?.alpha ?: 1f) * alpha).toInt().coerceIn(0, 255)
 
-            // Bullet point
             val bulletColor = if (quest.isComplete) COMPLETE_COLOR else QUEST_COLOR
             guiGraphics.drawString(
                 font, "•",
@@ -230,7 +206,6 @@ object QuestHudRenderer {
                 false
             )
 
-            // Quest text
             val questText = buildQuestText(quest)
             val textColor = if (quest.isComplete) COMPLETE_COLOR else QUEST_COLOR
 
@@ -241,7 +216,6 @@ object QuestHudRenderer {
                 false
             )
 
-            // Strikethrough animation for completed quests
             if (quest.isComplete) {
                 val strikeProgress = animation?.progress ?: 1f
                 val textWidth = font.width(questText) / 2
