@@ -32,6 +32,20 @@
       "text": "lycanthropy.were_4.page.1",
       "title": "lycanthropy.were_4.title.1",
       "use_markdown_in_title": false
+    },
+    {
+      "type": "modonomicon:image",
+      "anchor": "",
+      "border": true,
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "images": [
+        "witchery:textures/gui/modonomicon/images/blood_wicker.png"
+      ],
+      "text": "",
+      "title": "",
+      "use_legacy_rendering": false
     }
   ],
   "parents": [

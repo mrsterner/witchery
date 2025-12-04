@@ -141,7 +141,18 @@ object SyncFieldRegistry {
             { it.wereData.killedSheep },
             { data, value -> data.withKilledSheep(value) }
         ),
-
+        FieldDefinition(
+            path = "wereData.offeredMutton",
+            codec = Codec.BOOL,
+            getter = { it.hasOfferedMutton() },
+            setter = { data, value -> data.withOfferedMutton(value as Boolean) }
+        ),
+        FieldDefinition(
+            path = "wereData.offeredTongues",
+            codec = Codec.BOOL,
+            getter = { it.hasOfferedTongue() },
+            setter = { data, value -> data.withOfferedTongue(value as Boolean) }
+        ),
         FieldDefinition(
             "wereData.killedWolves",
             Codec.INT,

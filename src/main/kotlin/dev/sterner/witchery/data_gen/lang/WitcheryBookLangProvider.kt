@@ -363,7 +363,7 @@ object WitcheryBookLangProvider {
 
         add(
             "lycanthropy.were_4.page.1",
-            "The Horned Huntsman guards the ancient ways of the hunt. Face him in combat and claim victory. His defeat marks you as a true predator worthy of greater power."
+            "The Horned Huntsman guards the ancient ways of the hunt. Face him in combat and claim victory. His defeat marks you as a true predator worthy of greater power. Build a wicker man and burn it to call him."
         )
 
         add(

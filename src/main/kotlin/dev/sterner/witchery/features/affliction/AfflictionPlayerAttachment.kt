@@ -292,6 +292,13 @@ object AfflictionPlayerAttachment {
         fun withWolfManForm(active: Boolean): Data = copy(wereData = wereData.copy(isWolfManFormActive = active))
         fun withWolfForm(active: Boolean): Data = copy(wereData = wereData.copy(isWolfFormActive = active))
 
+        fun hasOfferedMutton(): Boolean = wereData.offeredMutton
+        fun withOfferedMutton(offered: Boolean): Data = copy(wereData = wereData.copy(offeredMutton = offered))
+
+
+        fun hasOfferedTongue(): Boolean = wereData.offeredTongue
+        fun withOfferedTongue(offered: Boolean): Data = copy(wereData = wereData.copy(offeredTongue = offered))
+
         fun incrementKilledSheep(by: Int = 1): Data =
             copy(wereData = wereData.copy(killedSheep = wereData.killedSheep + by))
 
@@ -501,7 +508,9 @@ object AfflictionPlayerAttachment {
         val isWolfManFormActive: Boolean = false,
         val isWolfFormActive: Boolean = false,
         val lycanSourceUUID: Optional<UUID> = Optional.empty(),
-        val hasGivenGold: Boolean = false
+        val hasGivenGold: Boolean = false,
+        val offeredMutton: Boolean = false,
+        val offeredTongue: Boolean = false
     ) {
         companion object {
             val CODEC: Codec<WereData> = RecordCodecBuilder.create { instance ->
@@ -517,7 +526,9 @@ object AfflictionPlayerAttachment {
                     Codec.BOOL.fieldOf("isWolfManFormActive").forGetter { it.isWolfManFormActive },
                     Codec.BOOL.fieldOf("isWolfFormActive").forGetter { it.isWolfFormActive },
                     UUIDUtil.CODEC.optionalFieldOf("lycanSourceUUID").forGetter { it.lycanSourceUUID },
-                    Codec.BOOL.fieldOf("hasGivenGold").forGetter { it.hasGivenGold }
+                    Codec.BOOL.fieldOf("hasGivenGold").forGetter { it.hasGivenGold },
+                    Codec.BOOL.optionalFieldOf("offeredMutton", false).forGetter { it.offeredMutton },
+                    Codec.BOOL.optionalFieldOf("offeredTongue", false).forGetter { it.offeredTongue }
                 ).apply(instance, ::WereData)
             }
         }

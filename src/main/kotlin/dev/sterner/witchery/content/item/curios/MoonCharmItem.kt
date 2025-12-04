@@ -18,15 +18,4 @@ open class MoonCharmItem(properties: Properties) : Item(properties.stacksTo(1).r
         }
         super.onUnequip(slotContext, newStack, stack)
     }
-
-    override fun onEquip(
-        slotContext: SlotContext?,
-        prevStack: ItemStack?,
-        stack: ItemStack?
-    ) {
-        if (slotContext?.entity is ServerPlayer) {
-            WitcheryUtil.grantAdvancementCriterion(slotContext.entity as ServerPlayer, Witchery.id("werewolf/2"), "impossible_2")
-        }
-        super.onEquip(slotContext, prevStack, stack)
-    }
 }

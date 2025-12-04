@@ -7,6 +7,7 @@ import com.klikli_dev.modonomicon.api.datagen.book.BookEntryModel
 import com.klikli_dev.modonomicon.api.datagen.book.BookIconModel
 import com.klikli_dev.modonomicon.api.datagen.book.condition.BookAdvancementConditionModel
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.data_gen.book.entry.werewolf.WerewolfLevelFourEntryProvider
 import dev.sterner.witchery.data_gen.book.entry.werewolf.WerewolfLevelOneEntryProvider
 import dev.sterner.witchery.data_gen.book.entry.werewolf.WerewolfLevelTenEntryProvider
 import dev.sterner.witchery.data_gen.book.entry.werewolf.WerewolfLevelTwoEntryProvider
@@ -65,7 +66,7 @@ class WitcheryLycanthropyCategoryProvider(
             .requiresAndFollows(were2, advancement(Witchery.id("werewolf/3")))
         addEntry(were3)
 
-        val were4 = WerewolfLevelTwoEntryProvider("were_4", this).generate("d")
+        val were4 = WerewolfLevelFourEntryProvider("were_4", this).generate("d")
             .requiresAndFollows(were3, advancement(Witchery.id("werewolf/4")))
         addEntry(were4)
 

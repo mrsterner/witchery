@@ -45,10 +45,9 @@ class WerewolfAltarBlockEntity(
     var items: NonNullList<ItemStack> = NonNullList.withSize(1, ItemStack.EMPTY)
 
     private var conversionTicks = 0
-    private var muttonCounter = 0
 
     override fun onUseWithItem(pPlayer: Player, pStack: ItemStack, pHand: InteractionHand): ItemInteractionResult {
-        if (pPlayer is ServerPlayer) {
+        if (pPlayer is ServerPlayer && pHand == InteractionHand.MAIN_HAND) {
             if (items[0].isEmpty && pStack.`is`(Items.GOLD_INGOT) && pStack.count >= 3) {
                 pStack.shrink(3)
                 items[0] = ItemStack(Items.GOLD_INGOT, 3).copy()
@@ -57,6 +56,11 @@ class WerewolfAltarBlockEntity(
             } else if (items[0].isEmpty && pStack.`is`(Items.MUTTON) && pStack.count >= 30) {
                 pStack.shrink(30)
                 items[0] = ItemStack(Items.MUTTON, 30)
+
+            } else if (items[0].isEmpty && pStack.`is`(WitcheryItems.TONGUE_OF_DOG.get()) && pStack.count >= 10) {
+                pStack.shrink(10)
+                items[0] = ItemStack(WitcheryItems.TONGUE_OF_DOG.get(), 10).copy()
+
             } else {
                 if (pPlayer.mainHandItem.isEmpty) {
                     pPlayer.setItemInHand(InteractionHand.MAIN_HAND, items[0])
@@ -68,6 +72,7 @@ class WerewolfAltarBlockEntity(
 
         return super.onUseWithItem(pPlayer, pStack, pHand)
     }
+
 
     override fun tickServer(serverLevel: ServerLevel) {
         super.tickServer(serverLevel)
@@ -92,14 +97,34 @@ class WerewolfAltarBlockEntity(
 
                 if (conversionTicks >= 20 * 2) {
                     conversionTicks = 0
-                    muttonCounter++
                     items.clear()
+
                     val box = AABB(blockPos).inflate(12.0)
-                    val players = level?.getEntitiesOfClass(ServerPlayer::class.java, box)?.filter { it.isAlive && AfflictionPlayerAttachment.getData(it).getWerewolfLevel() == 1 }
-                    println(players)
-                    players?.forEach {
-                        WitcheryUtil.grantAdvancementCriterion(it, Witchery.id("werewolf/3"), "impossible_3")
-                        WerewolfLeveling.increaseWerewolfLevel(it)
+                    val players = level?.getEntitiesOfClass(ServerPlayer::class.java, box)?.filter {
+                        it.isAlive && AfflictionPlayerAttachment.getData(it).getWerewolfLevel() == 2
+                    }
+
+                    players?.forEach { player ->
+                        WerewolfLeveling.setHasOfferedMutton(player)
+                    }
+                    setChanged()
+                }
+            } else if (item.`is`(WitcheryItems.TONGUE_OF_DOG.get())) {
+                conversionTicks++
+
+                spawnConsumeParticles(serverLevel, item)
+
+                if (conversionTicks >= 20 * 2) {
+                    conversionTicks = 0
+                    items.clear()
+
+                    val box = AABB(blockPos).inflate(12.0)
+                    val players = level?.getEntitiesOfClass(ServerPlayer::class.java, box)?.filter {
+                        it.isAlive && AfflictionPlayerAttachment.getData(it).getWerewolfLevel() == 3
+                    }
+
+                    players?.forEach { player ->
+                        WerewolfLeveling.setHasOfferedTongues(player)
                     }
                     setChanged()
                 }
@@ -151,13 +176,11 @@ class WerewolfAltarBlockEntity(
         this.items = NonNullList.withSize(1, ItemStack.EMPTY)
         ContainerHelper.loadAllItems(pTag, this.items, pRegistries)
         conversionTicks = pTag.getInt("ConversionTicks")
-        muttonCounter = pTag.getInt("MuttonCounter")
     }
 
     override fun saveAdditional(tag: CompoundTag, registries: HolderLookup.Provider) {
         super.saveAdditional(tag, registries)
         ContainerHelper.saveAllItems(tag, this.items, registries)
         tag.putInt("ConversionTicks", conversionTicks)
-        tag.putInt("MuttonCounter", muttonCounter)
     }
 }

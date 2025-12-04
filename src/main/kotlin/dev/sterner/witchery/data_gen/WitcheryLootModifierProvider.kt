@@ -126,7 +126,7 @@ class WitcheryLootModifierProvider(output: PackOutput,
             AddItemModifier(
                 arrayOf(
                     LootTableIdCondition.Builder(ResourceLocation.withDefaultNamespace("entities/frog")).build(),
-                    LootItemRandomChanceCondition.randomChance(0.25f).build()
+                    LootItemRandomChanceCondition.randomChance(0.5f).build()
                 ), WitcheryItems.TOE_OF_FROG.get()
             )
         )
@@ -136,7 +136,7 @@ class WitcheryLootModifierProvider(output: PackOutput,
             AddItemModifier(
                 arrayOf(
                     LootTableIdCondition.Builder(ResourceLocation.withDefaultNamespace("entities/wolf")).build(),
-                    LootItemRandomChanceCondition.randomChance(0.25f).build()
+                    LootItemRandomChanceCondition.randomChance(0.5f).build()
                 ), WitcheryItems.TONGUE_OF_DOG.get()
             )
         )
@@ -146,7 +146,7 @@ class WitcheryLootModifierProvider(output: PackOutput,
             AddItemModifier(
                 arrayOf(
                     LootTableIdCondition.Builder(ResourceLocation.withDefaultNamespace("entities/bat")).build(),
-                    LootItemRandomChanceCondition.randomChance(0.25f).build()
+                    LootItemRandomChanceCondition.randomChance(0.5f).build()
                 ), WitcheryItems.WOOL_OF_BAT.get()
             )
         )

@@ -108,6 +108,14 @@ object WerewolfLeveling {
         player.sendSystemMessage(Component.literal("Werewolf Level Up: $nextLevel"))
         updateModifiers(player, currentData.isWolfForm(), currentData.isWolfManForm())
         WitcheryApi.makePlayerWitchy(player)
+
+        if (nextLevel < 10) {
+            WitcheryUtil.grantAdvancementCriterion(
+                player,
+                Witchery.id("werewolf/${nextLevel}"),
+                "impossible_${nextLevel}"
+            )
+        }
     }
 
 
@@ -153,12 +161,22 @@ object WerewolfLeveling {
 
     //To go from Level 3 -> 4
     fun increaseKilledWolf(player: ServerPlayer) {
-        if (!canPerformQuest(player, 3)) {
+        if (AfflictionPlayerAttachment.getData(player).getWerewolfLevel() != 3) {
+            return
+        }
+
+        AfflictionPlayerAttachment.smartUpdate(player, sync = false) {
+            incrementKilledWolves()
+        }
+    }
+
+    fun setHasOfferedTongues(player: ServerPlayer) {
+        if (AfflictionPlayerAttachment.getData(player).getWerewolfLevel() != 3) {
             return
         }
 
         val newData = AfflictionPlayerAttachment.smartUpdate(player, sync = false) {
-            incrementKilledWolves()
+            withOfferedTongue(true)
         }
 
         checkAndLevelUp(player, newData)
@@ -166,12 +184,22 @@ object WerewolfLeveling {
 
     //To go from Level 2 -> 3
     fun increaseKilledSheep(player: ServerPlayer) {
-        if (!canPerformQuest(player, 2)) {
+        if (AfflictionPlayerAttachment.getData(player).getWerewolfLevel() != 2) {
+            return
+        }
+
+        AfflictionPlayerAttachment.smartUpdate(player, sync = false) {
+            incrementKilledSheep()
+        }
+    }
+
+    fun setHasOfferedMutton(player: ServerPlayer) {
+        if (AfflictionPlayerAttachment.getData(player).getWerewolfLevel() != 2) {
             return
         }
 
         val newData = AfflictionPlayerAttachment.smartUpdate(player, sync = false) {
-            incrementKilledSheep()
+            withOfferedMutton(true)
         }
 
         checkAndLevelUp(player, newData)
@@ -197,7 +225,7 @@ object WerewolfLeveling {
         val nextLevel = currentLevel + 1
 
         if (nextLevel <= 10 && canLevelUp(data, nextLevel)) {
-            WerewolfLeveling.increaseWerewolfLevel(player)
+            increaseWerewolfLevel(player)
         }
     }
 
@@ -255,14 +283,14 @@ object WerewolfLeveling {
 
     val LEVEL_REQUIREMENTS: Map<Int, Requirement> = mapOf(
         2 to Requirement(Witchery.id("werewolf/1"), threeGold = true),
-        3 to Requirement(Witchery.id("werewolf/2"), killedSheep = 30),
-        4 to Requirement(Witchery.id("werewolf/3"), killedWolves = 10),
+        3 to Requirement(Witchery.id("werewolf/2"), killedSheep = 20, offeredMutton = true),
+        4 to Requirement(Witchery.id("werewolf/3"), killedWolves = 10, offeredTongues = true),
         5 to Requirement(Witchery.id("werewolf/4"), killHornedOne = true),
         6 to Requirement(Witchery.id("werewolf/5"), airSlayMonster = 10),
         7 to Requirement(Witchery.id("werewolf/6"), nightHowl = 10),
         8 to Requirement(Witchery.id("werewolf/7"), wolfPack = 6),
         9 to Requirement(Witchery.id("werewolf/8"), pigmenKilled = 30),
-        10 to Requirement(Witchery.id("werewolf/9"), spreadLycantropy = true)
+        10 to Requirement(Witchery.id("werewolf/9"), spreadLycanthropy = true)
     )
 
     private fun canLevelUp(data: AfflictionPlayerAttachment.Data, targetLevel: Int): Boolean {
@@ -274,19 +302,17 @@ object WerewolfLeveling {
         }
         val requirement = LEVEL_REQUIREMENTS[targetLevel] ?: return false
 
-        println("targetLevel: $targetLevel, requirement: $requirement")
-        println(data.hasGivenGold())
-        println(data.getKilledSheep())
-
         return ((requirement.threeGold?.let { data.hasGivenGold() == it } ?: true) &&
                 (requirement.killedSheep?.let { data.getKilledSheep() >= it } ?: true) &&
+                (requirement.offeredMutton?.let { data.hasOfferedMutton() == it } ?: true) &&
                 (requirement.killedWolves?.let { data.getKilledWolves() >= it } ?: true) &&
+                (requirement.offeredTongues?.let { data.hasOfferedTongue() == it } ?: true) &&
                 (requirement.killHornedOne?.let { data.hasKilledHornedOne() == it } ?: true) &&
                 (requirement.airSlayMonster?.let { data.getAirSlayMonster() == it } ?: true) &&
                 (requirement.nightHowl?.let { data.getNightHowl() == it } ?: true) &&
                 (requirement.wolfPack?.let { data.getWolfPack() == it } ?: true) &&
                 (requirement.pigmenKilled?.let { data.getPigmenKilled() == it } ?: true) &&
-                (requirement.spreadLycantropy?.let { data.hasSpreadLycanthropy() == it } ?: true)
+                (requirement.spreadLycanthropy?.let { data.hasSpreadLycanthropy() == it } ?: true)
                 )
     }
 
@@ -294,12 +320,14 @@ object WerewolfLeveling {
         val advancement: ResourceLocation,
         val threeGold: Boolean? = null,
         val killedSheep: Int? = null,
+        val offeredMutton: Boolean? = null,
         val killedWolves: Int? = null,
+        val offeredTongues: Boolean? = null,
         val killHornedOne: Boolean? = null,
         val airSlayMonster: Int? = null,
         val nightHowl: Int? = null,
         val wolfPack: Int? = null,
         val pigmenKilled: Int? = null,
-        val spreadLycantropy: Boolean? = null,
+        val spreadLycanthropy: Boolean? = null,
     )
 }
