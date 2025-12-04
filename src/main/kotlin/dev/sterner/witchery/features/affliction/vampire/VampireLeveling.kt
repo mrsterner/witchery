@@ -1,6 +1,7 @@
 package dev.sterner.witchery.features.affliction.vampire
 
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.client.hud.QuestHudRenderer
 import dev.sterner.witchery.core.api.WitcheryApi
 import dev.sterner.witchery.core.api.event.VampireEvent
 import dev.sterner.witchery.features.blood.BloodPoolLivingEntityAttachment
@@ -62,6 +63,13 @@ object VampireLeveling {
 
         if (level > previousLevel) {
             AfflictionAbilityHandler.addAbilityOnLevelUp(player, level, AfflictionTypes.VAMPIRISM)
+        }
+
+        if (level == 1) {
+            QuestHudRenderer.isVisible = true
+            if (player.isCreative) {
+                increaseVampireLevel(player)
+            }
         }
     }
 
@@ -421,14 +429,6 @@ object VampireLeveling {
                 (requirement.villagesVisited?.let { data.getVisitedVillages().size >= it } ?: true) &&
                 (requirement.trappedVillagers?.let { data.getTrappedVillagers().size >= it } ?: true)
                 )
-    }
-
-    /**
-     * Optimized level checking for batch operations
-     */
-    fun canLevelUp(player: ServerPlayer, targetLevel: Int): Boolean {
-        val data = AfflictionPlayerAttachment.getData(player)
-        return canLevelUp(player, data, targetLevel)
     }
 
     data class Requirement(

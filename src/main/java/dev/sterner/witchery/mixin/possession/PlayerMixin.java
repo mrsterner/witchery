@@ -31,7 +31,7 @@ public abstract class PlayerMixin extends LivingEntity  {
     }
 
     @Inject(method = "isSwimming", at = @At("HEAD"), cancellable = true)
-    private void flyLikeSuperman(CallbackInfoReturnable<Boolean> cir) {
+    private void witchery$isSoulFormSwimming(CallbackInfoReturnable<Boolean> cir) {
         Player self = (Player)(Object)this;
         if (this.abilities.flying && this.isSprinting() && AfflictionPlayerAttachment.getData(self).isSoulForm()) {
             cir.setReturnValue(true);
@@ -39,7 +39,7 @@ public abstract class PlayerMixin extends LivingEntity  {
     }
 
     @Inject(method = "getMovementEmission", at = @At("RETURN"), cancellable = true)
-    private void preventMoveEffects(CallbackInfoReturnable<MovementEmission> cir) {
+    private void witchery$preventMoveEffects(CallbackInfoReturnable<MovementEmission> cir) {
         Player self = (Player)(Object)this;
         if (cir.getReturnValue() != MovementEmission.NONE && AfflictionPlayerAttachment.getData(self).isSoulForm()) {
             cir.setReturnValue(MovementEmission.NONE);
@@ -48,8 +48,9 @@ public abstract class PlayerMixin extends LivingEntity  {
 
 
     @Inject(method = "travel", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;getLookAngle()Lnet/minecraft/world/phys/Vec3;"))
-    private void flySwimVertically(Vec3 motion, CallbackInfo ci) {
-        double yMotion = this.getRotationVector().y;
+    private void witchery$flySwimVertically(Vec3 motion, CallbackInfo ci) {
+        Vec3 look = this.getLookAngle();
+        double yMotion = look.y;
         double modifier = yMotion < -0.2D ? 0.085D : 0.06D;
         Player self = (Player)(Object)this;
         if (yMotion > 0.0D && !this.jumping && this.level().getBlockState(BlockPos.containing(
@@ -63,7 +64,7 @@ public abstract class PlayerMixin extends LivingEntity  {
     }
 
     @Inject(method = "getDefaultDimensions", at = @At("HEAD"), cancellable = true)
-    private void adjustSize(Pose pose, CallbackInfoReturnable<EntityDimensions> cir) {
+    private void witchery$adjustSize(Pose pose, CallbackInfoReturnable<EntityDimensions> cir) {
         Player self = (Player)(Object)this;
         if (AfflictionPlayerAttachment.getData(self).isSoulForm() && pose == Pose.CROUCHING) {
             cir.setReturnValue(SOUL_SNEAKING_SIZE);

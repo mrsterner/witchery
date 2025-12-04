@@ -1,13 +1,13 @@
 package dev.sterner.witchery.features.affliction.werewolf
 
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.client.hud.QuestHudRenderer
 import dev.sterner.witchery.core.api.WitcheryApi
 import dev.sterner.witchery.core.api.event.WerewolfEvent
 
 import dev.sterner.witchery.features.affliction.ability.AfflictionAbilityHandler
 import dev.sterner.witchery.features.affliction.AfflictionTypes
 import dev.sterner.witchery.features.affliction.event.TransformationHandler
-import dev.sterner.witchery.features.affliction.vampire.VampireLeveling
 import dev.sterner.witchery.network.RefreshDimensionsS2CPayload
 import dev.sterner.witchery.core.util.WitcheryUtil
 import dev.sterner.witchery.features.affliction.AfflictionPlayerAttachment
@@ -67,7 +67,9 @@ object WerewolfLeveling {
                 setLevel(AfflictionTypes.LYCANTHROPY, level)
             }
         }
-
+        if (level == 1) {
+            QuestHudRenderer.isVisible = true
+        }
         val wolf = TransformationHandler.isWolf(player)
         val were = TransformationHandler.isWerewolf(player)
         updateModifiers(player, wolf = wolf, wolfMan = were)

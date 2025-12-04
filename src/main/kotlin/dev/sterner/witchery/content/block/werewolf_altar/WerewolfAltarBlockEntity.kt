@@ -51,16 +51,20 @@ class WerewolfAltarBlockEntity(
 
     override fun onUseWithItem(pPlayer: Player, pStack: ItemStack, pHand: InteractionHand): ItemInteractionResult {
         if (pPlayer is ServerPlayer && pHand == InteractionHand.MAIN_HAND) {
+            val data = AfflictionPlayerAttachment.getData(pPlayer)
+            val hasSheep = data.getKilledSheep() >= 20
+            val hasWolf = data.getKilledWolves() >= 10
+
             if (items[0].isEmpty && pStack.`is`(Items.GOLD_INGOT) && pStack.count >= 3) {
                 pStack.shrink(3)
                 items[0] = ItemStack(Items.GOLD_INGOT, 3).copy()
                 WerewolfLeveling.setHasGivenGold(pPlayer)
                 play()
-            } else if (items[0].isEmpty && pStack.`is`(Items.MUTTON) && pStack.count >= 30) {
+            } else if (hasSheep && items[0].isEmpty && pStack.`is`(Items.MUTTON) && pStack.count >= 30) {
                 pStack.shrink(30)
                 items[0] = ItemStack(Items.MUTTON, 30)
                 play()
-            } else if (items[0].isEmpty && pStack.`is`(WitcheryItems.TONGUE_OF_DOG.get()) && pStack.count >= 10) {
+            } else if (hasWolf && items[0].isEmpty && pStack.`is`(WitcheryItems.TONGUE_OF_DOG.get()) && pStack.count >= 10) {
                 pStack.shrink(10)
                 items[0] = ItemStack(WitcheryItems.TONGUE_OF_DOG.get(), 10).copy()
                 play()

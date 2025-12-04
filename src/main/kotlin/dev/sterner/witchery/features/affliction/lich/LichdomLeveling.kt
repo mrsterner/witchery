@@ -1,6 +1,7 @@
 package dev.sterner.witchery.features.affliction.lich
 
 import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.client.hud.QuestHudRenderer
 import dev.sterner.witchery.core.api.WitcheryApi
 import dev.sterner.witchery.core.api.event.LichEvent
 import dev.sterner.witchery.features.affliction.AfflictionPlayerAttachment
@@ -53,7 +54,9 @@ object LichdomLeveling {
         } else if (level == 0 && previousLevel >= 2) {
             LichdomSoulPoolHandler.setMaxSouls(player, 0)
         }
-
+        if (level == 1) {
+            QuestHudRenderer.isVisible = true
+        }
         updateModifiers(player, level)
         player.refreshDimensions()
 

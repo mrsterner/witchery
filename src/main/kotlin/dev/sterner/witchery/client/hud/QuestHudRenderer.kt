@@ -1,15 +1,13 @@
 package dev.sterner.witchery.client.hud
 
-import com.mojang.blaze3d.platform.InputConstants
 import com.mojang.blaze3d.systems.RenderSystem
-import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.core.registry.WitcheryKeyMappings
-import dev.sterner.witchery.core.util.RenderUtils
 import dev.sterner.witchery.features.affliction.AfflictionPlayerAttachment
 import dev.sterner.witchery.features.affliction.AfflictionTypes
 import dev.sterner.witchery.features.affliction.lich.LichdomLeveling
 import dev.sterner.witchery.features.affliction.vampire.VampireLeveling
 import dev.sterner.witchery.features.affliction.werewolf.WerewolfLeveling
+import dev.sterner.witchery.features.blood.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.features.misc.HudPlayerAttachment
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.Font
@@ -18,11 +16,12 @@ import net.minecraft.client.resources.sounds.SimpleSoundInstance
 import net.minecraft.network.chat.Component
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.util.Mth
+import net.minecraft.world.entity.player.Player
 import kotlin.math.sin
 
 object QuestHudRenderer {
 
-    private var isVisible = false
+    var isVisible = false
     private var expandAnimation = 0f
     private val questCompletionAnimations = mutableMapOf<String, QuestAnimation>()
     private var lastCompletedQuests = setOf<String>()
@@ -49,6 +48,7 @@ object QuestHudRenderer {
 
     fun toggle() {
         isVisible = !isVisible
+
         if (isVisible) {
             Minecraft.getInstance().soundManager.play(
                 SimpleSoundInstance.forUI(SoundEvents.BOOK_PAGE_TURN, 1.2f)
@@ -65,8 +65,8 @@ object QuestHudRenderer {
         val player = minecraft.player ?: return
 
         val data = AfflictionPlayerAttachment.getData(player)
-        if ((data.getWerewolfLevel() == 1 || data.getVampireLevel() == 1 || data.getLichLevel() == 1) && !isVisible) {
-            isVisible = true
+        if ((data.getWerewolfLevel() == 0 && data.getVampireLevel() == 0 && data.getLichLevel() == 0) && !isVisible) {
+            isVisible = false
         }
 
         val targetExpand = if (isVisible) 1f else 0f
@@ -77,6 +77,9 @@ object QuestHudRenderer {
 
         newlyCompleted.forEach { quest ->
             questCompletionAnimations[quest.id] = QuestAnimation()
+            minecraft.soundManager.play(
+                SimpleSoundInstance.forUI(SoundEvents.PLAYER_LEVELUP, 1.5f, 1.2f)
+            )
         }
 
         lastCompletedQuests = currentQuests.filter { it.isComplete }.map { it.id }.toSet()
@@ -215,7 +218,7 @@ object QuestHudRenderer {
 
             if (quest.isComplete) {
                 val strikeProgress = animation?.progress ?: 1f
-                val textWidth = font.width(questText) / 2
+                val textWidth = font.width(questText)
                 val strikeWidth = (textWidth * strikeProgress).toInt()
 
                 guiGraphics.fill(
@@ -246,7 +249,7 @@ object QuestHudRenderer {
 
         return when (type) {
             AfflictionTypes.LYCANTHROPY -> getWerewolfQuests(data, level)
-            AfflictionTypes.VAMPIRISM -> getVampireQuests(data, level)
+            AfflictionTypes.VAMPIRISM -> getVampireQuests(player, data, level)
             AfflictionTypes.LICHDOM -> getLichQuests(data, level)
             else -> emptyList()
         }
@@ -373,12 +376,29 @@ object QuestHudRenderer {
         return quests
     }
 
-    private fun getVampireQuests(data: AfflictionPlayerAttachment.Data, level: Int): List<QuestState> {
+    private fun getVampireQuests(
+        player: Player,
+        data: AfflictionPlayerAttachment.Data,
+        level: Int
+    ): List<QuestState> {
         val nextLevel = level + 1
-        if (nextLevel > 10 || nextLevel <= 2) return emptyList()
+        if (nextLevel > 10) return emptyList()
+
+        val quests = mutableListOf<QuestState>()
+
+        if (nextLevel == 2) {
+            val bloodData = BloodPoolLivingEntityAttachment.getData(player)
+            quests.add(QuestState(
+                "fill_up_$nextLevel",
+                "Fill your blood pool",
+                bloodData.bloodPool,
+                900,
+                bloodData.bloodPool >= 900
+            ))
+            return quests
+        }
 
         val requirement = VampireLeveling.LEVEL_REQUIREMENTS[nextLevel] ?: return emptyList()
-        val quests = mutableListOf<QuestState>()
 
         requirement.halfVillagers?.let { max ->
             quests.add(QuestState(
@@ -523,7 +543,7 @@ object QuestHudRenderer {
         return quests
     }
 
-    private fun getCurrentQuestIds(player: net.minecraft.world.entity.player.Player): List<QuestState> {
+    private fun getCurrentQuestIds(player: Player): List<QuestState> {
         val data = AfflictionPlayerAttachment.getData(player)
         val allQuests = mutableListOf<QuestState>()
 
@@ -531,7 +551,7 @@ object QuestHudRenderer {
             allQuests.addAll(getWerewolfQuests(data, data.getWerewolfLevel()))
         }
         if (data.getVampireLevel() > 0) {
-            allQuests.addAll(getVampireQuests(data, data.getVampireLevel()))
+            allQuests.addAll(getVampireQuests(player, data, data.getVampireLevel()))
         }
         if (data.getLichLevel() > 0) {
             allQuests.addAll(getLichQuests(data, data.getLichLevel()))
