@@ -218,6 +218,7 @@ class WitcheryLangProvider(output: PackOutput, modid: String, locale: String) :
         add("key.witchery.edit_hud", "Edit HUD")
         add("key.witchery.open_ability_selection", "Open Ability Selection")
         add("key.witchery.utility_button", "Utility Button")
+        add("key.witchery.toggle_quest_hud", "Quest HUD")
 
         add("tarot.witchery.the_fool", "The Fool")
         add("tarot.witchery.the_fool.reversed", "The Fool (Reversed)")
