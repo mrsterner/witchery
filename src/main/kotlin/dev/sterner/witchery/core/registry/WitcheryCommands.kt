@@ -16,6 +16,7 @@ import dev.sterner.witchery.features.blood.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.features.spirit_world.ManifestationPlayerAttachment
 import dev.sterner.witchery.features.necromancy.SoulPoolPlayerAttachment
 import dev.sterner.witchery.core.util.WitcheryUtil
+import dev.sterner.witchery.data_gen.WitcheryAdvancementProvider
 import dev.sterner.witchery.features.affliction.AfflictionPlayerAttachment
 import dev.sterner.witchery.features.curse.CurseHandler
 import dev.sterner.witchery.features.familiar.FamiliarHandler
@@ -568,6 +569,7 @@ object WitcheryCommands {
                                         val player = context.source.playerOrException
                                         val currentLevel = AfflictionPlayerAttachment.getData(player).getWerewolfLevel()
                                         if (currentLevel == 0) {
+                                            WitcheryUtil.grantAdvancementCriterion(player, Witchery.id("werewolf/1"), "impossible_1")
                                             WerewolfLeveling.increaseWerewolfLevel(player)
                                         }
                                         1

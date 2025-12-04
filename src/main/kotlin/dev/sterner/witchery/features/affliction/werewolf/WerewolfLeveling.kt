@@ -177,6 +177,18 @@ object WerewolfLeveling {
         checkAndLevelUp(player, newData)
     }
 
+    fun setHasGivenGold(player: ServerPlayer) {
+        if (AfflictionPlayerAttachment.getData(player).getWerewolfLevel() != 1) {
+            return
+        }
+
+        val newData = AfflictionPlayerAttachment.smartUpdate(player, sync = false) {
+            withGivenGold(true)
+        }
+
+        checkAndLevelUp(player, newData)
+    }
+
     /**
      * Check if requirements are met and level up if so
      */
@@ -185,7 +197,7 @@ object WerewolfLeveling {
         val nextLevel = currentLevel + 1
 
         if (nextLevel <= 10 && canLevelUp(data, nextLevel)) {
-            VampireLeveling.increaseVampireLevel(player)
+            WerewolfLeveling.increaseWerewolfLevel(player)
         }
     }
 
@@ -261,6 +273,10 @@ object WerewolfLeveling {
             return false
         }
         val requirement = LEVEL_REQUIREMENTS[targetLevel] ?: return false
+
+        println("targetLevel: $targetLevel, requirement: $requirement")
+        println(data.hasGivenGold())
+        println(data.getKilledSheep())
 
         return ((requirement.threeGold?.let { data.hasGivenGold() == it } ?: true) &&
                 (requirement.killedSheep?.let { data.getKilledSheep() >= it } ?: true) &&

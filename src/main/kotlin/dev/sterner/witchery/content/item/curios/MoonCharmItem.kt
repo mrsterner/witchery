@@ -1,6 +1,9 @@
 package dev.sterner.witchery.content.item.curios
 
+import dev.sterner.witchery.Witchery
+import dev.sterner.witchery.core.util.WitcheryUtil
 import dev.sterner.witchery.features.affliction.event.TransformationHandler
+import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
@@ -14,5 +17,16 @@ open class MoonCharmItem(properties: Properties) : Item(properties.stacksTo(1).r
             TransformationHandler.removeForm(player = slotContext.entity as Player)
         }
         super.onUnequip(slotContext, newStack, stack)
+    }
+
+    override fun onEquip(
+        slotContext: SlotContext?,
+        prevStack: ItemStack?,
+        stack: ItemStack?
+    ) {
+        if (slotContext?.entity is ServerPlayer) {
+            WitcheryUtil.grantAdvancementCriterion(slotContext.entity as ServerPlayer, Witchery.id("werewolf/2"), "impossible_2")
+        }
+        super.onEquip(slotContext, prevStack, stack)
     }
 }

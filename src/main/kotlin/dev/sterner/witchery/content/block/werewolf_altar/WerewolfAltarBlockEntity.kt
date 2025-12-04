@@ -1,5 +1,6 @@
 package dev.sterner.witchery.content.block.werewolf_altar
 
+import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.content.block.bear_trap.BearTrapBlock
 import dev.sterner.witchery.content.entity.WerewolfEntity
 import dev.sterner.witchery.core.api.multiblock.MultiBlockCoreEntity
@@ -8,12 +9,16 @@ import dev.sterner.witchery.core.registry.WitcheryBlockEntityTypes
 import dev.sterner.witchery.core.registry.WitcheryEntityTypes
 import dev.sterner.witchery.core.registry.WitcheryItems
 import dev.sterner.witchery.core.registry.WitcheryTags
+import dev.sterner.witchery.core.util.WitcheryUtil
+import dev.sterner.witchery.features.affliction.AfflictionPlayerAttachment
+import dev.sterner.witchery.features.affliction.werewolf.WerewolfLeveling
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.core.HolderLookup
 import net.minecraft.core.NonNullList
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.server.level.ServerLevel
+import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.ContainerHelper
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.ItemInteractionResult
@@ -26,6 +31,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties
 import net.minecraft.world.phys.AABB
 import net.minecraft.world.phys.Vec3
 import net.neoforged.neoforge.network.PacketDistributor
+import org.apache.logging.log4j.core.jmx.Server
 
 class WerewolfAltarBlockEntity(
     blockPos: BlockPos, blockState: BlockState
@@ -42,15 +48,23 @@ class WerewolfAltarBlockEntity(
     private var muttonCounter = 0
 
     override fun onUseWithItem(pPlayer: Player, pStack: ItemStack, pHand: InteractionHand): ItemInteractionResult {
-        if (items[0].isEmpty && pStack.`is`(WitcheryTags.WEREWOLF_ALTAR_ITEM)) {
-            items[0] = pStack
-        } else {
-            if (pPlayer.mainHandItem.isEmpty) {
-                pPlayer.setItemInHand(InteractionHand.MAIN_HAND, items[0])
-                items.clear()
+        if (pPlayer is ServerPlayer) {
+            if (items[0].isEmpty && pStack.`is`(Items.GOLD_INGOT) && pStack.count >= 3) {
+                pStack.shrink(3)
+                items[0] = ItemStack(Items.GOLD_INGOT, 3).copy()
+                WerewolfLeveling.setHasGivenGold(pPlayer)
+
+            } else if (items[0].isEmpty && pStack.`is`(Items.MUTTON) && pStack.count >= 30) {
+                pStack.shrink(30)
+                items[0] = ItemStack(Items.MUTTON, 30)
+            } else {
+                if (pPlayer.mainHandItem.isEmpty) {
+                    pPlayer.setItemInHand(InteractionHand.MAIN_HAND, items[0])
+                    items.clear()
+                }
             }
+            setChanged()
         }
-        setChanged()
 
         return super.onUseWithItem(pPlayer, pStack, pHand)
     }
@@ -80,6 +94,13 @@ class WerewolfAltarBlockEntity(
                     conversionTicks = 0
                     muttonCounter++
                     items.clear()
+                    val box = AABB(blockPos).inflate(12.0)
+                    val players = level?.getEntitiesOfClass(ServerPlayer::class.java, box)?.filter { it.isAlive && AfflictionPlayerAttachment.getData(it).getWerewolfLevel() == 1 }
+                    println(players)
+                    players?.forEach {
+                        WitcheryUtil.grantAdvancementCriterion(it, Witchery.id("werewolf/3"), "impossible_3")
+                        WerewolfLeveling.increaseWerewolfLevel(it)
+                    }
                     setChanged()
                 }
             }

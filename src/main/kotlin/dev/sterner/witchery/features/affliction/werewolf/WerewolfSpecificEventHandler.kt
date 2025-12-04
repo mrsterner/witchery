@@ -1,7 +1,9 @@
 package dev.sterner.witchery.features.affliction.werewolf
 
 
+import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.content.entity.HornedHuntsmanEntity
+import dev.sterner.witchery.core.util.WitcheryUtil
 import dev.sterner.witchery.features.affliction.AfflictionPlayerAttachment
 import dev.sterner.witchery.features.affliction.TransformationPlayerAttachment
 import dev.sterner.witchery.features.affliction.event.TransformationHandler
@@ -187,6 +189,7 @@ object WerewolfSpecificEventHandler {
 
     fun infectPlayer(player: ServerPlayer) {
         if (AfflictionPlayerAttachment.getData(player).getWerewolfLevel() == 0) {
+            WitcheryUtil.grantAdvancementCriterion(player, Witchery.id("werewolf/1"), "impossible_1")
             WerewolfLeveling.increaseWerewolfLevel(player)
         }
     }
