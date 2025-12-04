@@ -14,6 +14,7 @@ import net.minecraft.sounds.SoundEvents
 import net.minecraft.sounds.SoundSource
 import net.minecraft.world.effect.MobEffectInstance
 import net.minecraft.world.effect.MobEffects
+import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
@@ -28,7 +29,7 @@ enum class WerewolfAbility(
     BITE(1, 20 * 5) {
         override val id: String = "bite"
 
-        override fun use(player: Player): Boolean {
+        fun bite(player: Player): Boolean {
             if (player !is ServerPlayer) return false
 
             val lookVec = player.lookAngle
@@ -101,6 +102,17 @@ enum class WerewolfAbility(
             )
 
             return true
+        }
+
+        override fun use(
+            player: Player,
+            target: Entity
+        ): Boolean {
+            return bite(player)
+        }
+
+        override fun use(player: Player): Boolean {
+            return bite(player)
         }
     },
     PACK_SUMMON(8, 20 * 60) {
