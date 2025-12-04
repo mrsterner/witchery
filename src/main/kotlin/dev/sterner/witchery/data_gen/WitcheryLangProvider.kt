@@ -325,5 +325,6 @@ class WitcheryLangProvider(output: PackOutput, modid: String, locale: String) :
 
         add("effect.witchery.bear_trap_incapacitated", "Bear Trap Incapacitated")
 
+        add("curse.witchery.corrupt_poppet.corrupted", "Corrupted a Poppet")
     }
 }

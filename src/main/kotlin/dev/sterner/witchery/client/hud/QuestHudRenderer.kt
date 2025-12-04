@@ -77,9 +77,6 @@ object QuestHudRenderer {
 
         newlyCompleted.forEach { quest ->
             questCompletionAnimations[quest.id] = QuestAnimation()
-            minecraft.soundManager.play(
-                SimpleSoundInstance.forUI(SoundEvents.PLAYER_LEVELUP, 1.5f, 1.2f)
-            )
         }
 
         lastCompletedQuests = currentQuests.filter { it.isComplete }.map { it.id }.toSet()

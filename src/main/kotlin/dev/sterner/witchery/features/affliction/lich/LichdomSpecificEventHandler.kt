@@ -253,6 +253,10 @@ object LichdomSpecificEventHandler {
         val shell = PlayerShellEntity.createShellFromPlayer(player)
         player.level().addFreshEntity(shell)
 
+        justSoulForm(player)
+    }
+
+    fun justSoulForm(player: ServerPlayer) {
         player.inventory.clearContent()
         player.inventory.armor.clear()
         player.inventory.offhand.clear()
@@ -340,7 +344,7 @@ object LichdomSpecificEventHandler {
         }
     }
 
-    private fun playEffects(entity: Entity, sound: SoundEvent, particle: ParticleOptions) {
+    fun playEffects(entity: Entity, sound: SoundEvent, particle: ParticleOptions) {
         entity.level().playSound(
             null,
             entity.x, entity.y, entity.z,

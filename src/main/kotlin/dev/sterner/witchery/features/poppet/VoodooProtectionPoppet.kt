@@ -3,9 +3,7 @@ package dev.sterner.witchery.features.poppet
 import dev.sterner.witchery.core.api.interfaces.PoppetType
 import dev.sterner.witchery.core.api.PoppetUsage
 import dev.sterner.witchery.core.registry.WitcheryItems
-import net.minecraft.ChatFormatting
 import net.minecraft.core.particles.ParticleTypes
-import net.minecraft.network.chat.Component
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.sounds.SoundSource
@@ -39,7 +37,7 @@ class VoodooProtectionPoppet : PoppetType {
     }
 
     override fun onCorruptedActivate(owner: LivingEntity, source: DamageSource?): Boolean {
-        if (owner !is Player) return onActivate(owner, source)
+        if (owner !is Player) return false
 
         owner.addEffect(MobEffectInstance(MobEffects.WEAKNESS, 200, 1))
 
@@ -61,12 +59,6 @@ class VoodooProtectionPoppet : PoppetType {
             0.5f
         )
 
-        owner.displayClientMessage(
-            Component.translatable("curse.witchery.corrupt_poppet.voodoo_protection_effect")
-                .withStyle(ChatFormatting.DARK_PURPLE),
-            true
-        )
-
-        return true
+        return false
     }
 }

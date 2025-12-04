@@ -3,9 +3,7 @@ package dev.sterner.witchery.features.poppet
 import dev.sterner.witchery.core.api.interfaces.PoppetType
 import dev.sterner.witchery.core.api.PoppetUsage
 import dev.sterner.witchery.core.registry.WitcheryItems
-import net.minecraft.ChatFormatting
 import net.minecraft.core.particles.ParticleTypes
-import net.minecraft.network.chat.Component
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.sounds.SoundSource
@@ -21,9 +19,8 @@ class HungerProtectionPoppet : PoppetType {
 
     override fun onActivate(owner: LivingEntity, source: DamageSource?): Boolean {
         if (owner is Player) {
-
             owner.foodData.foodLevel = (owner.foodData.foodLevel + 6).coerceAtMost(20)
-            owner.foodData.setSaturation((owner.foodData.saturationLevel + 6.0f).coerceAtMost( owner.foodData.foodLevel.toFloat()))
+            owner.foodData.setSaturation((owner.foodData.saturationLevel + 6.0f).coerceAtMost(owner.foodData.foodLevel.toFloat()))
 
             owner.removeEffect(MobEffects.HUNGER)
 
@@ -36,11 +33,12 @@ class HungerProtectionPoppet : PoppetType {
                 1.0f
             )
         }
+
         return true
     }
 
     override fun onCorruptedActivate(owner: LivingEntity, source: DamageSource?): Boolean {
-        if (owner !is Player) return onActivate(owner, source)
+        if (owner !is Player) return false
 
         owner.foodData.foodLevel = 0.coerceAtLeast(owner.foodData.foodLevel - 4)
 
@@ -64,13 +62,7 @@ class HungerProtectionPoppet : PoppetType {
             0.8f
         )
 
-        owner.displayClientMessage(
-            Component.translatable("curse.witchery.corrupt_poppet.hunger_effect")
-                .withStyle(ChatFormatting.DARK_PURPLE),
-            true
-        )
-
-        return true
+        return false
     }
 
     override fun isValidFor(entity: LivingEntity, source: DamageSource?): Boolean {

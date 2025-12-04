@@ -3,15 +3,11 @@ package dev.sterner.witchery.features.poppet
 import dev.sterner.witchery.core.api.interfaces.PoppetType
 import dev.sterner.witchery.core.api.PoppetUsage
 import dev.sterner.witchery.core.registry.WitcheryItems
-import net.minecraft.ChatFormatting
-import net.minecraft.network.chat.Component
 import net.minecraft.sounds.SoundEvents
+import net.minecraft.sounds.SoundSource
 import net.minecraft.tags.DamageTypeTags
 import net.minecraft.world.damagesource.DamageSource
-import net.minecraft.world.effect.MobEffectInstance
-import net.minecraft.world.effect.MobEffects
 import net.minecraft.world.entity.LivingEntity
-import net.minecraft.world.entity.player.Player
 
 class DeathProtectionPoppet : PoppetType {
     override val item = WitcheryItems.DEATH_PROTECTION_POPPET.get()
@@ -26,39 +22,27 @@ class DeathProtectionPoppet : PoppetType {
     }
 
     override fun onActivate(owner: LivingEntity, source: DamageSource?): Boolean {
-        if (owner is Player) {
-            owner.health = 4.0f
-            owner.removeAllEffects()
-            owner.addEffect(MobEffectInstance(MobEffects.REGENERATION, 900, 1))
-            owner.addEffect(MobEffectInstance(MobEffects.ABSORPTION, 100, 1))
-            owner.addEffect(MobEffectInstance(MobEffects.FIRE_RESISTANCE, 800, 0))
-            owner.playSound(SoundEvents.TOTEM_USE)
-            return true
-        }
-        return false
+        owner.level().playSound(
+            null,
+            owner.x, owner.y, owner.z,
+            SoundEvents.TOTEM_USE,
+            SoundSource.PLAYERS,
+            1.0f,
+            1.0f
+        )
+        return true
     }
 
     override fun onCorruptedActivate(owner: LivingEntity, source: DamageSource?): Boolean {
-        if (owner is Player) {
-            owner.health = 1.0f
-            owner.removeAllEffects()
+        owner.level().playSound(
+            null,
+            owner.x, owner.y, owner.z,
+            SoundEvents.WITCH_DEATH,
+            SoundSource.PLAYERS,
+            1.0f,
+            0.8f
+        )
 
-            owner.addEffect(MobEffectInstance(MobEffects.WEAKNESS, 1200, 1))
-            owner.addEffect(MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 1000, 1))
-            owner.addEffect(MobEffectInstance(MobEffects.UNLUCK, 2400, 0))
-
-            owner.addEffect(MobEffectInstance(MobEffects.REGENERATION, 200, 0))
-
-            owner.playSound(SoundEvents.TOTEM_USE, 0.8f, 0.5f)
-
-            owner.displayClientMessage(
-                Component.translatable("curse.witchery.corrupt_poppet.death_effect")
-                    .withStyle(ChatFormatting.DARK_PURPLE),
-                true
-            )
-
-            return true
-        }
         return false
     }
 }

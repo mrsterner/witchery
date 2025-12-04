@@ -5,6 +5,7 @@ import dev.sterner.witchery.core.api.PoppetUsage
 import dev.sterner.witchery.core.api.interfaces.PoppetType
 import dev.sterner.witchery.core.registry.WitcheryPoppetRegistry
 import dev.sterner.witchery.features.misc.AccessoryHandler
+import dev.sterner.witchery.features.poppet.CorruptPoppetPlayerAttachment
 import dev.sterner.witchery.features.poppet.PoppetHandler
 import dev.sterner.witchery.features.poppet.PoppetLevelAttachment
 import net.minecraft.server.level.ServerLevel
@@ -25,6 +26,9 @@ object ItemStackMixinLogic {
             return false
         }
 
+        val corruptData = CorruptPoppetPlayerAttachment.getData(player)
+        val isCorrupted = corruptData.corruptedPoppets.contains(armorPoppetType.getRegistryId())
+
         var activated = false
         for (armor in player.inventory.armor) {
             if (!armor.isEmpty) {
@@ -32,11 +36,14 @@ object ItemStackMixinLogic {
                 val currentDurability = maxDurability - armor.damageValue
 
                 if (currentDurability <= 1) {
-
                     val poppetDamage = armorPoppetType.getDurabilityDamage(PoppetUsage.PROTECTION)
                     poppetStack.damageValue += poppetDamage
 
-                    armor.damageValue = armor.damageValue.coerceAtMost(maxDurability - 1)
+                    if (!isCorrupted) {
+                        armor.damageValue = armor.damageValue.coerceAtMost(maxDurability - 1)
+                    } else {
+                        armorPoppetType.onCorruptedActivate(player, null)
+                    }
 
                     if (poppetStack.damageValue >= poppetStack.maxDamage) {
                         when (location) {
@@ -61,6 +68,6 @@ object ItemStackMixinLogic {
             }
         }
 
-        return activated
+        return if (isCorrupted) false else activated
     }
 }

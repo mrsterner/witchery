@@ -94,7 +94,33 @@ object WitcheryCommands {
                 .then(registerCovenCommands())
                 .then(registerTarotCommands())
                 .then(registerPetrificationCommands())
+                .then(registerDebugCommands())
         )
+    }
+
+    private fun registerDebugCommands(): LiteralArgumentBuilder<CommandSourceStack> {
+        return Commands.literal("debug")
+            .requires { it.hasPermission(2) }
+            .then(
+                Commands.literal("setHunger")
+                    .then(
+                        Commands.argument("player", EntityArgument.player())
+                            .then(
+                                Commands.argument("amount", IntegerArgumentType.integer(0))
+                                    .executes { ctx ->
+                                        val player = EntityArgument.getPlayer(ctx, "player")
+                                        val amount = IntegerArgumentType.getInteger(ctx, "amount")
+                                        player.foodData.foodLevel = amount
+
+                                        ctx.source.sendSuccess(
+                                            { Component.literal("Set ${player.name.string}'s hunger to $amount") },
+                                            true
+                                        )
+                                        1
+                                    }
+                            )
+                    )
+            )
     }
 
     private fun registerInfusionCommands(): LiteralArgumentBuilder<CommandSourceStack> {

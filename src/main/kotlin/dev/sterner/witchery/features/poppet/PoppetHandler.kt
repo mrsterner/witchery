@@ -59,29 +59,40 @@ object PoppetHandler {
 
         WitcheryPoppetRegistry.DEATH_PROTECTION.get().let { deathPoppetType ->
 
-            if (activatePoppet(livingEntity, deathPoppetType, damageSource)) {
+            val corruptData = CorruptPoppetPlayerAttachment.getData(livingEntity)
+            val isCorrupted = corruptData.corruptedPoppets.contains(deathPoppetType.getRegistryId())
 
-                livingEntity.health = livingEntity.maxHealth * 0.5f
-                livingEntity.invulnerableTime = 60
-                livingEntity.removeAllEffects()
-                livingEntity.addEffect(MobEffectInstance(MobEffects.REGENERATION, 200, 1))
-
-                if (livingEntity.level() is ServerLevel) {
-                    val serverLevel = livingEntity.level() as ServerLevel
-                    serverLevel.sendParticles(
-                        ParticleTypes.ENCHANTED_HIT,
-                        livingEntity.x,
-                        livingEntity.y + livingEntity.bbHeight * 0.5,
-                        livingEntity.z,
-                        20,
-                        0.3,
-                        0.3,
-                        0.3,
-                        0.1
-                    )
+            if (isCorrupted) {
+                if (activatePoppet(livingEntity, deathPoppetType, damageSource)) {
+                    return
                 }
-                event.isCanceled = true
-                return
+            } else {
+                if (activatePoppet(livingEntity, deathPoppetType, damageSource)) {
+                    livingEntity.health = livingEntity.maxHealth * 0.5f
+                    livingEntity.invulnerableTime = 60
+                    livingEntity.removeAllEffects()
+
+                    livingEntity.addEffect(MobEffectInstance(MobEffects.REGENERATION, 900, 1))
+                    livingEntity.addEffect(MobEffectInstance(MobEffects.ABSORPTION, 100, 1))
+                    livingEntity.addEffect(MobEffectInstance(MobEffects.FIRE_RESISTANCE, 800, 0))
+
+                    if (livingEntity.level() is ServerLevel) {
+                        val serverLevel = livingEntity.level() as ServerLevel
+                        serverLevel.sendParticles(
+                            ParticleTypes.ENCHANTED_HIT,
+                            livingEntity.x,
+                            livingEntity.y + livingEntity.bbHeight * 0.5,
+                            livingEntity.z,
+                            20,
+                            0.3,
+                            0.3,
+                            0.3,
+                            0.1
+                        )
+                    }
+                    event.isCanceled = true
+                    return
+                }
             }
         }
     }
@@ -254,7 +265,7 @@ object PoppetHandler {
             }
 
             val bonusDamage = damage * damageMultiplier
-            val durabilityDamage = voodooPoppet.maxDamage / 10
+            val durabilityDamage = (voodooPoppet.maxDamage / 10).coerceAtLeast(1)
 
             when (location) {
                 PoppetLocation.ACCESSORY -> {

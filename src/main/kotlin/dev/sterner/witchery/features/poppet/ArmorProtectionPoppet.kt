@@ -4,8 +4,6 @@ import dev.sterner.witchery.core.api.interfaces.PoppetType
 import dev.sterner.witchery.core.api.PoppetUsage
 import dev.sterner.witchery.content.item.PoppetItem
 import dev.sterner.witchery.core.registry.WitcheryItems
-import net.minecraft.ChatFormatting
-import net.minecraft.network.chat.Component
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.sounds.SoundSource
 import net.minecraft.world.damagesource.DamageSource
@@ -62,18 +60,10 @@ class ArmorProtectionPoppet : PoppetType {
         owner.level().playSound(
             null,
             owner.x, owner.y, owner.z,
-            SoundEvents.ARMOR_EQUIP_IRON,
+            SoundEvents.ITEM_BREAK,
             SoundSource.PLAYERS,
-            0.7f,
+            0.5f,
             0.8f
-        )
-
-        owner.displayClientMessage(
-            Component.translatable(
-                "curse.witchery.corrupt_poppet.armor_effect",
-                Component.translatable(itemToDamage.descriptionId)
-            ).withStyle(ChatFormatting.DARK_PURPLE),
-            true
         )
 
         return true

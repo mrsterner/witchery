@@ -54,13 +54,7 @@ class VampiricPoppet : PoppetType {
             0.8f
         )
 
-        owner.displayClientMessage(
-            Component.translatable("curse.witchery.corrupt_poppet.vampiric_effect")
-                .withStyle(ChatFormatting.DARK_PURPLE),
-            true
-        )
-
-        return true
+        return false
     }
 
     fun handleDamage(target: LivingEntity, damageSource: DamageSource, damage: Float): Float {

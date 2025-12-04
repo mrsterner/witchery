@@ -182,6 +182,16 @@ object WitcheryNeoForgeEvents {
         LichdomSpecificEventHandler.onDeath(event, event.entity, event.source)
         LichdomSpecificEventHandler.onKillEntity(event.entity, event.source)
         CaneSwordItem.harvestBlood(event.entity, event.source)
+
+        if (event.entity is ServerPlayer) {
+            val afflictionData = AfflictionPlayerAttachment.getData(event.entity as Player)
+            if (afflictionData.isVagrant()) {
+                val player = event.entity as ServerPlayer
+                player.health = player.maxHealth
+                LichdomSpecificEventHandler.justSoulForm(player)
+                event.isCanceled = true
+            }
+        }
     }
 
     @SubscribeEvent
@@ -416,6 +426,10 @@ object WitcheryNeoForgeEvents {
 
         LichdomSpecificEventHandler.resetDeathTeleport(player)
         InventoryLockPlayerAttachment.sync(player)
+
+        AfflictionPlayerAttachment.smartUpdate(player) {
+            withVagrant(false)
+        }
     }
 
     @SubscribeEvent

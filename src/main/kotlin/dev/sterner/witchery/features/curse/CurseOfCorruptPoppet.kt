@@ -127,7 +127,12 @@ class CurseOfCorruptPoppet : Curse() {
         val allPoppets = mutableListOf<Pair<PoppetType, PoppetLocation>>()
 
         WitcheryPoppetRegistry.POPPET_REGISTRY.forEach { poppetType ->
-            if (poppetType.canBeCorrupted() && !corruptData.corruptedPoppets.contains(poppetType.getRegistryId())) {
+            val registryId = poppetType.getRegistryId()
+
+            if (poppetType.canBeCorrupted() &&
+                registryId != null &&
+                !corruptData.corruptedPoppets.contains(registryId)) {
+
                 val (poppet, location) = PoppetHandler.findPoppet(player, poppetType)
                 if (poppet != null && location != null) {
                     allPoppets.add(Pair(poppetType, location))
@@ -138,12 +143,14 @@ class CurseOfCorruptPoppet : Curse() {
         if (allPoppets.isEmpty()) return
 
         val (selectedPoppet, _) = allPoppets.random()
+        val selectedPoppetId = selectedPoppet.getRegistryId() ?: return
+
+        val updatedCorruptedPoppets = corruptData.corruptedPoppets.toMutableSet()
+        updatedCorruptedPoppets.add(selectedPoppetId)
 
         val updatedData = corruptData.copy(
             corruptedPoppetCount = corruptData.corruptedPoppetCount + 1,
-            corruptedPoppets = corruptData.corruptedPoppets.apply {
-                add(selectedPoppet.getRegistryId()!!)
-            }
+            corruptedPoppets = updatedCorruptedPoppets
         )
 
         CorruptPoppetPlayerAttachment.setData(player, updatedData)
