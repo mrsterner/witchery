@@ -10,7 +10,7 @@ data class HudPositionData(
     val infusionCoord: Coord = Coord(10, -1),
     val manifestationCoord: Coord = Coord(28, -1),
     val barkBeltCoord: Coord = Coord(-1, -1),
-    val questHudCoord: Coord = Coord(50, 15)
+    val questHudCoord: Coord = Coord(43, 7)
 ) {
 
     data class Coord(val x: Int, val y: Int){

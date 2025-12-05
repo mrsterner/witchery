@@ -159,8 +159,27 @@ object QuestHudRenderer {
         val poseStack = guiGraphics.pose()
         poseStack.pushPose()
 
-        val scale = 0.2f + (expandAnimation * 0.5f)
-        poseStack.translate(baseX.toFloat(), baseY.toFloat(), 0f)
+        val screenWidth = guiGraphics.guiWidth().toFloat()
+        val baseXf = baseX.toFloat()
+
+        val isCloserToLeft = baseXf < screenWidth / 2f
+
+        val offscreenOffset = 250f
+        val startX = if (isCloserToLeft) {
+            baseXf - offscreenOffset
+        } else {
+            baseXf + offscreenOffset
+        }
+
+        val scale = 0.6f
+        val animatedX = startX + (baseXf - startX) * expandAnimation
+
+        poseStack.translate(
+            animatedX,
+            baseY.toFloat(),
+            0f
+        )
+
         poseStack.scale(scale, scale, 1f)
         poseStack.translate(-baseX.toFloat(), -baseY.toFloat(), 0f)
 
@@ -227,6 +246,37 @@ object QuestHudRenderer {
     ): Int {
         var y = startY
 
+        val quests = getQuestsForAffliction(type, level, player)
+
+        var maxTextWidth = font.width(Component.literal(title))
+        quests.forEach { quest ->
+            val displayQuest = if (levelUpDisplayTimer > 0) {
+                quest.copy(current = quest.max, isComplete = true)
+            } else {
+                quest
+            }
+            val questText = buildQuestText(displayQuest)
+            val textWidth = font.width(questText) + 10
+            if (textWidth > maxTextWidth) maxTextWidth = textWidth
+        }
+
+        val padding = 6
+        val xOffset = 32
+        val bottomReduction = 6
+
+        val boxX1 = x - maxTextWidth / 2 + xOffset - padding
+        val boxX2 = x + maxTextWidth / 2 + xOffset + padding
+        val boxY1 = y - 4
+        val estimatedHeight = 12 + 8 + quests.size * 10 + padding * 2 - bottomReduction
+        val boxY2 = y + estimatedHeight
+
+        guiGraphics.fill(
+            boxX1, boxY1,
+            boxX2, boxY2,
+            (0x000000 and 0xFFFFFF) or ((alpha / 4) shl 24)
+        )
+
+        // Draw title
         val titleComponent = Component.literal(title)
         val titleWidth = font.width(titleComponent) / 2
         guiGraphics.drawString(
@@ -237,6 +287,7 @@ object QuestHudRenderer {
         )
         y += 12
 
+        // Draw separator
         val separatorWidth = 100
         RenderSystem.enableBlend()
         guiGraphics.fill(
@@ -246,8 +297,7 @@ object QuestHudRenderer {
         )
         y += 8
 
-        val quests = getQuestsForAffliction(type, level, player)
-
+        // Draw quests
         quests.forEach { quest ->
 
             val displayQuest = if (levelUpDisplayTimer > 0) {
@@ -270,7 +320,6 @@ object QuestHudRenderer {
 
             val questText = buildQuestText(displayQuest)
             val textColor = if (displayQuest.isComplete) COMPLETE_COLOR else QUEST_COLOR
-
             guiGraphics.drawString(
                 font, questText,
                 x - 45, questY,
@@ -295,6 +344,8 @@ object QuestHudRenderer {
 
         return y
     }
+
+
 
     private fun buildQuestText(quest: QuestState): Component {
         return if (quest.max > 0) {

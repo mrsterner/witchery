@@ -91,6 +91,10 @@ class WerewolfAltarBlockEntity(
         val item = items[0]
         if (!item.isEmpty) {
 
+            if (conversionTicks > 0 && serverLevel.gameTime % 10L == 0L) {
+                serverLevel.playSound(null, blockPos, SoundEvents.GENERIC_EAT, SoundSource.BLOCKS)
+            }
+
             if (item.`is`(Items.GOLD_INGOT)) {
                 conversionTicks++
 
