@@ -95,7 +95,7 @@ object WitcheryNeoForgeEvents {
 
     @SubscribeEvent
     fun onPotionEffectApplied(event: MobEffectEvent.Added) {
-        HunterArmorDefenseHandler.onPotionEffectApplied(event)
+        //HunterArmorDefenseHandler.onPotionEffectApplied(event)
     }
 
     @SubscribeEvent

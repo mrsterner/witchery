@@ -13,8 +13,6 @@ object HunterArmorDefenseHandler {
     private const val POTION_DURATION_REDUCTION = 0.5f
     private const val CURSE_DURATION_REDUCTION = 0.4f
     const val MAGIC_DAMAGE_REDUCTION = 0.25f
-    private const val CURSE_REFLECT_CHANCE = 0.15f
-
 
     fun getHunterArmorPieceCount(player: Player): Int {
         var count = 0
@@ -46,57 +44,19 @@ object HunterArmorDefenseHandler {
         return newDuration.coerceAtLeast(20)
     }
 
-    fun tryReflectCurse(player: Player, sourcePlayer: ServerPlayer?): Boolean {
-        if (getHunterArmorPieceCount(player) != 4) return false
-        if (sourcePlayer == null) return false
+    fun getReducedEffectDuration(player: Player, effectInstance: MobEffectInstance): Int? {
+        val count = getHunterArmorPieceCount(player)
+        if (count == 0) return null
 
-        val random = player.level().random
-        if (random.nextFloat() < CURSE_REFLECT_CHANCE) {
-            if (player is ServerPlayer) {
-                HunterArmorParticleEffects.spawnCurseReflectionEffect(player, sourcePlayer)
-                HunterArmorParticleEffects.spawnProtectionParticles(
-                    player,
-                    HunterArmorParticleEffects.ProtectionType.CURSE_REFLECTION
-                )
-            }
-            return true
-        }
+        if (effectInstance.effect.value().category == MobEffectCategory.HARMFUL) {
+            val durationModifier = 1.0f - ((count * 0.25f) * POTION_DURATION_REDUCTION)
+            val modifiedDuration = (effectInstance.duration * durationModifier).toInt()
 
-        return false
-    }
-
-    fun onPotionEffectApplied(event: MobEffectEvent.Added) {
-        if (event.entity is Player) {
-            val player = event.entity as Player
-            val count = getHunterArmorPieceCount(player)
-
-            if (count > 0) {
-
-                val effectInstance = event.effectInstance ?: return
-
-                if (effectInstance.effect.value().category == MobEffectCategory.HARMFUL) {
-                    val durationModifier = (count * 0.25) * POTION_DURATION_REDUCTION
-
-                    val originalDuration = effectInstance.duration
-
-                    player.removeEffect(effectInstance.effect)
-                    player.addEffect(
-                        MobEffectInstance(
-                            effectInstance.effect,
-                            (originalDuration * durationModifier).toInt(),
-                            effectInstance.amplifier,
-                            effectInstance.isAmbient,
-                            effectInstance.isVisible,
-                            effectInstance.showIcon()
-                        )
-                    )
-
-                    HunterArmorParticleEffects.spawnProtectionParticles(
-                        player,
-                        HunterArmorParticleEffects.ProtectionType.POTION_REDUCTION
-                    )
-                }
+            if (modifiedDuration < effectInstance.duration) {
+                return modifiedDuration.coerceAtLeast(1)
             }
         }
+
+        return null
     }
 }

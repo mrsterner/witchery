@@ -5,6 +5,7 @@ import dev.sterner.witchery.core.api.event.CurseEvent
 import dev.sterner.witchery.core.registry.WitcheryCurseRegistry
 import dev.sterner.witchery.core.registry.WitcheryPoppetRegistry
 import dev.sterner.witchery.features.hunter.HunterArmorDefenseHandler
+import dev.sterner.witchery.features.hunter.HunterArmorParticleEffects
 import dev.sterner.witchery.features.poppet.PoppetHandler
 import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.resources.ResourceLocation
@@ -82,16 +83,71 @@ object CurseHandler {
             }
         }
 
-        val adjustedDuration = HunterArmorDefenseHandler.reduceCurseDuration(player, duration)
-        if (sourcePlayer != null && HunterArmorDefenseHandler.tryReflectCurse(player, sourcePlayer)) {
-            val sourceData = CursePlayerAttachment.getData(sourcePlayer)
-            sourceData.playerCurseList.getOrNull(sourceData.playerCurseList.indexOfFirst { it.curseId == curse })?.let {
-                it.duration = adjustedDuration
-                CursePlayerAttachment.setData(sourcePlayer, sourceData)
-                NeoForge.EVENT_BUS.post(CurseEvent.Added(sourcePlayer, sourcePlayer, curse, catBoosted))
+        val hunterPieceCount = HunterArmorDefenseHandler.getHunterArmorPieceCount(player)
+        if (hunterPieceCount == 4) {
+            val random = player.level().random
+
+            if (random.nextFloat() < 0.5f) {
+                if (player.level() is ServerLevel) {
+                    val serverLevel = player.level() as ServerLevel
+                    serverLevel.sendParticles(
+                        ParticleTypes.ENCHANTED_HIT,
+                        player.x,
+                        player.y + player.bbHeight * 0.5,
+                        player.z,
+                        15,
+                        0.4,
+                        0.4,
+                        0.4,
+                        0.1
+                    )
+                }
+
+                HunterArmorParticleEffects.spawnProtectionParticles(
+                    player,
+                    HunterArmorParticleEffects.ProtectionType.CURSE_REDUCTION
+                )
+
+                if (random.nextFloat() < 0.25f && sourcePlayer != null) {
+                    val sourceData = CursePlayerAttachment.getData(sourcePlayer).playerCurseList.toMutableList()
+                    val existingSourceCurse = sourceData.find { it.curseId == curse }
+
+                    if (existingSourceCurse != null) {
+                        sourceData.remove(existingSourceCurse)
+                    }
+
+                    val reflectedCurseData = CursePlayerAttachment.PlayerCurseData(
+                        curse,
+                        duration = duration,
+                        catBoosted = catBoosted
+                    )
+                    sourceData.add(reflectedCurseData)
+
+                    CursePlayerAttachment.setData(sourcePlayer, CursePlayerAttachment.Data(sourceData))
+
+                    WitcheryCurseRegistry.CURSES_REGISTRY[reflectedCurseData.curseId]?.onAdded(
+                        sourcePlayer.level(),
+                        sourcePlayer,
+                        reflectedCurseData.catBoosted
+                    )
+
+                    if (player is ServerPlayer) {
+                        HunterArmorParticleEffects.spawnCurseReflectionEffect(player, sourcePlayer)
+                        HunterArmorParticleEffects.spawnProtectionParticles(
+                            player,
+                            HunterArmorParticleEffects.ProtectionType.CURSE_REFLECTION
+                        )
+
+                        NeoForge.EVENT_BUS.post(CurseEvent.Added(sourcePlayer, player, curse, catBoosted))
+                    }
+
+                }
+
                 return false
             }
         }
+
+        val adjustedDuration = HunterArmorDefenseHandler.reduceCurseDuration(player, duration)
 
         val data = CursePlayerAttachment.getData(player).playerCurseList.toMutableList()
         val existingCurse = data.find { it.curseId == curse }
