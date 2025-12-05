@@ -20,21 +20,24 @@ class CurseOfBefuddlement : Curse() {
         val effectivenessMultiplier = getEffectivenessMultiplier(player)
 
         val baseInterval = if (WitcheryApi.isWitchy(player)) {
-            100L
+            240L
         } else {
-            300L
+            420L
         }
 
         if (level.gameTime % baseInterval == 0L) {
-            val nauseaChance = 0.3f * effectivenessMultiplier
-            val confusionDuration = (20 * 6 * effectivenessMultiplier).toInt()
+            val nauseaChance = 0.18f * effectivenessMultiplier
+            val confusionDuration = (20 * 14 * effectivenessMultiplier).toInt()
 
             if (level.random.nextFloat() < nauseaChance) {
                 player.addEffect(MobEffectInstance(MobEffects.CONFUSION, confusionDuration, 0))
             }
 
-            if (level.random.nextFloat() < nauseaChance * 0.5f) {
-                player.addEffect(MobEffectInstance(MobEffects.DIG_SLOWDOWN, confusionDuration / 2, 0))
+            val miningFatigueChance = nauseaChance * 0.35f
+            val miningFatigueDuration = (20 * (14 + 8) * effectivenessMultiplier).toInt()
+
+            if (level.random.nextFloat() < miningFatigueChance) {
+                player.addEffect(MobEffectInstance(MobEffects.DIG_SLOWDOWN, miningFatigueDuration, 0))
             }
         }
 

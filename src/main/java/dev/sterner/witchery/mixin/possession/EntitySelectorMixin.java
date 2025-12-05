@@ -17,9 +17,16 @@ public abstract class EntitySelectorMixin {
 
     @Dynamic("Lambda method injection")
     @Inject(method = "lambda$static$3", at = @At("RETURN"), cancellable = true)
-    private static void exceptCreativeOrSpectator(@Nullable Entity tested, CallbackInfoReturnable<Boolean> info) {
-        if (info.getReturnValueZ() && tested instanceof Player player && AfflictionPlayerAttachment.getData(player).isVagrant()) {
-            info.setReturnValue(false);
+    private static void witchery$exceptCreativeOrSpectator(@Nullable Entity tested, CallbackInfoReturnable<Boolean> info) {
+        if (info.getReturnValueZ() && tested instanceof Player player) {
+            if(AfflictionPlayerAttachment.getData(player).isVagrant()) {
+                info.setReturnValue(false);
+                return;
+            }
+
+            if (AfflictionPlayerAttachment.getData(player).isSoulForm()) {
+                info.setReturnValue(false);
+            }
         }
     }
 }

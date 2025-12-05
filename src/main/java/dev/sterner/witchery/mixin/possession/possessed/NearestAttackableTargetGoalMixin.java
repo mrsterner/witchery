@@ -1,5 +1,6 @@
 package dev.sterner.witchery.mixin.possession.possessed;
 
+import dev.sterner.witchery.features.affliction.AfflictionPlayerAttachment;
 import dev.sterner.witchery.features.possession.PossessionComponentAttachment;
 import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.world.entity.Entity;
@@ -28,6 +29,12 @@ public abstract class NearestAttackableTargetGoalMixin<T extends LivingEntity> e
 
         var player = this.mob.level().getNearestPlayer(this.targetConditions, this.mob, this.mob.getX(), this.mob.getEyeY(), this.mob.getZ());
         if (player != null) {
+
+            if (AfflictionPlayerAttachment.getData(player).isSoulForm()) {
+                ci.cancel();
+                return;
+            }
+
             Entity possessed = PossessionComponentAttachment.INSTANCE.get(player).getHost();
 
             if (possessed != null) {

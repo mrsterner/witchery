@@ -27,14 +27,17 @@ import java.util.*
 import kotlin.math.atan2
 import kotlin.math.cos
 import kotlin.math.sin
+import kotlin.math.sqrt
 
 class HornedHuntsmanEntity(entityType: EntityType<out HornedHuntsmanEntity>, level: Level) :
     Monster(entityType, level) {
 
-    private var attackCooldown = 0
-    private var spearThrowCooldown = 0
-    private var strafingBackwards = false
-    private var strafingTime = 0
+    var attackCooldown = 0
+        private set
+    var spearThrowCooldown = 0
+        private set
+    var strafingBackwards = false
+    var strafingTime = 0
 
     companion object {
         private val ATTACKING =
@@ -67,10 +70,11 @@ class HornedHuntsmanEntity(entityType: EntityType<out HornedHuntsmanEntity>, lev
 
     override fun registerGoals() {
         goalSelector.addGoal(0, FloatGoal(this))
-        goalSelector.addGoal(1, MeleeAttackGoal(this, 1.0, true))
-        goalSelector.addGoal(2, HuntsmanRangedAttackGoal(this))
-        goalSelector.addGoal(3, WaterAvoidingRandomStrollGoal(this, 1.0))
-        goalSelector.addGoal(4, LookAtPlayerGoal(this, Player::class.java, 8.0f))
+        goalSelector.addGoal(1, HuntsmanRangedAttackGoal(this))
+        goalSelector.addGoal(2, MeleeAttackGoal(this, 1.0, true))
+        goalSelector.addGoal(5, WaterAvoidingRandomStrollGoal(this, 0.8))
+        goalSelector.addGoal(6, LookAtPlayerGoal(this, Player::class.java, 8.0f))
+        goalSelector.addGoal(7, RandomLookAroundGoal(this))
 
         targetSelector.addGoal(1, HurtByTargetGoal(this))
         targetSelector.addGoal(2, NearestAttackableTargetGoal(this, Player::class.java, true))
@@ -139,35 +143,38 @@ class HornedHuntsmanEntity(entityType: EntityType<out HornedHuntsmanEntity>, lev
         return super.hurt(source, amount)
     }
 
-    private fun performMeleeAttack(target: LivingEntity) {
-        if (attackCooldown <= 0) {
-            if (distanceToSqr(target) < 4.0) {
-                attackCooldown = MELEE_ATTACK_INTERVAL
-                this.doHurtTarget(target)
+    override fun doHurtTarget(target: Entity): Boolean {
+        if (target is LivingEntity && attackCooldown <= 0) {
+            attackCooldown = MELEE_ATTACK_INTERVAL
 
-                if (random.nextFloat() < 0.2f) {
-                    val effect = when (random.nextInt(3)) {
-                        0 -> MobEffects.WEAKNESS
-                        1 -> MobEffects.MOVEMENT_SLOWDOWN
-                        else -> MobEffects.POISON
-                    }
+            val result = super.doHurtTarget(target)
 
-                    target.addEffect(MobEffectInstance(effect, 100, 1))
+            if (result && random.nextFloat() < 0.2f) {
+                val effect = when (random.nextInt(3)) {
+                    0 -> MobEffects.WEAKNESS
+                    1 -> MobEffects.MOVEMENT_SLOWDOWN
+                    else -> MobEffects.POISON
                 }
+                target.addEffect(MobEffectInstance(effect, 100, 1))
             }
+
+            return result
         }
+        return false
     }
 
     fun performRangedAttack(target: LivingEntity) {
         if (!hasSpear() || spearThrowCooldown > 0) return
 
-        val spearEntity = HuntsmanSpearEntity(level())
+        val spearEntity = HuntsmanSpearEntity(level(), this, ItemStack(WitcheryItems.HUNTSMAN_SPEAR.get()))
+
+        spearEntity.setPos(this.x, this.getEyeY() - 0.1, this.z)
 
         val dx = target.x - this.x
-        val dy = target.y + target.eyeHeight / 2.0 - spearEntity.y
+        val dy = target.getEyeY() - spearEntity.y
         val dz = target.z - this.z
 
-        val horizontalDistance = kotlin.math.sqrt(dx * dx + dz * dz)
+        val horizontalDistance = sqrt(dx * dx + dz * dz)
         val velocity = 1.6f
 
         spearEntity.shoot(dx, dy + horizontalDistance * 0.2, dz, velocity, 1.0f)
@@ -182,6 +189,12 @@ class HornedHuntsmanEntity(entityType: EntityType<out HornedHuntsmanEntity>, lev
 
             spearThrowCooldown = SPEAR_RECOVERY_TIME
         }
+    }
+
+    override fun dropCustomDeathLoot(level: ServerLevel, damageSource: DamageSource, recentlyHit: Boolean) {
+        super.dropCustomDeathLoot(level, damageSource, recentlyHit)
+
+        this.spawnAtLocation(WitcheryItems.HUNTSMAN_SPEAR.get())
     }
 
     fun isAttacking(): Boolean {
@@ -203,6 +216,7 @@ class HornedHuntsmanEntity(entityType: EntityType<out HornedHuntsmanEntity>, lev
     private class HuntsmanRangedAttackGoal(private val huntsman: HornedHuntsmanEntity) : Goal() {
 
         private var attackTime = -1
+        private var seeTime = 0
         private var targetX = 0.0
         private var targetY = 0.0
         private var targetZ = 0.0
@@ -213,38 +227,66 @@ class HornedHuntsmanEntity(entityType: EntityType<out HornedHuntsmanEntity>, lev
 
         override fun canUse(): Boolean {
             val target = huntsman.target
-            return target != null &&
-                    target.isAlive &&
-                    huntsman.hasSpear() &&
-                    huntsman.spearThrowCooldown <= 0 &&
-                    huntsman.distanceToSqr(target) > 36.0
+            if (target == null || !target.isAlive) {
+                return false
+            }
+
+            if (!huntsman.hasSpear() || huntsman.spearThrowCooldown > 0) {
+                return false
+            }
+
+            val distanceToTarget = huntsman.distanceToSqr(target)
+            return distanceToTarget > 16.0 && distanceToTarget < 400.0
         }
 
         override fun canContinueToUse(): Boolean {
-            return canUse() || !huntsman.navigation.isDone
+            val target = huntsman.target
+            if (target == null || !target.isAlive) {
+                return false
+            }
+
+            if (!huntsman.hasSpear()) {
+                return false
+            }
+
+            val distanceToTarget = huntsman.distanceToSqr(target)
+            return distanceToTarget > 9.0 && distanceToTarget < 400.0 || !huntsman.navigation.isDone
         }
 
         override fun start() {
             super.start()
             huntsman.setAttacking(true)
+            attackTime = 0
+            seeTime = 0
         }
 
         override fun stop() {
             super.stop()
             huntsman.setAttacking(false)
             attackTime = -1
+            seeTime = 0
 
             huntsman.strafingBackwards = false
             huntsman.strafingTime = 0
+        }
+
+        override fun requiresUpdateEveryTick(): Boolean {
+            return true
         }
 
         override fun tick() {
             val target = huntsman.target ?: return
 
             val distanceToTarget = huntsman.distanceToSqr(target)
-            val inRange = distanceToTarget <= 100.0 && huntsman.hasLineOfSight(target)
+            val hasLineOfSight = huntsman.hasLineOfSight(target)
 
-            if (distanceToTarget <= 64.0) {
+            if (hasLineOfSight) {
+                ++seeTime
+            } else {
+                seeTime = 0
+            }
+
+            if (distanceToTarget <= 64.0 && distanceToTarget > 16.0) {
                 if (++huntsman.strafingTime >= 20) {
                     huntsman.strafingBackwards = !huntsman.strafingBackwards
                     huntsman.strafingTime = 0
@@ -256,24 +298,44 @@ class HornedHuntsmanEntity(entityType: EntityType<out HornedHuntsmanEntity>, lev
 
             if (distanceToTarget > 225.0) {
                 huntsman.navigation.moveTo(target, 1.0)
-            } else if (distanceToTarget < 64.0) {
+            } else if (distanceToTarget < 36.0 && seeTime > 0) {
+                val dx = huntsman.x - target.x
+                val dz = huntsman.z - target.z
+                val norm = sqrt(dx * dx + dz * dz)
+
+                if (norm > 0.01) {
+                    targetX = huntsman.x + (dx / norm) * 8.0
+                    targetZ = huntsman.z + (dz / norm) * 8.0
+                    targetY = huntsman.y
+                    huntsman.navigation.moveTo(targetX, targetY, targetZ, 1.0)
+                }
+            } else if (distanceToTarget >= 36.0 && distanceToTarget <= 64.0 && huntsman.strafingTime > 0) {
                 val dx = target.x - huntsman.x
                 val dz = target.z - huntsman.z
-                val angle = atan2(dz, dx) - Math.PI / 2
+                val angle = atan2(dz, dx) + (if (huntsman.strafingBackwards) Math.PI / 2 else -Math.PI / 2)
 
-                targetX = huntsman.x - cos(angle) * 10.0
-                targetZ = huntsman.z - sin(angle) * 10.0
-                targetY = target.y
+                targetX = huntsman.x + cos(angle) * 6.0
+                targetZ = huntsman.z + sin(angle) * 6.0
+                targetY = huntsman.y
 
-                huntsman.navigation.moveTo(targetX, targetY, targetZ, 1.0)
+                huntsman.navigation.moveTo(targetX, targetY, targetZ, 0.9)
             }
 
-            huntsman.lookAt(target, 30.0f, 30.0f)
+            huntsman.lookControl.setLookAt(target, 30.0f, 30.0f)
 
-            if (--attackTime <= 0 && inRange) {
-                huntsman.performRangedAttack(target)
+            if (seeTime > 5) {
+                if (attackTime == -1) {
+                    attackTime = 0
+                }
 
-                attackTime = RANGED_ATTACK_INTERVAL
+                if (++attackTime >= RANGED_ATTACK_INTERVAL) {
+                    if (distanceToTarget <= 256.0 && huntsman.hasSpear()) {
+                        huntsman.performRangedAttack(target)
+                        attackTime = 0
+                    }
+                }
+            } else {
+                attackTime = -1
             }
         }
     }
