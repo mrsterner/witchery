@@ -17,6 +17,8 @@ import net.minecraft.world.effect.MobEffects
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.animal.Sheep
 import net.minecraft.world.entity.animal.Wolf
+import net.minecraft.world.entity.monster.ZombifiedPiglin
+import net.minecraft.world.entity.monster.piglin.AbstractPiglin
 import net.minecraft.world.entity.monster.piglin.Piglin
 import net.minecraft.world.entity.npc.Villager
 import net.minecraft.world.entity.player.Player
@@ -31,7 +33,8 @@ object WerewolfSpecificEventHandler {
         val wereLevel = wereData.getWerewolfLevel()
 
         when (livingEntity) {
-            is Piglin -> WerewolfLeveling.increaseKilledPiglin(player)
+            is AbstractPiglin -> WerewolfLeveling.increaseKilledPiglin(player)
+            is ZombifiedPiglin -> WerewolfLeveling.increaseKilledPiglin(player)
             is Sheep -> WerewolfLeveling.increaseKilledSheep(player)
             is Wolf -> WerewolfLeveling.increaseKilledWolf(player)
             is HornedHuntsmanEntity -> WerewolfLeveling.setHasKilledHuntsman(player)

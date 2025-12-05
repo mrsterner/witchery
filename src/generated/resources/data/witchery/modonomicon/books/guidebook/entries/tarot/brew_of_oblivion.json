@@ -1,0 +1,47 @@
+{
+  "background_u_index": 0,
+  "background_v_index": 0,
+  "category": "tarot",
+  "condition": {
+    "type": "modonomicon:and",
+    "children": [
+      {
+        "type": "modonomicon:entry_read",
+        "entry_id": "tarot/tarot_reading"
+      }
+    ]
+  },
+  "description": "book.witchery.guidebook.tarot.brew_of_oblivion.description",
+  "hide_while_locked": false,
+  "icon": {
+    "item": "witchery:brew_of_oblivion"
+  },
+  "name": "book.witchery.guidebook.tarot.brew_of_oblivion.name",
+  "pages": [
+    {
+      "type": "modonomicon:spotlight",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "item": {
+        "count": 1,
+        "item": "witchery:brew_of_oblivion"
+      },
+      "text": "tarot.brew_of_oblivion.page.1",
+      "title": "tarot.brew_of_oblivion.title.1"
+    }
+  ],
+  "parents": [
+    {
+      "draw_arrow": true,
+      "entry": "tarot/tarot_reading",
+      "line_enabled": true,
+      "line_reversed": false
+    }
+  ],
+  "show_when_any_parent_unlocked": false,
+  "sort_number": 1,
+  "x": 0,
+  "y": -2
+}

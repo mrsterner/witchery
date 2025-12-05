@@ -184,12 +184,6 @@ class HornedHuntsmanEntity(entityType: EntityType<out HornedHuntsmanEntity>, lev
         }
     }
 
-    override fun dropCustomDeathLoot(level: ServerLevel, damageSource: DamageSource, recentlyHit: Boolean) {
-        super.dropCustomDeathLoot(level, damageSource, recentlyHit)
-
-        this.spawnAtLocation(WitcheryItems.HUNTSMAN_SPEAR.get())
-    }
-
     fun isAttacking(): Boolean {
         return entityData.get(ATTACKING)
     }

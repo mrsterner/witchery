@@ -383,7 +383,7 @@ object WitcheryBookLangProvider {
 
         add(
             "lycanthropy.were_8.page.1",
-            "The Nether calls for blood. Hunt and kill thirty Zombie Pigmen in the burning realm. Prove that even in hell itself, the wolf is apex predator."
+            "The Nether calls for blood. Hunt and kill thirty Pigmen in the burning realm. Prove that even in hell itself, the wolf is apex predator."
         )
 
         add(
@@ -625,14 +625,14 @@ object WitcheryBookLangProvider {
         add("book.witchery.guidebook.brewing.brew_of_webs.name", "Brew of Webs")
         add("brewing.brew_of_webs.title.1", "Brew of Webs")
         add("brewing.brew_of_webs", "Brew of Webs")
-        add("brewing.brew_of_webs.page.1", "Creates Cobweb")
+        add("brewing.brew_of_webs.page.1", "Creates Cobweb when broken.")
         add("book.witchery.guidebook.brewing.brew_of_webs.description", "Liquid spider at your own disposal.")
 
         add("book.witchery.guidebook.brewing.brew_of_the_depths.name", "Brew of the Depths")
         add("brewing.brew_of_the_depths.title.1", "Brew of the Depths")
         add("brewing.brew_of_the_depths", "Brew of the Depths")
-        add("brewing.brew_of_the_depths.page.1", "Not implemented yet")
-        add("book.witchery.guidebook.brewing.brew_of_the_depths.description", "Not implemented yet")
+        add("brewing.brew_of_the_depths.page.1", "You gain gills to breathe underwater, however, you will not be able to breathe above it.")
+        add("book.witchery.guidebook.brewing.brew_of_the_depths.description", "Your new gills can't breathe on land")
 
         add("book.witchery.guidebook.brewing.brew_of_frost.name", "Brew of Frost")
         add("brewing.brew_of_frost.title.1", "Brew of Frost")
@@ -1650,5 +1650,11 @@ object WitcheryBookLangProvider {
 
         add("book.witchery.guidebook.general.fume_expansion.name", "Fume Expansion")
         add("book.witchery.guidebook.general.fume_expansion.description", "Fumecatchers")
+
+        add("book.witchery.guidebook.tarot.brew_of_oblivion.name", "Brew of Oblivion")
+        add("book.witchery.guidebook.tarot.brew_of_oblivion.description", "What cards did i draw again?")
+        add("tarot.brew_of_oblivion.title.1", "Brew of Oblivion")
+        add("tarot.brew_of_oblivion.page.1", "Makes you forget which cards you drew.")
+
     }
 }

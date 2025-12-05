@@ -26,7 +26,7 @@ class WitcheryTarotCategoryProvider(
             "______________v_w_b_______________",
             "____________u_______c_____________",
             "___________t_________d____________",
-            "__________s___________e___________",
+            "__________s______1____e___________",
             "_________r_____________f__________",
             "________________a_________________",
             "_________q_____________g__________",
@@ -52,7 +52,10 @@ class WitcheryTarotCategoryProvider(
             .withCondition(advancement(Witchery.id("tarot")))
         addEntry(tarotReading)
 
-        // Major Arcana
+        val oblivion = EntryProviders.singleItem(this, "brew_of_oblivion", WitcheryItems.BREW_OF_OBLIVION.get()).generate("1")
+            .requiresAndFollows(tarotReading)
+        addEntry(oblivion)
+
         val theFool = EntryProviders.tarot(this, "the_fool").generate("b")
             .requiresAndFollows(tarotReading)
         addEntry(theFool)
