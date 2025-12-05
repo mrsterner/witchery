@@ -2,13 +2,16 @@ package dev.sterner.witchery.features.curse
 
 import dev.sterner.witchery.core.api.Curse
 import dev.sterner.witchery.core.api.WitcheryApi
+import dev.sterner.witchery.network.SpawnPortalParticlesS2CPayload
 import net.minecraft.ChatFormatting
-import net.minecraft.core.particles.ParticleTypes
+import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.chat.Component
+import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.effect.MobEffectInstance
 import net.minecraft.world.effect.MobEffects
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.Level
+import net.neoforged.neoforge.network.PacketDistributor
 
 class CurseOfBefuddlement : Curse() {
 
@@ -41,16 +44,15 @@ class CurseOfBefuddlement : Curse() {
             }
         }
 
-        if (level.isClientSide && level.random.nextFloat() < 0.05f * effectivenessMultiplier) {
-            level.addParticle(
-                ParticleTypes.PORTAL,
-                player.x + (level.random.nextFloat() - 0.5) * 0.5,
-                player.y + level.random.nextFloat() * player.bbHeight,
-                player.z + (level.random.nextFloat() - 0.5) * 0.5,
-                (level.random.nextFloat() - 0.5) * 0.1,
-                0.0,
-                (level.random.nextFloat() - 0.5) * 0.1
-            )
+        if (level.random.nextFloat() < 0.05f * effectivenessMultiplier) {
+            if (player.level() is ServerLevel) {
+                PacketDistributor.sendToPlayersTrackingEntityAndSelf(
+                    player, SpawnPortalParticlesS2CPayload(
+                        CompoundTag().apply {
+                            putUUID("Id", player.uuid)
+                        }
+                    ))
+            }
         }
     }
 

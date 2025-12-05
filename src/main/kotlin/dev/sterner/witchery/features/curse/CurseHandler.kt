@@ -3,11 +3,19 @@ package dev.sterner.witchery.features.curse
 import dev.sterner.witchery.core.api.Curse
 import dev.sterner.witchery.core.api.event.CurseEvent
 import dev.sterner.witchery.core.registry.WitcheryCurseRegistry
+import dev.sterner.witchery.core.registry.WitcheryPoppetRegistry
 import dev.sterner.witchery.features.hunter.HunterArmorDefenseHandler
+import dev.sterner.witchery.features.poppet.PoppetHandler
+import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.resources.ResourceLocation
+import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
+import net.minecraft.sounds.SoundEvents
+import net.minecraft.sounds.SoundSource
 import net.minecraft.world.damagesource.DamageSource
 import net.minecraft.world.entity.Entity
+import net.minecraft.world.entity.EntityType
+import net.minecraft.world.entity.LightningBolt
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.Level
@@ -16,15 +24,6 @@ import net.neoforged.neoforge.common.NeoForge
 
 object CurseHandler {
 
-    /**
-     * Tries to add a curse to a player. Triggers the on curse event if succeeded. Replaces the same curse.
-     * @param player The target to be cursed
-     * @param sourcePlayer The player who is cursing the other player (can be null)
-     * @param curse The identifier of the curse to apply
-     * @param catBoosted Whether the curse is boosted by cat magic
-     * @param duration Duration of the curse in ticks (default 24000, which is 20 minutes in real time)
-     * @return Boolean indicating if the curse was successfully applied
-     */
     fun addCurse(
         player: Player,
         sourcePlayer: ServerPlayer?,
@@ -37,6 +36,50 @@ object CurseHandler {
         NeoForge.EVENT_BUS.post(result)
         if (result.isCanceled) {
             return false
+        }
+
+        val voodooProtectionPoppet = WitcheryPoppetRegistry.VOODOO_PROTECTION.get()
+        val (foundPoppet, _) = PoppetHandler.findPoppet(player, voodooProtectionPoppet)
+
+        if (foundPoppet != null) {
+            val protected = PoppetHandler.activatePoppet(player, voodooProtectionPoppet, null)
+
+            if (protected) {
+                if (sourcePlayer != null && player.level() is ServerLevel) {
+                    val serverLevel = player.level() as ServerLevel
+
+                    val lightning = LightningBolt(EntityType.LIGHTNING_BOLT, serverLevel)
+                    lightning.moveTo(sourcePlayer.x, sourcePlayer.y, sourcePlayer.z)
+                    lightning.setCause(player as? ServerPlayer)
+                    serverLevel.addFreshEntity(lightning)
+
+                    serverLevel.playSound(
+                        null,
+                        sourcePlayer.x, sourcePlayer.y, sourcePlayer.z,
+                        SoundEvents.LIGHTNING_BOLT_THUNDER,
+                        SoundSource.WEATHER,
+                        1.0f,
+                        1.0f
+                    )
+                }
+
+                if (player.level() is ServerLevel) {
+                    val serverLevel = player.level() as ServerLevel
+                    serverLevel.sendParticles(
+                        ParticleTypes.ENCHANTED_HIT,
+                        player.x,
+                        player.y + player.bbHeight * 0.5,
+                        player.z,
+                        20,
+                        0.5,
+                        0.5,
+                        0.5,
+                        0.1
+                    )
+                }
+
+                return false
+            }
         }
 
         val adjustedDuration = HunterArmorDefenseHandler.reduceCurseDuration(player, duration)
@@ -71,13 +114,6 @@ object CurseHandler {
         return true
     }
 
-
-    /**
-     * Removes a curse from the player while also triggering the onRemoved effect of the curse.
-     * @param player The player to remove the curse from
-     * @param curse The curse to remove
-     * @return Boolean indicating if the curse was found and removed
-     */
     fun removeCurse(player: Player, curse: Curse): Boolean {
         val data = CursePlayerAttachment.getData(player).playerCurseList.toMutableList()
         val curseId = WitcheryCurseRegistry.CURSES_REGISTRY.getKey(curse)
@@ -91,11 +127,6 @@ object CurseHandler {
         return true
     }
 
-    /**
-     * Removes all curses from a player.
-     * @param player The player to remove curses from
-     * @return The number of curses removed
-     */
     fun removeAllCurses(player: Player): Int {
         val data = CursePlayerAttachment.getData(player).playerCurseList
         if (data.isEmpty()) return 0
@@ -116,31 +147,16 @@ object CurseHandler {
         return count
     }
 
-    /**
-     * Checks if a player has a specific curse.
-     * @param player The player to check
-     * @param curse The curse to check for
-     * @return Boolean indicating if the player has the curse
-     */
     fun hasCurse(player: Player, curse: Curse): Boolean {
         val curseId = WitcheryCurseRegistry.CURSES_REGISTRY.getKey(curse)
         return CursePlayerAttachment.getData(player).playerCurseList.any { it.curseId == curseId }
     }
 
-    /**
-     * Gets the remaining duration of a curse on a player.
-     * @param player The player to check
-     * @param curse The curse to check
-     * @return The remaining duration in ticks, or -1 if the player doesn't have the curse
-     */
     fun getCurseDuration(player: Player, curse: Curse): Int {
         val curseId = WitcheryCurseRegistry.CURSES_REGISTRY.getKey(curse)
         return CursePlayerAttachment.getData(player).playerCurseList.find { it.curseId == curseId }?.duration ?: -1
     }
 
-    /**
-     * Tick the curse effect and the duration of the curse. Runs the onRemoved effect when duration reaches 0.
-     */
     fun tickCurse(player: Player?) {
         if (player == null) {
             return
@@ -188,9 +204,6 @@ object CurseHandler {
         }
     }
 
-    /**
-     * Triggers the curses onHurt effect when the player is damaged.
-     */
     fun onHurt(
         livingEntity: LivingEntity?,
         damageSource: DamageSource?,
@@ -212,9 +225,6 @@ object CurseHandler {
         }
     }
 
-    /**
-     * Triggers the onBreak effect from cursed players who breaks blocks
-     */
     fun breakBlock(
         level: Level?,
         blockState: BlockState,
@@ -237,9 +247,6 @@ object CurseHandler {
         return
     }
 
-    /**
-     * Triggers the placeBlock effect of the curse when a player places a block.
-     */
     fun placeBlock(
         level: Level?,
         blockState: BlockState?,
@@ -260,9 +267,6 @@ object CurseHandler {
         }
     }
 
-    /**
-     * Triggers the curses attackEntity when a player attacks another entity.
-     */
     fun attackEntity(
         player: Player?,
         level: Level?,
@@ -283,14 +287,7 @@ object CurseHandler {
         }
     }
 
-    /**
-     * Gets the list of active curses on a player.
-     * @param player The player to check
-     * @return List of resource locations identifying the curses
-     */
     fun getActiveCurses(player: Player): List<ResourceLocation> {
         return CursePlayerAttachment.getData(player).playerCurseList.map { it.curseId }
     }
-
-
 }

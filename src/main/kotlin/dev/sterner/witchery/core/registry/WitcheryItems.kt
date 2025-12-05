@@ -411,7 +411,7 @@ object WitcheryItems {
     }
 
     val VOODOO_PROTECTION_POPPET = register("voodoo_protection_poppet") {
-        PoppetItem(Item.Properties().durability(1))
+        PoppetItem(Item.Properties().durability(2))
     }
 
     //end POPPETS

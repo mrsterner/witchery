@@ -115,7 +115,6 @@ object PoppetHandler {
                 val foundPoppet = findAndHurtPoppet(
                     owner,
                     poppetType,
-                    source,
                     damagePoppet = damageAmount
                 )
 
@@ -145,7 +144,6 @@ object PoppetHandler {
         val foundPoppet = findAndHurtPoppet(
             owner,
             poppetType,
-            source,
             damagePoppet = damageAmount
         )
 
@@ -174,7 +172,6 @@ object PoppetHandler {
     private fun findAndHurtPoppet(
         owner: LivingEntity,
         poppetType: PoppetType,
-        source: DamageSource?,
         damagePoppet: Int = 0
     ): ItemStack? {
 
@@ -182,28 +179,31 @@ object PoppetHandler {
             val (accessoryFound, accessoryItem, slot) =
                 AccessoryHandler.checkPoppet(owner, poppetType.item)
 
+
             if (accessoryFound && accessoryItem != null && slot != null &&
                 isPoppetBoundToLiving(accessoryItem, owner)
             ) {
-                if (damagePoppet > 0 && owner.level() is ServerLevel) {
-                    val level = owner.level() as ServerLevel
 
-                    accessoryItem.hurtAndBreak(damagePoppet, level, owner) {
+                if (damagePoppet > 0 && owner.level() is ServerLevel) {
+
+                    accessoryItem.damageValue = accessoryItem.maxDamage.coerceAtMost(accessoryItem.damageValue + damagePoppet)
+                    if (accessoryItem.damageValue >= accessoryItem.maxDamage) {
                         AccessoryHandler.removeAccessory(owner, poppetType.item)
                     }
                 }
 
                 return accessoryItem
             }
-        }
 
-        if (owner is Player) {
             for (hand in InteractionHand.entries) {
                 val handItem = owner.getItemInHand(hand)
 
                 if (handItem.`is`(poppetType.item) && isPoppetBoundToLiving(handItem, owner)) {
+
                     if (damagePoppet > 0 && owner.level() is ServerLevel) {
-                        handItem.hurtAndBreak(damagePoppet, owner.level() as ServerLevel, owner) {
+
+                        handItem.damageValue = handItem.maxDamage.coerceAtMost(handItem.damageValue + damagePoppet)
+                        if (handItem.damageValue >= handItem.maxDamage) {
                             owner.setItemInHand(hand, ItemStack.EMPTY)
                         }
                     }
@@ -215,8 +215,10 @@ object PoppetHandler {
                 val invItem = owner.inventory.getItem(i)
 
                 if (invItem.`is`(poppetType.item) && isPoppetBoundToLiving(invItem, owner)) {
+
                     if (damagePoppet > 0 && owner.level() is ServerLevel) {
-                        invItem.hurtAndBreak(damagePoppet, owner.level() as ServerLevel, owner) {
+                        invItem.damageValue = invItem.maxDamage.coerceAtMost(invItem.damageValue + damagePoppet)
+                        if (invItem.damageValue >= invItem.maxDamage) {
                             owner.inventory.setItem(i, ItemStack.EMPTY)
                         }
                     }

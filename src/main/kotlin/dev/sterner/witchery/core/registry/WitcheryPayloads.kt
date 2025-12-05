@@ -84,6 +84,12 @@ object WitcheryPayloads {
         ) { payload, _ ->
             payload.handleOnClient()
         }
+        registrar.playToClient(
+            SpawnPortalParticlesS2CPayload.ID,
+            SpawnPortalParticlesS2CPayload.STREAM_CODEC
+        ) { payload, _ ->
+            payload.handleOnClient()
+        }
         registrar.playToClient(SyncVoodooDataS2CPayload.ID, SyncVoodooDataS2CPayload.STREAM_CODEC) { payload, _ ->
             payload.handleOnClient()
         }
