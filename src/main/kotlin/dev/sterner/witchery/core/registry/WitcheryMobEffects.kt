@@ -6,6 +6,7 @@ import dev.sterner.witchery.content.mob_effect.BaneOfArthropodsWeaponMobEffect
 import dev.sterner.witchery.content.mob_effect.DiseaseMobEffect
 import dev.sterner.witchery.content.mob_effect.EmptyMobEffect
 import dev.sterner.witchery.content.mob_effect.FortuneToolMobEffect
+import dev.sterner.witchery.content.mob_effect.LycanthropyMobEffect
 import dev.sterner.witchery.content.mob_effect.PoisonWeaponMobEffect
 import dev.sterner.witchery.content.mob_effect.ReflectArrowsMobEffect
 import dev.sterner.witchery.content.mob_effect.ResizeMobEffect
@@ -87,6 +88,11 @@ object WitcheryMobEffects {
     val BEAR_TRAP_INCAPACITATED =
         register("bear_trap_incapacitated") {
             EmptyMobEffect(MobEffectCategory.NEUTRAL, Color(255, 100, 100).rgb)
+        }
+
+    val LYCANTHROPY =
+        register("lycanthropy") {
+            LycanthropyMobEffect(MobEffectCategory.HARMFUL, Color(255, 100, 100).rgb)
         }
 
     private fun register(name: String, effectSupplier: () -> MobEffect): DeferredHolder<MobEffect, MobEffect> {

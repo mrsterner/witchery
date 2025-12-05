@@ -15,6 +15,11 @@ public class WitcheryConfig {
             .comment("Require Ghost of the Light infusion to use mirror teleportation. When enabled, only players with this infusion can teleport through mirrors.")
             .define("requireGhostOfLightInfusion", false);
 
+    public static final ModConfigSpec.BooleanValue ENABLE_LYCANTHROPY_SPREAD = BUILDER
+            .comment("Enable player werewolves to spread lycanthropy at level 10.")
+            .define("enableLycanthropy", true);
+
+
     /*
     public static final ModConfigSpec.BooleanValue LOG_DIRT_BLOCK = BUILDER
             .comment("Whether to log the dirt block on common setup")

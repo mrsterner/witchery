@@ -27,6 +27,7 @@ import dev.sterner.witchery.features.affliction.event.TransformationHandler
 import dev.sterner.witchery.features.affliction.lich.LichdomSpecificEventHandler
 import dev.sterner.witchery.features.affliction.vampire.VampireChildrenHuntHandler
 import dev.sterner.witchery.features.affliction.vampire.VampireSpecificEventHandler
+import dev.sterner.witchery.features.affliction.werewolf.WerewolfLeveling
 import dev.sterner.witchery.features.affliction.werewolf.WerewolfSpecificEventHandler
 import dev.sterner.witchery.features.bark_belt.BarkBeltHandler
 import dev.sterner.witchery.features.blood.BloodPoolHandler
@@ -63,6 +64,7 @@ import net.minecraft.server.level.ServerPlayer
 import net.minecraft.tags.ItemTags
 import net.minecraft.world.damagesource.DamageTypes
 import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.entity.animal.Wolf
 import net.minecraft.world.entity.monster.EnderMan
 import net.minecraft.world.entity.npc.VillagerTrades
 import net.minecraft.world.entity.player.Player
@@ -76,7 +78,6 @@ import net.neoforged.neoforge.event.LootTableLoadEvent
 import net.neoforged.neoforge.event.RegisterCommandsEvent
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent
 import net.neoforged.neoforge.event.entity.EntityStruckByLightningEvent
-import net.neoforged.neoforge.event.entity.EntityTeleportEvent
 import net.neoforged.neoforge.event.entity.living.*
 import net.neoforged.neoforge.event.entity.player.*
 import net.neoforged.neoforge.event.level.BlockEvent
@@ -190,6 +191,19 @@ object WitcheryNeoForgeEvents {
                 player.health = player.maxHealth
                 LichdomSpecificEventHandler.justSoulForm(player)
                 event.isCanceled = true
+            }
+        }
+    }
+
+    @SubscribeEvent
+    fun tame(event: AnimalTameEvent){
+        val entity = event.tamer
+        if (entity is ServerPlayer && event.animal is Wolf) {
+
+            val data = AfflictionPlayerAttachment.getData(entity)
+            if (data.getWerewolfLevel() == 7) {
+
+                WerewolfLeveling.tameWolf(player = entity)
             }
         }
     }

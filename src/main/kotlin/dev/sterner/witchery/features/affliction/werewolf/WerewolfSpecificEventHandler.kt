@@ -18,6 +18,7 @@ import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.animal.Sheep
 import net.minecraft.world.entity.animal.Wolf
 import net.minecraft.world.entity.monster.piglin.Piglin
+import net.minecraft.world.entity.npc.Villager
 import net.minecraft.world.entity.player.Player
 
 object WerewolfSpecificEventHandler {
@@ -34,6 +35,8 @@ object WerewolfSpecificEventHandler {
             is Sheep -> WerewolfLeveling.increaseKilledSheep(player)
             is Wolf -> WerewolfLeveling.increaseKilledWolf(player)
             is HornedHuntsmanEntity -> WerewolfLeveling.setHasKilledHuntsman(player)
+            is Villager -> WerewolfLeveling.killedFriend(player)
+            is Player -> WerewolfLeveling.killedFriend(player)
         }
 
         if (wereLevel >= 4) {
@@ -56,13 +59,15 @@ object WerewolfSpecificEventHandler {
             }
         }
 
-        val bl3 =
-            player.fallDistance > 0.0f && !player.onGround() && !player.onClimbable() && !player.isInWater && !player.isPassenger
+        val bl3 = player.fallDistance > 0.0f && !player.onGround() && !player.onClimbable() && !player.isInWater && !player.isPassenger
 
-        if (wereLevel >= 6 && bl3) {
-            AfflictionPlayerAttachment.smartUpdate(player) {
+        if (wereLevel == 5 && bl3) {
+
+            val newData = AfflictionPlayerAttachment.smartUpdate(player) {
                 incrementAirSlayMonster()
             }
+
+            WerewolfLeveling.checkAndLevelUp(player, newData)
         }
     }
 

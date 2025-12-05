@@ -1,12 +1,15 @@
 package dev.sterner.witchery.features.affliction.werewolf
 
+import dev.sterner.witchery.WitcheryConfig
 import dev.sterner.witchery.features.affliction.ability.AfflictionAbility
 import dev.sterner.witchery.features.affliction.AfflictionTypes
 import dev.sterner.witchery.features.affliction.event.TransformationHandler
 import dev.sterner.witchery.features.affliction.ability.AbilityCooldownManager
 import dev.sterner.witchery.mixin_logic.SummonedWolf
 import dev.sterner.witchery.core.registry.WitcheryItems
+import dev.sterner.witchery.core.registry.WitcheryMobEffects
 import dev.sterner.witchery.core.util.WitcheryUtil
+import dev.sterner.witchery.features.affliction.AfflictionPlayerAttachment
 import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
@@ -17,7 +20,9 @@ import net.minecraft.world.effect.MobEffects
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.entity.Mob
 import net.minecraft.world.entity.player.Player
+import net.minecraft.world.level.ChunkPos
 import kotlin.math.cos
 import kotlin.math.sin
 
@@ -67,6 +72,12 @@ enum class WerewolfAbility(
                 player.heal(1.0f)
 
                 target.addEffect(MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 40, 1))
+
+                if (AfflictionPlayerAttachment.getData(player).getWerewolfLevel() >= 10) {
+                    if (target is Player && WitcheryConfig.ENABLE_LYCANTHROPY_SPREAD.get()) {
+                        target.addEffect(MobEffectInstance(WitcheryMobEffects.LYCANTHROPY, 20 * 60, 0))
+                    }
+                }
 
                 player.level().playSound(
                     null,
@@ -257,6 +268,70 @@ enum class WerewolfAbility(
             }
 
             return true
+        }
+    },
+    NIGHT_HOWL(6, 20 * 5){
+        override val id: String
+            get() = "night_howl"
+
+        override fun use(player: Player): Boolean {
+            if (player !is ServerPlayer) return false
+
+            AbilityCooldownManager.startCooldown(player, this)
+
+            val pos = ChunkPos(player.blockPosition())
+            if (player.level().isNight && AfflictionPlayerAttachment.getData(player).getWerewolfLevel() == 6) {
+                val newData = AfflictionPlayerAttachment.smartUpdate(player) {
+                    addNightHowl(pos.toLong())
+                }
+                WerewolfLeveling.checkAndLevelUp(player, newData)
+            }
+
+            player.level().playSound(
+                null,
+                player.blockPosition(),
+                SoundEvents.WOLF_HOWL,
+                SoundSource.PLAYERS,
+                1.0f,
+                0.8f
+            )
+
+            val radius = 16.0
+            val nearbyMobs = player.level().getEntitiesOfClass(
+                LivingEntity::class.java,
+                player.boundingBox.inflate(radius)
+            ) { entity ->
+                entity != player && entity.isAlive
+            }
+
+            nearbyMobs.forEach { mob ->
+
+                mob.addEffect(
+                    MobEffectInstance(
+                        MobEffects.MOVEMENT_SLOWDOWN,
+                        60,
+                        4,
+                        false,
+                        false
+                    )
+                )
+
+                mob.addEffect(
+                    MobEffectInstance(
+                        MobEffects.DIG_SLOWDOWN,
+                        60,
+                        4,
+                        false,
+                        false
+                    )
+                )
+
+                if (mob is Mob) {
+                    mob.target = null
+                }
+            }
+
+            return super.use(player)
         }
     };
 

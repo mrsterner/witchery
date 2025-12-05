@@ -272,7 +272,7 @@ object AfflictionPlayerAttachment {
         fun getKilledWolves(): Int = wereData.killedWolves
         fun hasKilledHornedOne(): Boolean = wereData.killHornedOne
         fun getAirSlayMonster(): Int = wereData.airSlayMonster
-        fun getNightHowl(): Int = wereData.nightHowl
+        fun getNightHowl(): MutableSet<Long> = wereData.nightHowl
         fun getWolfPack(): Int = wereData.wolfPack
         fun getPigmenKilled(): Int = wereData.pigmenKilled
         fun hasSpreadLycanthropy(): Boolean = wereData.spreadLycanthropy
@@ -285,7 +285,8 @@ object AfflictionPlayerAttachment {
         fun withKilledWolves(kills: Int): Data = copy(wereData = wereData.copy(killedWolves = kills))
         fun withKilledHornedOne(killed: Boolean): Data = copy(wereData = wereData.copy(killHornedOne = killed))
         fun withAirSlayMonster(count: Int): Data = copy(wereData = wereData.copy(airSlayMonster = count))
-        fun withNightHowl(count: Int): Data = copy(wereData = wereData.copy(nightHowl = count))
+        fun withNightHowl(newSet: Set<Long>): Data =
+            copy(wereData = wereData.copy(nightHowl = newSet.toMutableSet()))
         fun withWolfPack(count: Int): Data = copy(wereData = wereData.copy(wolfPack = count))
         fun withPigmenKilled(kills: Int): Data = copy(wereData = wereData.copy(pigmenKilled = kills))
         fun withSpreadLycanthropy(spread: Boolean): Data = copy(wereData = wereData.copy(spreadLycanthropy = spread))
@@ -308,8 +309,14 @@ object AfflictionPlayerAttachment {
         fun incrementAirSlayMonster(by: Int = 1): Data =
             copy(wereData = wereData.copy(airSlayMonster = wereData.airSlayMonster + by))
 
-        fun incrementNightHowl(by: Int = 1): Data =
-            copy(wereData = wereData.copy(nightHowl = wereData.nightHowl + by))
+        fun addNightHowl(chunkPosLong: Long): Data =
+            copy(
+                wereData = wereData.copy(
+                    nightHowl = wereData.nightHowl.toMutableSet().apply {
+                        add(chunkPosLong)
+                    }
+                )
+            )
 
         fun incrementWolfPack(by: Int = 1): Data =
             copy(wereData = wereData.copy(wolfPack = wereData.wolfPack + by))
@@ -501,7 +508,7 @@ object AfflictionPlayerAttachment {
         val killedWolves: Int = 0,
         val killHornedOne: Boolean = false,
         val airSlayMonster: Int = 0,
-        val nightHowl: Int = 0,
+        val nightHowl: MutableSet<Long> = mutableSetOf(),
         val wolfPack: Int = 0,
         val pigmenKilled: Int = 0,
         val spreadLycanthropy: Boolean = false,
@@ -519,7 +526,10 @@ object AfflictionPlayerAttachment {
                     Codec.INT.fieldOf("killedWolves").forGetter { it.killedWolves },
                     Codec.BOOL.fieldOf("killHornedOne").forGetter { it.killHornedOne },
                     Codec.INT.fieldOf("airSlayMonster").forGetter { it.airSlayMonster },
-                    Codec.INT.fieldOf("nightHowl").forGetter { it.nightHowl },
+                    Codec.LONG.listOf()
+                        .xmap({ it.toMutableSet() }, { it.toList() })
+                        .fieldOf("nightHowl")
+                        .forGetter { it.nightHowl },
                     Codec.INT.fieldOf("wolfPack").forGetter { it.wolfPack },
                     Codec.INT.fieldOf("pigmenKilled").forGetter { it.pigmenKilled },
                     Codec.BOOL.fieldOf("spreadLycanthropy").forGetter { it.spreadLycanthropy },

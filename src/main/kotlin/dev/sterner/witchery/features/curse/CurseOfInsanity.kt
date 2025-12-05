@@ -1,9 +1,12 @@
 package dev.sterner.witchery.features.curse
 
+import dev.sterner.witchery.content.entity.InsanityEntity.Companion.DATA_MIMIC
+import dev.sterner.witchery.content.entity.InsanityEntity.InsanityMobType
 import dev.sterner.witchery.core.api.Curse
 import dev.sterner.witchery.core.api.WitcheryApi
 import dev.sterner.witchery.core.registry.WitcheryEntityTypes
 import dev.sterner.witchery.features.coven.CovenHandler
+import dev.sterner.witchery.mixin.EntityAccessor
 import net.minecraft.core.BlockPos
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.sounds.SoundEvents
@@ -14,6 +17,8 @@ import net.minecraft.world.level.Level
 class CurseOfInsanity : Curse() {
 
     override fun onTickCurse(level: Level, player: Player, catBoosted: Boolean) {
+        if (level.isClientSide) return
+
         val baseInterval = if (WitcheryApi.isWitchy(player)) {
             20 * 60
         } else {
@@ -23,9 +28,22 @@ class CurseOfInsanity : Curse() {
         if (level.gameTime % (baseInterval + (level.random.nextDouble() * 30).toInt()) == 0L) {
             val pos = findLocationForInsanityMob(player.blockPosition(), level)
             if (pos != null) {
+
                 val insanityEntity = WitcheryEntityTypes.INSANITY.get().create(level)
                 insanityEntity?.moveTo(pos.x.toDouble(), pos.y.toDouble(), pos.z.toDouble())
-                insanityEntity?.let { level.addFreshEntity(it) }
+
+                val mimicType: InsanityMobType = InsanityMobType.entries.toTypedArray().random()
+
+                insanityEntity?.entityData?.set(DATA_MIMIC, mimicType.name.lowercase())
+
+                if (mimicType == InsanityMobType.ENDERMAN) {
+                    val accessor: EntityAccessor = insanityEntity as EntityAccessor
+                    accessor.`witchery$setEyeHeight`(2.55f)
+                    insanityEntity.playSound(SoundEvents.ENDERMAN_SCREAM, 0.7f, 1.0f)
+                    insanityEntity.hasPlayedAggroSound = true
+                }
+
+                insanityEntity?.let { (level as ServerLevel).tryAddFreshEntityWithPassengers(it) }
             }
         }
 
@@ -82,7 +100,7 @@ class CurseOfInsanity : Curse() {
 
     private fun playInsanitySounds(level: Level, player: Player) {
         if (!level.isClientSide) {
-            val soundType = level.random.nextInt(5)
+            val soundType = level.random.nextInt(6)
             val offsetX = (level.random.nextDouble() - 0.5) * 16
             val offsetZ = (level.random.nextDouble() - 0.5) * 16
             val soundPos = player.blockPosition().offset(offsetX.toInt(), 0, offsetZ.toInt())
@@ -98,13 +116,14 @@ class CurseOfInsanity : Curse() {
                     }
                 }
                 3 -> {
-                    if (player.blockPosition().y < 0) {
+                    if (player.blockPosition().y <= 0) {
                         SoundEvents.WARDEN_ROAR
                     } else {
                         SoundEvents.ENDERMAN_SCREAM
                     }
                 }
-                else -> SoundEvents.AMBIENT_CAVE.value()
+                4 -> SoundEvents.AMBIENT_CAVE.value()
+                else -> SoundEvents.ENDERMAN_STARE
             }
 
             level.playSound(

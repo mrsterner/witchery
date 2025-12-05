@@ -176,7 +176,7 @@ object SyncFieldRegistry {
 
         FieldDefinition(
             "wereData.nightHowl",
-            Codec.INT,
+            Codec.LONG.listOf().xmap({ it.toMutableSet() }, { it.toList() }),
             { it.wereData.nightHowl },
             { data, value -> data.withNightHowl(value) }
         ),

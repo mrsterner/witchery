@@ -128,11 +128,26 @@ object WerewolfLeveling {
             return false
         }
 
-        val requiredAdvancement = LEVEL_REQUIREMENTS[targetLevel]?.advancement ?: return false
-        return WitcheryUtil.hasAdvancement(
+        val requiredAdvancement = LEVEL_REQUIREMENTS[targetLevel]?.advancement
+        if (requiredAdvancement == null) {
+            return false
+        }
+        val has = WitcheryUtil.hasAdvancement(
             player,
             requiredAdvancement
         )
+        return has
+    }
+
+    fun tameWolf(player: ServerPlayer){
+        if (!canPerformQuest(player, 7)) {
+            return
+        }
+        val newData = AfflictionPlayerAttachment.smartUpdate(player, sync = true) {
+            incrementWolfPack()
+        }
+
+        checkAndLevelUp(player, newData)
     }
 
     //To go from Level 8 -> 9
@@ -159,6 +174,14 @@ object WerewolfLeveling {
         }
 
         checkAndLevelUp(player, newData)
+    }
+
+    fun killedFriend(player: ServerPlayer) {
+        if (!canPerformQuest(player, 9)) {
+            return
+        }
+
+        increaseWerewolfLevel(player)
     }
 
     //To go from Level 3 -> 4
@@ -222,7 +245,7 @@ object WerewolfLeveling {
     /**
      * Check if requirements are met and level up if so
      */
-    private fun checkAndLevelUp(player: ServerPlayer, data: AfflictionPlayerAttachment.Data) {
+    fun checkAndLevelUp(player: ServerPlayer, data: AfflictionPlayerAttachment.Data) {
         val currentLevel = data.getWerewolfLevel()
         val nextLevel = currentLevel + 1
 
@@ -311,7 +334,7 @@ object WerewolfLeveling {
                 (requirement.offeredTongues?.let { data.hasOfferedTongue() == it } ?: true) &&
                 (requirement.killHornedOne?.let { data.hasKilledHornedOne() == it } ?: true) &&
                 (requirement.airSlayMonster?.let { data.getAirSlayMonster() == it } ?: true) &&
-                (requirement.nightHowl?.let { data.getNightHowl() == it } ?: true) &&
+                (requirement.nightHowl?.let { data.getNightHowl().size >= it } ?: true) &&
                 (requirement.wolfPack?.let { data.getWolfPack() == it } ?: true) &&
                 (requirement.pigmenKilled?.let { data.getPigmenKilled() == it } ?: true) &&
                 (requirement.spreadLycanthropy?.let { data.hasSpreadLycanthropy() == it } ?: true)

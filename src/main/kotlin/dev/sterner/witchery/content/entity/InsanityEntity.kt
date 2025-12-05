@@ -1,7 +1,6 @@
 package dev.sterner.witchery.content.entity
 
 import dev.sterner.witchery.core.registry.WitcheryEntityTypes
-import dev.sterner.witchery.mixin.EntityAccessor
 import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.syncher.EntityDataAccessor
@@ -9,7 +8,6 @@ import net.minecraft.network.syncher.EntityDataSerializers
 import net.minecraft.network.syncher.SynchedEntityData
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.util.Mth
-import net.minecraft.world.DifficultyInstance
 import net.minecraft.world.damagesource.DamageSource
 import net.minecraft.world.entity.*
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier
@@ -29,7 +27,8 @@ class InsanityEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.INSANITY.
     private var oldSwell = 0
     private var swell = 0
     private var maxSwell = 30
-    private var hasPlayedAggroSound = false
+    var hasPlayedAggroSound = false
+    private var spawnTicks = 0
 
     override fun registerGoals() {
         this.goalSelector.addGoal(1, MeleeAttackGoal(this, 1.0, false))
@@ -52,22 +51,6 @@ class InsanityEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.INSANITY.
         return Mth.lerp(partialTicks, this.oldSwell.toFloat(), this.swell.toFloat()) / (this.maxSwell - 2).toFloat()
     }
 
-    override fun finalizeSpawn(
-        level: ServerLevelAccessor,
-        difficulty: DifficultyInstance,
-        spawnType: MobSpawnType,
-        spawnGroupData: SpawnGroupData?
-    ): SpawnGroupData? {
-        val mimicType: InsanityMobType = InsanityMobType.entries[Random.nextInt(InsanityMobType.entries.size)]
-        entityData.set(DATA_MIMIC, mimicType.name.lowercase())
-        if (mimicType.name.lowercase() == "enderman") {
-            val accessor: EntityAccessor = this as EntityAccessor
-            accessor.`witchery$setEyeHeight`(2.55f)
-
-        }
-        return super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData)
-    }
-
     companion object {
         fun createAttributes(): AttributeSupplier.Builder {
             return createMobAttributes()
@@ -88,7 +71,11 @@ class InsanityEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.INSANITY.
     }
 
     override fun tick() {
+        spawnTicks++
 
+        if (spawnTicks == 2 && entityData.get(DATA_MIMIC) == InsanityMobType.ENDERMAN.name.lowercase()) {
+            entityData.set(DATA_IS_AGGRESSIVE, true)
+        }
 
         if (entityData.get(DATA_MIMIC) == InsanityMobType.ENDERMAN.name.lowercase()) {
             val hasTarget = target != null
@@ -98,7 +85,7 @@ class InsanityEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.INSANITY.
                     playSound(SoundEvents.ENDERMAN_SCREAM, 0.7f, 1.0f)
                     hasPlayedAggroSound = true
                 }
-            } else if (!hasTarget && entityData.get(DATA_IS_AGGRESSIVE)) {
+            } else if (!hasTarget && entityData.get(DATA_IS_AGGRESSIVE) && spawnTicks > 20) {
                 entityData.set(DATA_IS_AGGRESSIVE, false)
                 hasPlayedAggroSound = false
             }
@@ -120,9 +107,9 @@ class InsanityEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.INSANITY.
 
                 if (this.swell >= this.maxSwell) {
                     this.swell = this.maxSwell
-                    this.remove(RemovalReason.DISCARDED)
                     level().addParticle(ParticleTypes.EXPLOSION, this.x, this.y + 1.0, this.z, 0.0, 0.0, 0.0)
                     playSound(SoundEvents.GENERIC_EXPLODE.value(), 1.0f, 1.0f)
+                    this.remove(RemovalReason.DISCARDED)
                 }
             }
         }
@@ -130,24 +117,15 @@ class InsanityEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.INSANITY.
         if (Random.nextInt(200) == 0) {
             playMobSound()
         }
-        this.target?.let {
-            if (this.distanceToSqr(this.target!!) < 2f) {
-                hurt(level().damageSources().generic(), 1f)
-            }
-        }
 
         super.tick()
     }
 
     private fun playMobSound() {
-        if (entityData.get(DATA_MIMIC) == "zombie") {
-            this.makeSound(SoundEvents.ZOMBIE_AMBIENT)
-        }
-        if (entityData.get(DATA_MIMIC) == "skeleton") {
-            this.makeSound(SoundEvents.SKELETON_AMBIENT)
-        }
-        if (entityData.get(DATA_MIMIC) == "enderman") {
-            this.makeSound(SoundEvents.ENDERMAN_AMBIENT)
+        when (entityData.get(DATA_MIMIC)) {
+            "zombie" -> this.makeSound(SoundEvents.ZOMBIE_AMBIENT)
+            "skeleton" -> this.makeSound(SoundEvents.SKELETON_AMBIENT)
+            "enderman" -> this.makeSound(SoundEvents.ENDERMAN_AMBIENT)
         }
     }
 

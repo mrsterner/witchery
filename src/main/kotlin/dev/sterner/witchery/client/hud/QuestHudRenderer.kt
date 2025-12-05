@@ -26,8 +26,15 @@ object QuestHudRenderer {
     private val questCompletionAnimations = mutableMapOf<String, QuestAnimation>()
     private var lastCompletedQuests = setOf<String>()
     private val questStates = mutableMapOf<String, QuestState>()
+    private var hintTextTimer = 0
+
+    private var lastTrackedLevels: Triple<Int, Int, Int>? = null
+    private var levelUpDisplayTimer = 0
+    private var displayLevels: Triple<Int, Int, Int>? = null
 
     private const val ANIMATION_SPEED = 0.15f
+    private const val HINT_TEXT_DURATION = 200
+    private const val LEVEL_UP_DISPLAY_DURATION = 100
     private const val TITLE_COLOR = 0xFFD700
     private const val QUEST_COLOR = 0xE0E0E0
     private const val COMPLETE_COLOR = 0x40FF40
@@ -35,7 +42,8 @@ object QuestHudRenderer {
     data class QuestAnimation(
         var progress: Float = 0f,
         var bounceOffset: Float = 0f,
-        var alpha: Float = 1f
+        var alpha: Float = 1f,
+        var strikeProgress: Float = 0f
     )
 
     data class QuestState(
@@ -50,10 +58,12 @@ object QuestHudRenderer {
         isVisible = !isVisible
 
         if (isVisible) {
+            hintTextTimer = HINT_TEXT_DURATION
             Minecraft.getInstance().soundManager.play(
                 SimpleSoundInstance.forUI(SoundEvents.BOOK_PAGE_TURN, 1.2f)
             )
         } else {
+            hintTextTimer = 0
             Minecraft.getInstance().soundManager.play(
                 SimpleSoundInstance.forUI(SoundEvents.BOOK_PAGE_TURN, 0.8f)
             )
@@ -65,14 +75,53 @@ object QuestHudRenderer {
         val player = minecraft.player ?: return
 
         val data = AfflictionPlayerAttachment.getData(player)
-        if ((data.getWerewolfLevel() == 0 && data.getVampireLevel() == 0 && data.getLichLevel() == 0) && !isVisible) {
+        if ((data.getWerewolfLevel() == 0 && data.getVampireLevel() == 0 && data.getLichLevel() == 0)) {
             isVisible = false
         }
 
         val targetExpand = if (isVisible) 1f else 0f
         expandAnimation = Mth.lerp(ANIMATION_SPEED, expandAnimation, targetExpand)
 
-        val currentQuests = getCurrentQuestIds(player)
+        if (hintTextTimer > 0) {
+            hintTextTimer--
+        }
+
+        val currentLevels = Triple(data.getWerewolfLevel(), data.getVampireLevel(), data.getLichLevel())
+
+        if (lastTrackedLevels != null && lastTrackedLevels != currentLevels) {
+            levelUpDisplayTimer = LEVEL_UP_DISPLAY_DURATION
+            displayLevels = lastTrackedLevels
+
+            val oldQuests = getCurrentQuestIdsForLevels(player, lastTrackedLevels!!)
+            oldQuests.forEach { quest ->
+                questCompletionAnimations[quest.id] = QuestAnimation()
+            }
+            lastCompletedQuests = oldQuests.map { it.id }.toSet()
+        }
+
+        lastTrackedLevels = currentLevels
+
+        if (levelUpDisplayTimer > 0) {
+            levelUpDisplayTimer--
+
+            questCompletionAnimations.entries.removeIf { (_, anim) ->
+                anim.progress += 0.05f
+                anim.bounceOffset = sin(anim.progress * Math.PI * 2).toFloat() * 3f * (1f - anim.progress)
+                anim.alpha = 1f - (anim.progress * 0.3f)
+                anim.strikeProgress = Mth.clamp(anim.progress * 2f, 0f, 1f)
+                anim.progress >= 1f
+            }
+
+            if (levelUpDisplayTimer == 0) {
+                displayLevels = null
+                lastCompletedQuests = emptySet()
+                questCompletionAnimations.clear()
+            }
+            return
+        }
+
+        val currentQuests = getCurrentQuestIdsForLevels(player, currentLevels)
+
         val newlyCompleted = currentQuests.filter { it.isComplete && !lastCompletedQuests.contains(it.id) }
 
         newlyCompleted.forEach { quest ->
@@ -85,10 +134,10 @@ object QuestHudRenderer {
             anim.progress += 0.05f
             anim.bounceOffset = sin(anim.progress * Math.PI * 2).toFloat() * 3f * (1f - anim.progress)
             anim.alpha = 1f - (anim.progress * 0.3f)
+            anim.strikeProgress = Mth.clamp(anim.progress * 2f, 0f, 1f)
             anim.progress >= 1f
         }
 
-        questStates.clear()
         currentQuests.forEach { questStates[it.id] = it }
     }
 
@@ -105,10 +154,12 @@ object QuestHudRenderer {
 
         val alpha = (expandAnimation * 255).toInt().coerceIn(0, 255)
 
+        if (alpha < 10) return
+
         val poseStack = guiGraphics.pose()
         poseStack.pushPose()
 
-        val scale = 0.25f + (expandAnimation * 0.5f)
+        val scale = 0.2f + (expandAnimation * 0.5f)
         poseStack.translate(baseX.toFloat(), baseY.toFloat(), 0f)
         poseStack.scale(scale, scale, 1f)
         poseStack.translate(-baseX.toFloat(), -baseY.toFloat(), 0f)
@@ -117,33 +168,39 @@ object QuestHudRenderer {
 
         val data = AfflictionPlayerAttachment.getData(player)
 
-        if (data.getWerewolfLevel() > 0) {
+        val levelsToRender = displayLevels ?: Triple(
+            data.getWerewolfLevel(),
+            data.getVampireLevel(),
+            data.getLichLevel()
+        )
+
+        if (levelsToRender.first > 0) {
             yOffset = renderAfflictionQuests(
                 guiGraphics, font, baseX, yOffset,
                 "Lycanthropy", AfflictionTypes.LYCANTHROPY,
-                data.getWerewolfLevel(), alpha
+                levelsToRender.first, alpha, player
             )
             yOffset += 10
         }
 
-        if (data.getVampireLevel() > 0) {
+        if (levelsToRender.second > 0) {
             yOffset = renderAfflictionQuests(
                 guiGraphics, font, baseX, yOffset,
                 "Vampirism", AfflictionTypes.VAMPIRISM,
-                data.getVampireLevel(), alpha
+                levelsToRender.second, alpha, player
             )
             yOffset += 10
         }
 
-        if (data.getLichLevel() > 0) {
+        if (levelsToRender.third > 0) {
             yOffset = renderAfflictionQuests(
                 guiGraphics, font, baseX, yOffset,
                 "Lichdom", AfflictionTypes.LICHDOM,
-                data.getLichLevel(), alpha
+                levelsToRender.third, alpha, player
             )
         }
 
-        if (expandAnimation > 0.9f) {
+        if (expandAnimation > 0.9f && hintTextTimer > 0) {
             val hintText = "Press ${WitcheryKeyMappings.TOGGLE_QUEST_HUD.key.displayName.string} to hide"
             val hintWidth = font.width(hintText) / 2
             guiGraphics.drawString(
@@ -165,7 +222,8 @@ object QuestHudRenderer {
         title: String,
         type: AfflictionTypes,
         level: Int,
-        alpha: Int
+        alpha: Int,
+        player: Player
     ): Int {
         var y = startY
 
@@ -188,14 +246,21 @@ object QuestHudRenderer {
         )
         y += 8
 
-        val quests = getQuestsForAffliction(type, level)
+        val quests = getQuestsForAffliction(type, level, player)
 
         quests.forEach { quest ->
-            val animation = questCompletionAnimations[quest.id]
+
+            val displayQuest = if (levelUpDisplayTimer > 0) {
+                quest.copy(current = quest.max, isComplete = true)
+            } else {
+                quest
+            }
+
+            val animation = questCompletionAnimations[displayQuest.id]
             val questY = y + (animation?.bounceOffset?.toInt() ?: 0)
             val questAlpha = ((animation?.alpha ?: 1f) * alpha).toInt().coerceIn(0, 255)
 
-            val bulletColor = if (quest.isComplete) COMPLETE_COLOR else QUEST_COLOR
+            val bulletColor = if (displayQuest.isComplete) COMPLETE_COLOR else QUEST_COLOR
             guiGraphics.drawString(
                 font, "•",
                 x - 50, questY,
@@ -203,8 +268,8 @@ object QuestHudRenderer {
                 false
             )
 
-            val questText = buildQuestText(quest)
-            val textColor = if (quest.isComplete) COMPLETE_COLOR else QUEST_COLOR
+            val questText = buildQuestText(displayQuest)
+            val textColor = if (displayQuest.isComplete) COMPLETE_COLOR else QUEST_COLOR
 
             guiGraphics.drawString(
                 font, questText,
@@ -213,8 +278,8 @@ object QuestHudRenderer {
                 false
             )
 
-            if (quest.isComplete) {
-                val strikeProgress = animation?.progress ?: 1f
+            if (displayQuest.isComplete) {
+                val strikeProgress = animation?.strikeProgress ?: 1f
                 val textWidth = font.width(questText)
                 val strikeWidth = (textWidth * strikeProgress).toInt()
 
@@ -239,9 +304,7 @@ object QuestHudRenderer {
         }
     }
 
-    private fun getQuestsForAffliction(type: AfflictionTypes, level: Int): List<QuestState> {
-        val minecraft = Minecraft.getInstance()
-        val player = minecraft.player ?: return emptyList()
+    private fun getQuestsForAffliction(type: AfflictionTypes, level: Int, player: Player): List<QuestState> {
         val data = AfflictionPlayerAttachment.getData(player)
 
         return when (type) {
@@ -253,7 +316,6 @@ object QuestHudRenderer {
     }
 
     private fun getWerewolfQuests(data: AfflictionPlayerAttachment.Data, level: Int): List<QuestState> {
-        val level = data.getWerewolfLevel()
         val nextLevel = level + 1
         if (nextLevel > 10) return emptyList()
 
@@ -333,10 +395,10 @@ object QuestHudRenderer {
         requirement.nightHowl?.let { max ->
             quests.add(QuestState(
                 "howl_$nextLevel",
-                "Howl at night",
-                data.getNightHowl(),
+                "Howl at night in different areas",
+                data.getNightHowl().size,
                 max,
-                data.getNightHowl() >= max
+                data.getNightHowl().size >= max
             ))
         }
 
@@ -363,7 +425,7 @@ object QuestHudRenderer {
         requirement.spreadLycanthropy?.let {
             quests.add(QuestState(
                 "spread_$nextLevel",
-                "Spread lycanthropy",
+                "Kill a Player or Villager",
                 if (data.hasSpreadLycanthropy()) 1 else 0,
                 1,
                 data.hasSpreadLycanthropy()
@@ -540,18 +602,18 @@ object QuestHudRenderer {
         return quests
     }
 
-    private fun getCurrentQuestIds(player: Player): List<QuestState> {
+    private fun getCurrentQuestIdsForLevels(player: Player, levels: Triple<Int, Int, Int>): List<QuestState> {
         val data = AfflictionPlayerAttachment.getData(player)
         val allQuests = mutableListOf<QuestState>()
 
-        if (data.getWerewolfLevel() > 0) {
-            allQuests.addAll(getWerewolfQuests(data, data.getWerewolfLevel()))
+        if (levels.first > 0) {
+            allQuests.addAll(getWerewolfQuests(data, levels.first))
         }
-        if (data.getVampireLevel() > 0) {
-            allQuests.addAll(getVampireQuests(player, data, data.getVampireLevel()))
+        if (levels.second > 0) {
+            allQuests.addAll(getVampireQuests(player, data, levels.second))
         }
-        if (data.getLichLevel() > 0) {
-            allQuests.addAll(getLichQuests(data, data.getLichLevel()))
+        if (levels.third > 0) {
+            allQuests.addAll(getLichQuests(data, levels.third))
         }
 
         return allQuests
