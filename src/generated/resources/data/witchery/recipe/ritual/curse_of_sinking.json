@@ -9,7 +9,7 @@
   "commands": [
     {
       "type": "end",
-      "command": "witchery curse apply {taglockPlayer} witchery:sinking"
+      "command": "witchery curse apply {taglockPlayer} witchery:sinking {witchPower}"
     }
   ],
   "conditions": {

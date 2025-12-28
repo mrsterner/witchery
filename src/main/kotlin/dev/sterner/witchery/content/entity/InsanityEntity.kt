@@ -114,6 +114,14 @@ class InsanityEntity(level: Level) : PathfinderMob(WitcheryEntityTypes.INSANITY.
             }
         }
 
+        if (entityData.get(DATA_MIMIC) == "zombie") {
+
+            if (Random.nextInt(120) == 0) {
+                playMobSound()
+            }
+        }
+
+
         if (Random.nextInt(200) == 0) {
             playMobSound()
         }

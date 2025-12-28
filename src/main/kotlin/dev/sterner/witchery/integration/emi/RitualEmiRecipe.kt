@@ -407,6 +407,14 @@ class RitualEmiRecipe(val recipeId: ResourceLocation, val recipe: RitualRecipe) 
                 )
             }
 
+            itemStack.`is`(WitcheryItems.BINDING_CHALK.get()) -> {
+                addChalkCircleWidget(
+                    widgets, posX, posY, size,
+                    "textures/block/chalk_${index % 15}.png", patternSize,
+                    Color(20, 55, 100).rgb
+                )
+            }
+
             itemStack.`is`(WitcheryItems.INFERNAL_CHALK.get()) -> {
                 addChalkCircleWidget(
                     widgets, posX, posY, size,

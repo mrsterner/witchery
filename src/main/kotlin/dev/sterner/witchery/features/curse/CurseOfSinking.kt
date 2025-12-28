@@ -2,6 +2,7 @@ package dev.sterner.witchery.features.curse
 
 import dev.sterner.witchery.core.api.Curse
 import dev.sterner.witchery.core.api.WitcheryApi
+import dev.sterner.witchery.core.registry.WitcheryCurseRegistry
 import net.minecraft.core.Direction
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.Level
@@ -14,9 +15,17 @@ class CurseOfSinking : Curse() {
             return
         }
 
+        val curseData = CursePlayerAttachment.getData(player).playerCurseList
+            .find { it.curseId == WitcheryCurseRegistry.CURSES_REGISTRY.getKey(this) }
+
+        val witchPower = curseData?.witchPower ?: 0
+
         val isWitch = WitcheryApi.isWitchy(player)
 
-        var sinkStrength = if (isWitch) 0.06 else 0.03
+        val baseSinkStrength = if (isWitch) 0.06 else 0.03
+
+        val witchPowerAmplifier = 1.0 + (witchPower * 0.005).coerceAtMost(0.05)
+        var sinkStrength = baseSinkStrength * witchPowerAmplifier
 
         if (level.isRainingAt(player.blockPosition())) {
             sinkStrength *= 1.3

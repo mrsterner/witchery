@@ -5,6 +5,8 @@ import dev.sterner.witchery.Witchery
 import dev.sterner.witchery.WitcheryConfig
 import dev.sterner.witchery.content.entity.FloatingItemEntity
 import dev.sterner.witchery.content.recipe.ritual.RitualRecipe
+import dev.sterner.witchery.core.api.WitcheryPowerHelper
+import dev.sterner.witchery.features.misc.MiscPlayerAttachment
 import net.minecraft.commands.CommandSourceStack
 import net.minecraft.commands.Commands
 import net.minecraft.core.BlockPos
@@ -108,6 +110,21 @@ object RitualHelper {
                     val targetPos = blockEntity.targetPos
                     val dimensionLevel = targetPos?.dimension()?.let { server?.getLevel(it) }
 
+                    val witchPower = if (blockEntity.ownerNotStored != null) {
+                        WitcheryPowerHelper.calculateWitchPower(
+                            blockEntity.ownerNotStored!!
+                        )
+                    } else {
+                        0
+                    }
+
+                    if (!commandType.isInWitchPowerRange(witchPower)) {
+                        Witchery.logDebugRitual(
+                            "Skipping command - witch power $witchPower not in range [${commandType.minWitchPower}, ${commandType.maxWitchPower})"
+                        )
+                        continue
+                    }
+
                     runCommand(
                         blockEntity,
                         dimensionLevel ?: level,
@@ -116,7 +133,8 @@ object RitualHelper {
                         targetPos?.pos,
                         commandType.command,
                         player,
-                        targetEntity
+                        targetEntity,
+                        witchPower
                     )
                 }
             }
@@ -140,7 +158,8 @@ object RitualHelper {
         waystonePos: BlockPos?,
         command: String,
         player: Player?,
-        entityId: Int?
+        entityId: Int?,
+        witchPower: Int
     ) {
         var formattedCommand = command
         if (minecraftServer != null && formattedCommand.isNotEmpty()) {
@@ -189,6 +208,7 @@ object RitualHelper {
                 formattedCommand =
                     formattedCommand.replace("{waystonePos}", "${waystonePos.x} ${waystonePos.y} ${waystonePos.z}")
             }
+            formattedCommand = formattedCommand.replace("{witchPower}", witchPower.toString())
             formattedCommand = formattedCommand.replace("{time}", "${level.dayTime}")
             formattedCommand = formattedCommand.replace("{owner}", "${blockEntity.ownerName}")
             formattedCommand = formattedCommand.replace("{chalkPos}", "${blockPos.x} ${blockPos.y} ${blockPos.z}")

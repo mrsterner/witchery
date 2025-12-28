@@ -2,6 +2,7 @@ package dev.sterner.witchery.features.curse
 
 import dev.sterner.witchery.core.api.Curse
 import dev.sterner.witchery.core.api.WitcheryApi
+import dev.sterner.witchery.core.registry.WitcheryCurseRegistry
 import dev.sterner.witchery.network.SpawnPortalParticlesS2CPayload
 import net.minecraft.ChatFormatting
 import net.minecraft.nbt.CompoundTag
@@ -20,7 +21,14 @@ class CurseOfBefuddlement : Curse() {
 
         if(level.isClientSide) return
 
+        val curseData = CursePlayerAttachment.getData(player).playerCurseList
+            .find { it.curseId == WitcheryCurseRegistry.CURSES_REGISTRY.getKey(this) }
+
+        val witchPower = curseData?.witchPower ?: 0
+
         val effectivenessMultiplier = getEffectivenessMultiplier(player)
+        val witchPowerAmplifier = 1.0f + (witchPower * 0.01f).coerceAtMost(0.1f)
+        val totalMultiplier = effectivenessMultiplier * witchPowerAmplifier
 
         val baseInterval = if (WitcheryApi.isWitchy(player)) {
             240L
@@ -29,22 +37,22 @@ class CurseOfBefuddlement : Curse() {
         }
 
         if (level.gameTime % baseInterval == 0L) {
-            val nauseaChance = 0.18f * effectivenessMultiplier
-            val confusionDuration = (20 * 14 * effectivenessMultiplier).toInt()
+            val nauseaChance = 0.18f * totalMultiplier
+            val confusionDuration = (20 * 14 * totalMultiplier).toInt()
 
             if (level.random.nextFloat() < nauseaChance) {
                 player.addEffect(MobEffectInstance(MobEffects.CONFUSION, confusionDuration, 0))
             }
 
             val miningFatigueChance = nauseaChance * 0.35f
-            val miningFatigueDuration = (20 * (14 + 8) * effectivenessMultiplier).toInt()
+            val miningFatigueDuration = (20 * (14 + 8) * totalMultiplier).toInt()
 
             if (level.random.nextFloat() < miningFatigueChance) {
                 player.addEffect(MobEffectInstance(MobEffects.DIG_SLOWDOWN, miningFatigueDuration, 0))
             }
         }
 
-        if (level.random.nextFloat() < 0.05f * effectivenessMultiplier) {
+        if (level.random.nextFloat() < 0.05f * totalMultiplier) {
             if (player.level() is ServerLevel) {
                 PacketDistributor.sendToPlayersTrackingEntityAndSelf(
                     player, SpawnPortalParticlesS2CPayload(

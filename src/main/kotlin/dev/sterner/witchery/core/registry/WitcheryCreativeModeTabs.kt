@@ -138,6 +138,7 @@ object WitcheryCreativeModeTabs {
                     output.accept(WitcheryItems.GOLDEN_CHALK.get())
                     output.accept(WitcheryItems.INFERNAL_CHALK.get())
                     output.accept(WitcheryItems.OTHERWHERE_CHALK.get())
+                    output.accept(WitcheryItems.BINDING_CHALK.get())
                     output.accept(WitcheryItems.APPLE_OF_SLEEPING.get())
                     output.accept(WitcheryItems.GOLDEN_THREAD.get())
                     output.accept(WitcheryItems.IMPREGNATED_FABRIC.get())

@@ -509,6 +509,10 @@ object WitcheryItems {
     val OTHERWHERE_CHALK = register("otherwhere_chalk") {
         ChalkItem(WitcheryBlocks.OTHERWHERE_CHALK_BLOCK.get(), Item.Properties())
     }
+
+    val BINDING_CHALK = register("binding_chalk") {
+        ChalkItem(WitcheryBlocks.BINDING_CHALK_BLOCK.get(), Item.Properties())
+    }
     //end CHALK
 
     val GUIDEBOOK = register("guidebook") {

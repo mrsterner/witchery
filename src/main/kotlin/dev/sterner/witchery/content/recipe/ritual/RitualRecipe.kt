@@ -91,14 +91,8 @@ class RitualRecipe(
         }
 
         companion object {
-            private val COMMAND_TYPE_CODEC: Codec<CommandType> = RecordCodecBuilder.create { instance ->
-                instance.group(
-                    Codec.STRING.fieldOf("command").forGetter(CommandType::command),
-                    Codec.STRING.fieldOf("type").forGetter(CommandType::type),
-                ).apply(instance, ::CommandType)
-            }
 
-            private val COMMANDS_SET_CODEC: Codec<Set<CommandType>> = COMMAND_TYPE_CODEC.listOf().xmap(
+            private val COMMANDS_SET_CODEC: Codec<Set<CommandType>> = CommandType.CODEC.listOf().xmap(
                 { it.toSet() },
                 { it.toList() }
             )
@@ -136,93 +130,6 @@ class RitualRecipe(
                     CODEC.codec()
                 )
         }
-    }
-
-    fun toNbt(provider: HolderLookup.Provider): CompoundTag {
-        val tag = CompoundTag()
-
-        ritualType?.let { tag.putString("ritualType", it.id.toString()) }
-
-        inputItems.let {
-            val inputItemsTag = ListTag()
-            it.forEach { item -> inputItemsTag.add(item.save(provider, CompoundTag())) }
-            tag.put("inputItems", inputItemsTag)
-        }
-
-        inputEntities.let {
-            val inputEntitiesTag = ListTag()
-            it.forEach { entity -> inputEntitiesTag.add(StringTag.valueOf(EntityType.getKey(entity).toString())) }
-            tag.put("inputEntities", inputEntitiesTag)
-        }
-
-        outputItems.let {
-            val outputItemsTag = ListTag()
-            it.forEach { item -> outputItemsTag.add(item.save(provider, CompoundTag())) }
-            tag.put("outputItems", outputItemsTag)
-        }
-
-        outputEntities.let {
-            val outputEntitiesTag = ListTag()
-            it.forEach { entity -> outputEntitiesTag.add(StringTag.valueOf(EntityType.getKey(entity).toString())) }
-            tag.put("outputEntities", outputEntitiesTag)
-        }
-
-        tag.putInt("altarPower", altarPower)
-        tag.putInt("altarPowerPerSecond", altarPowerPerSecond)
-        tag.putInt("covenCount", covenCount)
-
-        commands.let {
-            val commandsTag = ListTag()
-            it.forEach { command ->
-                commandsTag.add(CompoundTag().apply {
-                    putString("command", command.command)
-                    putString("type", command.type)
-                })
-            }
-            tag.put("commands", commandsTag)
-        }
-
-        tag.putBoolean("isInfinite", isInfinite)
-        tag.putBoolean("floatingItemOutput", floatingItemOutput)
-        tag.putInt("ticks", ticks)
-
-        pattern.let {
-            val patternTag = ListTag()
-            it.forEach { patternItem -> patternTag.add(StringTag.valueOf(patternItem)) }
-            tag.put("pattern", patternTag)
-        }
-
-        blockMapping.let {
-            val blockMappingTag = CompoundTag()
-            it.forEach { (key, block) ->
-                blockMappingTag.putString(key.toString(), block.builtInRegistryHolder().unwrapKey().get().toString())
-            }
-            tag.put("blockMapping", blockMappingTag)
-        }
-
-        val conditionsTag = CompoundTag()
-
-        conditions.celestialConditions.let {
-            val celestialTag = ListTag()
-            it.forEach { celestialCondition -> celestialTag.add(StringTag.valueOf(celestialCondition.name)) }
-            conditionsTag.put("celestialConditions", celestialTag)
-        }
-
-        conditions.weather.let {
-            val weatherTag = ListTag()
-            it.forEach { weatherCondition -> weatherTag.add(StringTag.valueOf(weatherCondition.name)) }
-            conditionsTag.put("weather", weatherTag)
-        }
-
-        conditionsTag.putBoolean("requireCat", conditions.requireCat)
-
-        if (!conditions.ritualData.isEmpty) {
-            conditionsTag.put("ritualData", conditions.ritualData)
-        }
-
-        tag.put("conditions", conditionsTag)
-
-        return tag
     }
 
     companion object {

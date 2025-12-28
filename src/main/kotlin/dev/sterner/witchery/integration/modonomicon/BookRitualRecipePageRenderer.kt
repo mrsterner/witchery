@@ -357,7 +357,13 @@ abstract class BookRitualRecipePageRenderer<T : Recipe<*>>(page: BookRitualRecip
                     Color(190, 55, 250).rgb
                 )
             }
-
+            itemStack.`is`(WitcheryItems.BINDING_CHALK.get()) -> {
+                renderChalk(
+                    poseStack,
+                    Witchery.id("textures/block/chalk_${index % 15}.png"),
+                    Color(20, 55, 100).rgb
+                )
+            }
             itemStack.`is`(WitcheryItems.INFERNAL_CHALK.get()) -> {
                 renderChalk(
                     poseStack,

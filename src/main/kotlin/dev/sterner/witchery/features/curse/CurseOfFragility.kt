@@ -33,13 +33,19 @@ class CurseOfFragility : Curse() {
                 return damage
             }
 
-            val multiplier = if (WitcheryApi.isWitchy(player)) {
+            val curseData = CursePlayerAttachment.getData(player).playerCurseList
+                .find { it.curseId == WitcheryCurseRegistry.CURSES_REGISTRY.getKey(WitcheryCurseRegistry.FRAGILITY.get()) }
+
+            val witchPower = curseData?.witchPower ?: 0
+
+            val baseMultiplier = if (WitcheryApi.isWitchy(player)) {
                 1.5f
             } else {
                 1.15f
             }
+            val witchPowerBonus = (witchPower * 0.005f).coerceAtMost(0.05f)
 
-            return damage * multiplier
+            return damage * (baseMultiplier + witchPowerBonus)
         }
     }
 }

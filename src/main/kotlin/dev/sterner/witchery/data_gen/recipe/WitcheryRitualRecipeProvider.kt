@@ -53,7 +53,7 @@ object WitcheryRitualRecipeProvider {
             .addInputItem(WitcheryItems.WAYSTONE.get())
             .addInputItem(WitcheryItems.TAGLOCK.get())
             .addInputItem(Items.IRON_INGOT)
-            .addCommand(CommandType("tp {taglockPlayerOrEntity} {waystonePos}", CommandType.END))
+            .addCommand("tp {taglockPlayerOrEntity} {waystonePos}", CommandType.END)
             .setTicks(20 * 2)
             .setAltarPower(3000)
             .addMediumPattern(WitcheryBlocks.OTHERWHERE_CHALK_BLOCK.get())
@@ -73,7 +73,7 @@ object WitcheryRitualRecipeProvider {
 
         RitualRecipeBuilder.create()
             .addInputItem(WitcheryItems.WAYSTONE.get())
-            .addCommand(CommandType("tp {owner} {waystonePos}", CommandType.END))
+            .addCommand("tp {owner} {waystonePos}", CommandType.END)
             .setTicks(20)
             .addSmallPattern(WitcheryBlocks.OTHERWHERE_CHALK_BLOCK.get())
             .save(exporter, Witchery.id("teleport_owner_to_waystone"))
@@ -84,7 +84,7 @@ object WitcheryRitualRecipeProvider {
             .setAltarPower(1000)
             .setTicks(20)
             .addSmallPattern(WitcheryBlocks.RITUAL_CHALK_BLOCK.get())
-            .addCommand(CommandType("summon lightning_bolt {chalkPos}", CommandType.END))
+            .addCommand("summon lightning_bolt {chalkPos}", CommandType.END)
             .save(exporter, Witchery.id("summon_lightning"))
 
         RitualRecipeBuilder.create()
@@ -94,7 +94,7 @@ object WitcheryRitualRecipeProvider {
             .setAltarPower(2000)
             .setTicks(20)
             .addSmallPattern(WitcheryBlocks.RITUAL_CHALK_BLOCK.get())
-            .addCommand(CommandType("summon lightning_bolt {waystonePos}", CommandType.END))
+            .addCommand("summon lightning_bolt {waystonePos}", CommandType.END)
             .save(exporter, Witchery.id("summon_lightning_on_waystone"))
 
         RitualRecipeBuilder.create()
@@ -257,21 +257,21 @@ object WitcheryRitualRecipeProvider {
         RitualRecipeBuilder.create()
             .addInputItem(WitcheryItems.GHOST_OF_THE_LIGHT.get())
             .setAltarPower(2000)
-            .addCommand(CommandType("witchery infusion setAndKill {owner} light", CommandType.END))
+            .addCommand("witchery infusion setAndKill {owner} light", CommandType.END)
             .addSmallAndMediumPattern(WitcheryBlocks.RITUAL_CHALK_BLOCK.get(), WitcheryBlocks.RITUAL_CHALK_BLOCK.get())
             .save(exporter, Witchery.id("infuse_light"))
 
         RitualRecipeBuilder.create()
             .addInputItem(WitcheryItems.NECROMANTIC_SOULBIND.get())
             .setAltarPower(4000)
-            .addCommand(CommandType("witchery infusion setAndKill {owner} necro", CommandType.END))
+            .addCommand("witchery infusion setAndKill {owner} necro", CommandType.END)
             .addSmallAndMediumPattern(WitcheryBlocks.RITUAL_CHALK_BLOCK.get(), WitcheryBlocks.RITUAL_CHALK_BLOCK.get())
             .save(exporter, Witchery.id("infuse_necromancy"))
 
         RitualRecipeBuilder.create()
             .addInputItem(WitcheryItems.SPIRIT_OF_OTHERWHERE.get())
             .setAltarPower(2000)
-            .addCommand(CommandType("witchery infusion setAndKill {owner} otherwhere", CommandType.END))
+            .addCommand("witchery infusion setAndKill {owner} otherwhere", CommandType.END)
             .addSmallAndMediumPattern(
                 WitcheryBlocks.OTHERWHERE_CHALK_BLOCK.get(),
                 WitcheryBlocks.OTHERWHERE_CHALK_BLOCK.get()
@@ -282,7 +282,7 @@ object WitcheryRitualRecipeProvider {
             .addInputItem(PotionContents.createItemStack(Items.POTION, Potions.STRONG_REGENERATION))
             .setAltarPower(4000)
             .setAltarPowerPerSecond(40)
-            .addCommand(CommandType("witchery infusion increase {owner} 1", CommandType.TICK))
+            .addCommand("witchery infusion increase {owner} 1", CommandType.TICK)
             .setInfinite(true)
             .addSmallAndMediumPattern(
                 WitcheryBlocks.RITUAL_CHALK_BLOCK.get(),
@@ -341,7 +341,7 @@ object WitcheryRitualRecipeProvider {
             .addInputItem(WitcheryItems.ARTHANA.get())
             .addInputItem(Items.BREEZE_ROD)
             .setAltarPower(5000)
-            .addCommand(CommandType("witchery manifestation set {owner} true", CommandType.END))
+            .addCommand("witchery manifestation set {owner} true", CommandType.END)
             .addSmallPattern(WitcheryBlocks.OTHERWHERE_CHALK_BLOCK.get())
             .save(exporter, Witchery.id("manifestation"))
 
@@ -364,7 +364,7 @@ object WitcheryRitualRecipeProvider {
             .addInputItem(Items.AMETHYST_SHARD)
             .setCelestialConditions(setOf(RitualRecipe.Celestial.FULL_MOON))
             .addInputItem(WitcheryItems.BREW_OF_THE_GROTESQUE.get())
-            .addCommand(CommandType("witchery werewolf level try_curse {taglockPlayerOrEntity}", CommandType.END))
+            .addCommand("witchery werewolf level try_curse {taglockPlayerOrEntity}", CommandType.END)
             .setAltarPower(10000)
             .requireCat()
             .addMediumPattern(WitcheryBlocks.INFERNAL_CHALK_BLOCK.get())
@@ -381,7 +381,7 @@ object WitcheryRitualRecipeProvider {
             .addMediumPattern(WitcheryBlocks.INFERNAL_CHALK_BLOCK.get())
             .setAltarPower(2000)
             .setTicks(20)
-            .addCommand(CommandType("witchery curse apply {taglockPlayer} witchery:insanity", CommandType.END))
+            .addCommand("witchery curse apply {taglockPlayer} witchery:insanity {witchPower}", CommandType.END)
             .save(exporter, Witchery.id("curse_of_insanity"))
 
         RitualRecipeBuilder.create()
@@ -394,7 +394,7 @@ object WitcheryRitualRecipeProvider {
             .addMediumPattern(WitcheryBlocks.INFERNAL_CHALK_BLOCK.get())
             .setAltarPower(7000)
             .setTicks(20)
-            .addCommand(CommandType("witchery curse apply {taglockPlayer} witchery:corrupt_poppet", CommandType.END))
+            .addCommand("witchery curse apply {taglockPlayer} witchery:corrupt_poppet {witchPower}", CommandType.END)
             .save(exporter, Witchery.id("curse_of_corrupt_poppet"))
 
         RitualRecipeBuilder.create()
@@ -407,7 +407,7 @@ object WitcheryRitualRecipeProvider {
             .addMediumPattern(WitcheryBlocks.INFERNAL_CHALK_BLOCK.get())
             .setAltarPower(2000)
             .setTicks(20)
-            .addCommand(CommandType("witchery curse apply {taglockPlayer} witchery:misfortune", CommandType.END))
+            .addCommand("witchery curse apply {taglockPlayer} witchery:misfortune {witchPower}", CommandType.END)
             .save(exporter, Witchery.id("curse_of_misfortune"))
 
         RitualRecipeBuilder.create()
@@ -419,7 +419,7 @@ object WitcheryRitualRecipeProvider {
             .addMediumPattern(WitcheryBlocks.INFERNAL_CHALK_BLOCK.get())
             .setAltarPower(2000)
             .setTicks(20)
-            .addCommand(CommandType("witchery curse apply {taglockPlayer} witchery:overheating", CommandType.END))
+            .addCommand("witchery curse apply {taglockPlayer} witchery:overheating {witchPower}", CommandType.END)
             .save(exporter, Witchery.id("curse_of_overheating"))
 
         RitualRecipeBuilder.create()
@@ -432,7 +432,7 @@ object WitcheryRitualRecipeProvider {
             .setWeather(RitualRecipe.Weather.STORM)
             .setAltarPower(2000)
             .setTicks(20)
-            .addCommand(CommandType("witchery curse apply {taglockPlayer} witchery:sinking", CommandType.END))
+            .addCommand("witchery curse apply {taglockPlayer} witchery:sinking {witchPower}", CommandType.END)
             .save(exporter, Witchery.id("curse_of_sinking"))
 
         RitualRecipeBuilder.create()
@@ -514,7 +514,7 @@ object WitcheryRitualRecipeProvider {
             .addSmallAndMediumPattern(WitcheryBlocks.INFERNAL_CHALK_BLOCK.get(), WitcheryBlocks.INFERNAL_CHALK_BLOCK.get())
             .setAltarPower(2000)
             .setTicks(20)
-            .addCommand(CommandType("witchery curse apply {taglockPlayer} witchery:befuddlement", CommandType.END))
+            .addCommand("witchery curse apply {taglockPlayer} witchery:befuddlement {witchPower}", CommandType.END)
             .save(exporter, Witchery.id("befuddlement"))
 
         RitualRecipeBuilder.create()
@@ -526,7 +526,7 @@ object WitcheryRitualRecipeProvider {
             .addMediumPattern(WitcheryBlocks.INFERNAL_CHALK_BLOCK.get())
             .setAltarPower(2500)
             .setTicks(20)
-            .addCommand(CommandType("witchery curse apply {taglockPlayer} witchery:hunger", CommandType.END))
+            .addCommand("witchery curse apply {taglockPlayer} witchery:hunger {witchPower}", CommandType.END)
             .save(exporter, Witchery.id("hunger"))
 
         RitualRecipeBuilder.create()
@@ -538,7 +538,7 @@ object WitcheryRitualRecipeProvider {
             .addMediumPattern(WitcheryBlocks.INFERNAL_CHALK_BLOCK.get())
             .setAltarPower(3000)
             .setTicks(20)
-            .addCommand(CommandType("witchery curse apply {taglockPlayer} witchery:fragility", CommandType.END))
+            .addCommand("witchery curse apply {taglockPlayer} witchery:fragility {witchPower}", CommandType.END)
             .save(exporter, Witchery.id("fragility"))
 
         RitualRecipeBuilder.create()

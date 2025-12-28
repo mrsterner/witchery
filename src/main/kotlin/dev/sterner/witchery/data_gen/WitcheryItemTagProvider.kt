@@ -250,7 +250,8 @@ class WitcheryItemTagProvider(
             WitcheryItems.RITUAL_CHALK.get(),
             WitcheryItems.GOLDEN_CHALK.get(),
             WitcheryItems.INFERNAL_CHALK.get(),
-            WitcheryItems.OTHERWHERE_CHALK.get()
+            WitcheryItems.OTHERWHERE_CHALK.get(),
+            WitcheryItems.BINDING_CHALK.get()
         )
 
         tag(ItemTags.FIRE_ASPECT_ENCHANTABLE)
@@ -299,6 +300,7 @@ class WitcheryItemTagProvider(
             WitcheryItems.RITUAL_CHALK.get(),
             WitcheryItems.INFERNAL_CHALK.get(),
             WitcheryItems.OTHERWHERE_CHALK.get(),
+            WitcheryItems.BINDING_CHALK.get(),
             WitcheryItems.ARTHANA.get()
         )
 

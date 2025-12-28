@@ -321,6 +321,18 @@ object WitcheryCauldronRecipeProvider {
             .unlockedBy("has_ritual_chalk", has(WitcheryItems.RITUAL_CHALK.get()))
             .save(exporter, Witchery.id("otherwhere_chalk"))
 
+
+        CauldronCraftingRecipeBuilder.create()
+            .addInputWithColor(Items.BLAZE_ROD, Color(255, 50, 50).rgb)
+            .addInputWithColor(WitcheryItems.ETERNAL_CATALYST.get(), Color(105, 50, 250).rgb)
+            .addInputWithColor(Items.BREEZE_ROD, Color(50, 150, 150).rgb)
+            .addInputWithColor(WitcheryItems.RITUAL_CHALK.get(), Color(255, 255, 255).rgb)
+            .addOutput(WitcheryItems.BINDING_CHALK.get())
+            .addOutput(WitcheryItems.ETERNAL_CATALYST.get())
+            .setAltarPower(100)
+            .unlockedBy("has_ritual_chalk", has(WitcheryItems.RITUAL_CHALK.get()))
+            .save(exporter, Witchery.id("binding_chalk"))
+
         CauldronCraftingRecipeBuilder.create()
             .addInputWithColor(Items.CRIMSON_FUNGUS, Color(255, 50, 50).rgb)
             .addInputWithColor(Items.BLAZE_POWDER, Color(205, 200, 10).rgb)

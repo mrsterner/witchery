@@ -16,11 +16,13 @@ import dev.sterner.witchery.features.familiar.FamiliarHandler
 import dev.sterner.witchery.content.item.SeerStoneItem
 import dev.sterner.witchery.content.item.TaglockItem
 import dev.sterner.witchery.content.item.WaystoneItem
+import dev.sterner.witchery.core.api.WitcheryPowerHelper
 import dev.sterner.witchery.core.registry.WitcheryBlockEntityTypes
 import dev.sterner.witchery.core.registry.WitcheryDataComponents
 import dev.sterner.witchery.core.registry.WitcheryEntityTypes
 import dev.sterner.witchery.core.registry.WitcheryItems
 import dev.sterner.witchery.features.coven.CovenHandler
+import dev.sterner.witchery.features.misc.MiscPlayerAttachment
 import net.minecraft.ChatFormatting
 import net.minecraft.core.BlockPos
 import net.minecraft.core.GlobalPos
@@ -31,6 +33,7 @@ import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
+import net.minecraft.server.level.ServerPlayer
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.sounds.SoundSource
 import net.minecraft.util.Mth
@@ -100,6 +103,7 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
     var targetEntity: Int? = null
     var targetPos: GlobalPos? = null
     var ownerName: String? = null
+    var ownerNotStored: Player? = null
 
     var items: NonNullList<ItemStack> = NonNullList.withSize(INVENTORY_SIZE, ItemStack.EMPTY)
     private var consumedSacrifices = mutableListOf<EntityType<*>>()
@@ -474,6 +478,7 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         targetEntity = null
         targetPos = null
         ownerName = null
+        ownerNotStored = null
 
         setChanged()
     }
@@ -514,7 +519,7 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
      * Handle when a player uses the block without an item
      */
     override fun onUseWithoutItem(pPlayer: Player): InteractionResult {
-        if (WitcheryApi.isInSpiritWorld(pPlayer)) {
+        if (WitcheryApi.isInSpiritWorld(pPlayer) || pPlayer.level().isClientSide) {
             return InteractionResult.PASS
         }
 
@@ -590,6 +595,7 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
      */
     private fun startRitual(player: Player, recipe: RitualRecipe) {
         ownerName = player.gameProfile.name.replaceFirstChar(Char::uppercase)
+        ownerNotStored = player
         ritualRecipe = recipe
         currentState = RitualState.CONSUMING_ITEMS
         setChanged()
@@ -693,6 +699,7 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
         val meetsWeatherRequirement = hasWeatherCondition(level, recipe)
         val requiresCat = requiresCat(player, recipe)
         val hasCovenCount = hasCovenCondition(player, recipe)
+        val canRunCommands = canRunAnyCommand(player, recipe)
 
         Witchery.logDebugRitual(
             "Ritual conditions - Valid Circle: $hasValidCircle, " +
@@ -700,10 +707,35 @@ class GoldenChalkBlockEntity(blockPos: BlockPos, blockState: BlockState) :
                     "Celestial Condition: $meetsCelestialCondition, " +
                     "Coven Condition: $hasCovenCount, " +
                     "Cat: $requiresCat, " +
-                    "Weather Condition: $meetsWeatherRequirement"
+                    "Weather Condition: $meetsWeatherRequirement" +
+                    "Can Run Commands: $canRunCommands"
         )
 
-        return hasValidCircle && hasEnoughPower && meetsCelestialCondition && hasCovenCount && meetsWeatherRequirement && requiresCat
+        return hasValidCircle && hasEnoughPower && meetsCelestialCondition && hasCovenCount && meetsWeatherRequirement && requiresCat && canRunCommands
+    }
+
+    private fun canRunAnyCommand(player: Player, recipe: RitualRecipe): Boolean {
+        if (recipe.commands.isEmpty()) {
+            Witchery.logDebugRitual("Commands Empty")
+            return true
+        }
+
+        val witchPower = WitcheryPowerHelper.calculateWitchPower(player)
+        val canRunAny = recipe.commands.any { command ->
+            command.isInWitchPowerRange(witchPower)
+        }
+
+        if (!canRunAny) {
+            player.displayClientMessage(
+                Component.translatable("witchery.ritual.insufficient_witch_power")
+                    .withStyle(ChatFormatting.RED),
+                true
+            )
+            Witchery.logDebugRitual("No commands can be executed with witch power: $witchPower")
+        }
+
+        Witchery.logDebugRitual("Commands can run: $canRunAny")
+        return canRunAny
     }
 
     private fun requiresCat(player: Player, recipe: RitualRecipe): Boolean {

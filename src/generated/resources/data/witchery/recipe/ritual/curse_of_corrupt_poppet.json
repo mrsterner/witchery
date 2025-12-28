@@ -9,7 +9,7 @@
   "commands": [
     {
       "type": "end",
-      "command": "witchery curse apply {taglockPlayer} witchery:corrupt_poppet"
+      "command": "witchery curse apply {taglockPlayer} witchery:corrupt_poppet {witchPower}"
     }
   ],
   "conditions": {

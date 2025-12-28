@@ -129,9 +129,7 @@ enum class WerewolfAbility(
     PACK_SUMMON(8, 20 * 60) {
         override val id: String = "pack_summon"
 
-        override fun use(player: Player): Boolean {
-            if (player !is ServerPlayer) return false
-
+        fun summonPack(player: ServerPlayer){
             val wolfCount = if (TransformationHandler.isWerewolf(player)) 3 else 2
 
             for (i in 0 until wolfCount) {
@@ -184,6 +182,23 @@ enum class WerewolfAbility(
                 1.5f,
                 1.2f
             )
+        }
+
+        override fun use(player: Player): Boolean {
+            if (player !is ServerPlayer) return false
+
+            summonPack(player)
+
+            return true
+        }
+
+        override fun use(
+            player: Player,
+            target: Entity
+        ): Boolean {
+            if (player !is ServerPlayer) return false
+
+            summonPack(player)
 
             return true
         }
@@ -274,9 +289,7 @@ enum class WerewolfAbility(
         override val id: String
             get() = "night_howl"
 
-        override fun use(player: Player): Boolean {
-            if (player !is ServerPlayer) return false
-
+        fun howl(player: ServerPlayer){
             AbilityCooldownManager.startCooldown(player, this)
 
             val pos = ChunkPos(player.blockPosition())
@@ -330,8 +343,26 @@ enum class WerewolfAbility(
                     mob.target = null
                 }
             }
+        }
+
+        override fun use(player: Player): Boolean {
+            if (player !is ServerPlayer) return false
+
+            howl(player)
 
             return super.use(player)
+        }
+
+        override fun use(
+            player: Player,
+            target: Entity
+        ): Boolean {
+
+            if (player !is ServerPlayer) return false
+
+            howl(player)
+
+            return super.use(player, target)
         }
     };
 

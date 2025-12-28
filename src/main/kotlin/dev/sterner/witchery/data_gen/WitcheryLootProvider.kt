@@ -278,6 +278,7 @@ class WitcheryLootProvider(packOutput: PackOutput, provider: CompletableFuture<H
                         it != WitcheryBlocks.RITUAL_CHALK_BLOCK.get() &&
                         it != WitcheryBlocks.INFERNAL_CHALK_BLOCK.get() &&
                         it != WitcheryBlocks.OTHERWHERE_CHALK_BLOCK.get() &&
+                        it != WitcheryBlocks.BINDING_CHALK_BLOCK.get() &&
                         it != WitcheryBlocks.GOLDEN_CHALK_BLOCK.get() &&
                         it != WitcheryBlocks.WISPY_COTTON.get() &&
                         it != WitcheryBlocks.SPIRIT_PORTAL.get() &&

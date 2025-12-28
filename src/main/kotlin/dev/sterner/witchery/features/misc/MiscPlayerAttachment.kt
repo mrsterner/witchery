@@ -45,7 +45,7 @@ object MiscPlayerAttachment {
             val CODEC: Codec<Data> = RecordCodecBuilder.create { instance ->
                 instance.group(
                     Codec.BOOL.fieldOf("isWitcheryAligned").forGetter { it.isWitcheryAligned },
-                    Codec.BOOL.fieldOf("hasDeathTeleport").forGetter { it.hasDeathTeleport }
+                    Codec.BOOL.fieldOf("hasDeathTeleport").forGetter { it.hasDeathTeleport },
                 ).apply(instance, ::Data)
             }
 

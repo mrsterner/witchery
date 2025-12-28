@@ -975,6 +975,10 @@ object WitcheryBlocks {
         RitualChalkBlock(ParticleTypes.PORTAL, Color(190, 55, 250).rgb, Properties.of())
     }
 
+    val BINDING_CHALK_BLOCK = register("binding_chalk") {
+        RitualChalkBlock(ParticleTypes.ENCHANT, Color(20, 55, 100).rgb, Properties.of())
+    }
+
     val GOLDEN_CHALK_BLOCK = register("golden_chalk") {
         GoldenChalkBlock(Properties.of())
     }

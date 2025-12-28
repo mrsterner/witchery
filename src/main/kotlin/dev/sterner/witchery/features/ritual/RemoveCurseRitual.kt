@@ -21,7 +21,7 @@ class RemoveCurseRitual : Ritual("remove_curse") {
                 if (oldestCurse != null) {
                     val curse = WitcheryCurseRegistry.CURSES_REGISTRY.get(oldestCurse.curseId)
                     if (curse != null) {
-                        CurseHandler.removeCurse(player, curse)
+                        CurseHandler.removeCurse(player, curse, goldenChalkBlockEntity.ownerNotStored, false)
                     }
                 }
             }

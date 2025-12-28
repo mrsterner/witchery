@@ -372,6 +372,16 @@ class RitualJeiRecipeCategory(var guiHelper: IJeiHelpers) : IRecipeCategory<Ritu
                         )
                     }
 
+                    stack.`is`(WitcheryItems.BINDING_CHALK.get()) -> {
+                        drawChalk(
+                            poseStack,
+                            px,
+                            py,
+                            "textures/block/chalk_${(y + x) % 15}.png",
+                            Color( 20, 55, 100).rgb
+                        )
+                    }
+
                     stack.`is`(WitcheryItems.INFERNAL_CHALK.get()) -> {
                         drawChalk(poseStack, px, py, "textures/block/chalk_${(y + x) % 15}.png", Color(230, 0, 75).rgb)
                     }

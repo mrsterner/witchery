@@ -4,6 +4,7 @@ import dev.sterner.witchery.core.api.Curse
 import dev.sterner.witchery.core.api.PoppetLocation
 import dev.sterner.witchery.core.api.WitcheryApi
 import dev.sterner.witchery.core.api.interfaces.PoppetType
+import dev.sterner.witchery.core.registry.WitcheryCurseRegistry
 import dev.sterner.witchery.features.poppet.PoppetHandler
 import dev.sterner.witchery.core.registry.WitcheryPoppetRegistry
 import dev.sterner.witchery.features.poppet.CorruptPoppetPlayerAttachment
@@ -27,13 +28,21 @@ class CurseOfCorruptPoppet : Curse() {
     override fun onTickCurse(level: Level, player: Player, catBoosted: Boolean) {
         super.onTickCurse(level, player, catBoosted)
 
-        val tickInterval = if (WitcheryApi.isWitchy(player)) {
+        val curseData = CursePlayerAttachment.getData(player).playerCurseList
+            .find { it.curseId == WitcheryCurseRegistry.CURSES_REGISTRY.getKey(this) }
+
+        val witchPower = curseData?.witchPower ?: 0
+
+        val baseInterval = if (WitcheryApi.isWitchy(player)) {
             100L
         } else {
             300L
         }
 
-        if (level.gameTime % tickInterval == 0L) {
+        val tickReduction = (witchPower * 1L).coerceAtMost(50L)
+        val adjustedInterval = (baseInterval - tickReduction).coerceAtLeast(50L)
+
+        if (level.gameTime % adjustedInterval == 0L) {
             attemptToCorruptPoppet(level, player)
         }
 
@@ -51,11 +60,19 @@ class CurseOfCorruptPoppet : Curse() {
     ) {
         super.onHurt(level, player, damageSource, fl, catBoosted)
 
-        val corruptChance = if (WitcheryApi.isWitchy(player)) {
+        val curseData = CursePlayerAttachment.getData(player).playerCurseList
+            .find { it.curseId == WitcheryCurseRegistry.CURSES_REGISTRY.getKey(this) }
+
+        val witchPower = curseData?.witchPower ?: 0
+
+        val baseChance = if (WitcheryApi.isWitchy(player)) {
             0.2f
         } else {
             0.05f
         }
+
+        val witchPowerBonus = (witchPower * 0.005f).coerceAtMost(0.05f)
+        val corruptChance = baseChance + witchPowerBonus
 
         if (level.random.nextFloat() < corruptChance) {
             attemptToCorruptPoppet(level, player)

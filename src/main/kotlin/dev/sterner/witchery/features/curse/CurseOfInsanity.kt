@@ -4,6 +4,7 @@ import dev.sterner.witchery.content.entity.InsanityEntity.Companion.DATA_MIMIC
 import dev.sterner.witchery.content.entity.InsanityEntity.InsanityMobType
 import dev.sterner.witchery.core.api.Curse
 import dev.sterner.witchery.core.api.WitcheryApi
+import dev.sterner.witchery.core.registry.WitcheryCurseRegistry
 import dev.sterner.witchery.core.registry.WitcheryEntityTypes
 import dev.sterner.witchery.features.coven.CovenHandler
 import dev.sterner.witchery.mixin.EntityAccessor
@@ -19,13 +20,23 @@ class CurseOfInsanity : Curse() {
     override fun onTickCurse(level: Level, player: Player, catBoosted: Boolean) {
         if (level.isClientSide) return
 
+        val curseData = CursePlayerAttachment.getData(player).playerCurseList
+            .find { it.curseId == WitcheryCurseRegistry.CURSES_REGISTRY.getKey(this) }
+
+        val witchPower = curseData?.witchPower ?: 0
+        val failedAttempts = curseData?.failedRemovalAttempts ?: 0
+
         val baseInterval = if (WitcheryApi.isWitchy(player)) {
             20 * 60
         } else {
             20 * 180
         }
 
-        if (level.gameTime % (baseInterval + (level.random.nextDouble() * 30).toInt()) == 0L) {
+        val powerReduction = witchPower * 1 * 20
+        val attemptReduction = failedAttempts * 5 * 20
+        val scaledInterval = (baseInterval - powerReduction - attemptReduction).coerceAtLeast(20 * 10)
+
+        if (level.gameTime % (scaledInterval + (level.random.nextDouble() * 30).toInt()) == 0L) {
             val pos = findLocationForInsanityMob(player.blockPosition(), level)
             if (pos != null) {
 
@@ -117,7 +128,12 @@ class CurseOfInsanity : Curse() {
                 }
                 3 -> {
                     if (player.blockPosition().y <= 0) {
-                        SoundEvents.WARDEN_ROAR
+                        when (level.random.nextInt(4)) {
+                            0 -> SoundEvents.WARDEN_AMBIENT
+                            1 -> SoundEvents.WARDEN_AGITATED
+                            2 -> SoundEvents.WARDEN_ROAR
+                            else -> SoundEvents.WARDEN_EMERGE
+                        }
                     } else {
                         SoundEvents.ENDERMAN_SCREAM
                     }

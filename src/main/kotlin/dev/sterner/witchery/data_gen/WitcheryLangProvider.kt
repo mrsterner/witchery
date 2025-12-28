@@ -68,6 +68,7 @@ class WitcheryLangProvider(output: PackOutput, modid: String, locale: String) :
             id?.let { add("witchery:${it.path}", formatId(id)) }
         }
 
+        add("witchery.ritual.insufficient_witch_power", "Insufficient Witch Power, expand coven or get a Cat")
         add("tooltip.witchery.vampiric_poppet.owner", "Source:")
         add("tooltip.witchery.vampiric_poppet.target", "Sacrifice:")
         add("container.witchery.soul_trade_menu", "Soul Trade")

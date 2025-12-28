@@ -108,8 +108,13 @@ class RitualRecipeBuilder private constructor() : RecipeBuilder {
         return this
     }
 
-    fun addCommand(commandType: CommandType): RitualRecipeBuilder {
-        commands.add(commandType)
+    fun addCommand(
+        command: String,
+        type: String,
+        minWitchPower: Int = 0,
+        maxWitchPower: Int = Int.MAX_VALUE
+    ): RitualRecipeBuilder {
+        commands.add(CommandType(command, type, minWitchPower, maxWitchPower))
         return this
     }
 

@@ -29,15 +29,22 @@ object CursePlayerAttachment {
         }
     }
 
-    data class PlayerCurseData(val curseId: ResourceLocation, var duration: Int, var catBoosted: Boolean) {
+    data class PlayerCurseData(
+        val curseId: ResourceLocation,
+        var duration: Int,
+        var catBoosted: Boolean,
+        val witchPower: Int = 0, //Power level when curse was cast
+        var failedRemovalAttempts: Int = 0
+    ) {
 
         companion object {
             val CODEC: Codec<PlayerCurseData> = RecordCodecBuilder.create { instance ->
                 instance.group(
                     ResourceLocation.CODEC.fieldOf("curseId").forGetter { it.curseId },
                     Codec.INT.fieldOf("duration").forGetter { it.duration },
-                    Codec.BOOL.fieldOf("catBoosted").forGetter { it.catBoosted }
-
+                    Codec.BOOL.fieldOf("catBoosted").forGetter { it.catBoosted },
+                    Codec.INT.optionalFieldOf("witchPower", 0).forGetter { it.witchPower },
+                    Codec.INT.optionalFieldOf("failedRemovalAttempts", 0).forGetter { it.failedRemovalAttempts }
                 ).apply(instance, ::PlayerCurseData)
             }
         }

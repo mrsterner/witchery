@@ -263,6 +263,32 @@ object WitcheryCommands {
                                         )
                                         1
                                     }
+                                    .then(
+                                        Commands.argument("power", IntegerArgumentType.integer(0, 13))
+                                            .executes { ctx ->
+                                                val player = EntityArgument.getPlayer(ctx, "player")
+                                                val curseType = CurseArgumentType.getCurse(ctx, "curse")
+                                                val power = IntegerArgumentType.getInteger(ctx, "power")
+                                                val commandSender = ctx.source.player
+                                                val cat = if (commandSender != null) {
+                                                    FamiliarHandler.getFamiliarEntityType(
+                                                        commandSender.uuid,
+                                                        commandSender.serverLevel()
+                                                    ) == EntityType.CAT
+                                                } else {
+                                                    false
+                                                }
+                                                CurseHandler.addCurse(
+                                                    player,
+                                                    commandSender,
+                                                    WitcheryCurseRegistry.CURSES_REGISTRY.getKey(curseType)!!,
+                                                    cat,
+                                                    24000,
+                                                    power
+                                                )
+                                                1
+                                            }
+                                    )
                             )
                     )
             )
@@ -275,7 +301,7 @@ object WitcheryCommands {
                                     .executes { ctx ->
                                         val player = EntityArgument.getPlayer(ctx, "player")
                                         val curseType = CurseArgumentType.getCurse(ctx, "curse")
-                                        CurseHandler.removeCurse(player, curseType)
+                                        CurseHandler.removeCurse(player, curseType, null, true)
                                         1
                                     }
                             )

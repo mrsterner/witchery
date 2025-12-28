@@ -166,6 +166,7 @@ class WitcheryClient(modContainer: ModContainer, modEventBus: IEventBus) {
             WitcheryBlocks.RITUAL_CHALK_BLOCK.get(),
             WitcheryBlocks.INFERNAL_CHALK_BLOCK.get(),
             WitcheryBlocks.OTHERWHERE_CHALK_BLOCK.get(),
+            WitcheryBlocks.BINDING_CHALK_BLOCK.get(),
             WitcheryBlocks.SACRIFICIAL_CIRCLE.get()
         )
     }
@@ -679,6 +680,7 @@ class WitcheryClient(modContainer: ModContainer, modEventBus: IEventBus) {
             WitcheryBlocks.RITUAL_CHALK_BLOCK,
             WitcheryBlocks.INFERNAL_CHALK_BLOCK,
             WitcheryBlocks.OTHERWHERE_CHALK_BLOCK,
+            WitcheryBlocks.BINDING_CHALK_BLOCK,
             WitcheryBlocks.CAULDRON,
             WitcheryBlocks.GLINTWEED,
             WitcheryBlocks.LIFE_BLOOD,

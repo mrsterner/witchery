@@ -1,6 +1,7 @@
 package dev.sterner.witchery.features.curse
 
 import dev.sterner.witchery.core.api.Curse
+import dev.sterner.witchery.core.api.WitcheryPowerHelper
 import dev.sterner.witchery.core.api.event.CurseEvent
 import dev.sterner.witchery.core.registry.WitcheryCurseRegistry
 import dev.sterner.witchery.core.registry.WitcheryPoppetRegistry
@@ -30,7 +31,8 @@ object CurseHandler {
         sourcePlayer: ServerPlayer?,
         curse: ResourceLocation,
         catBoosted: Boolean,
-        duration: Int = 24000
+        duration: Int = 24000,
+        witchPower: Int? = null
     ): Boolean {
 
         val result = CurseEvent.Added(player, sourcePlayer, curse, catBoosted)
@@ -147,16 +149,33 @@ object CurseHandler {
             }
         }
 
-        val adjustedDuration = HunterArmorDefenseHandler.reduceCurseDuration(player, duration)
+        val actualWitchPower = witchPower ?: if (sourcePlayer != null) {
+            WitcheryPowerHelper.calculateWitchPower(sourcePlayer)
+        } else {
+            0
+        }
 
         val data = CursePlayerAttachment.getData(player).playerCurseList.toMutableList()
         val existingCurse = data.find { it.curseId == curse }
 
         if (existingCurse != null) {
+            val existingTotalPower = existingCurse.witchPower + existingCurse.failedRemovalAttempts
+            if (actualWitchPower <= existingTotalPower) {
+                return false
+            }
             data.remove(existingCurse)
         }
 
-        val newCurseData = CursePlayerAttachment.PlayerCurseData(curse, duration = adjustedDuration, catBoosted = catBoosted)
+        val scaledDuration = calculateCurseDuration(duration, actualWitchPower)
+        val adjustedDuration = HunterArmorDefenseHandler.reduceCurseDuration(player, scaledDuration)
+
+        val newCurseData = CursePlayerAttachment.PlayerCurseData(
+            curse,
+            duration = adjustedDuration,
+            catBoosted = catBoosted,
+            witchPower = actualWitchPower,
+            failedRemovalAttempts = 0
+        )
         data.add(newCurseData)
 
         CursePlayerAttachment.setData(player, CursePlayerAttachment.Data(data))
@@ -170,15 +189,81 @@ object CurseHandler {
         return true
     }
 
-    fun removeCurse(player: Player, curse: Curse): Boolean {
-        val data = CursePlayerAttachment.getData(player).playerCurseList.toMutableList()
+    private fun calculateCurseDuration(baseDuration: Int, witchPower: Int): Int {
+        val multiplier = 1.0 + (witchPower / 13.0) * 2.0
+        return (baseDuration * multiplier).toInt()
+    }
+
+    fun removeCurse(player: Player, curse: Curse, removerPlayer: Player? = null, force: Boolean): Boolean {
+        val data = CursePlayerAttachment.getData(player)
         val curseId = WitcheryCurseRegistry.CURSES_REGISTRY.getKey(curse)
-        val curseData = data.find { it.curseId == curseId } ?: return false
+        val curseIndex = data.playerCurseList.indexOfFirst { it.curseId == curseId }
+
+        if (curseIndex == -1) return false
+
+        val curseData = data.playerCurseList[curseIndex]
+
+        val removerWitchPower = if (removerPlayer != null) {
+            WitcheryPowerHelper.calculateWitchPower(removerPlayer)
+        } else {
+            0
+        }
+
+        //DnD me
+        val criticalSuccessThreshold = (20 - curseData.failedRemovalAttempts).coerceAtLeast(1)
+        val roll = player.level().random.nextInt(1, 21)
+        val isCriticalSuccess = roll >= criticalSuccessThreshold
+
+        if (!WitcheryPowerHelper.canRemoveCurse(
+                removerWitchPower,
+                curseData.witchPower,
+                curseData.failedRemovalAttempts
+            ) && !isCriticalSuccess
+        ) {
+
+            val updatedCurseData = curseData.copy(
+                failedRemovalAttempts = curseData.failedRemovalAttempts + 1
+            )
+
+            val updatedList = data.playerCurseList.toMutableList()
+            updatedList[curseIndex] = updatedCurseData
+
+            CursePlayerAttachment.setData(player, CursePlayerAttachment.Data(updatedList))
+
+            if (player.level() is ServerLevel) {
+                val level = player.level() as ServerLevel
+                level.playSound(
+                    null,
+                    player.blockPosition(),
+                    SoundEvents.FIRE_EXTINGUISH,
+                    SoundSource.PLAYERS,
+                    1.0f,
+                    0.5f
+                )
+
+                level.sendParticles(
+                    ParticleTypes.SMOKE,
+                    player.x,
+                    player.y + 1.0,
+                    player.z,
+                    20,
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.05
+                )
+            }
+
+            if (!force) {
+                return false
+            }
+        }
 
         curse.onRemoved(player.level(), player, curseData.catBoosted)
 
-        data.remove(curseData)
-        CursePlayerAttachment.setData(player, CursePlayerAttachment.Data(data))
+        val updatedList = data.playerCurseList.toMutableList()
+        updatedList.removeAt(curseIndex)
+        CursePlayerAttachment.setData(player, CursePlayerAttachment.Data(updatedList))
 
         return true
     }
