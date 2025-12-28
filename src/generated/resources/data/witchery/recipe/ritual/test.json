@@ -1,0 +1,47 @@
+{
+  "type": "witchery:ritual",
+  "altarPower": 100,
+  "altarPowerPerTick": 0,
+  "blockMapping": {
+    "G": "witchery:golden_chalk",
+    "S": "witchery:ritual_chalk"
+  },
+  "commands": [
+    {
+      "type": "end",
+      "command": "tp {owner} ~ ~10 ~",
+      "maxWitchPower": 3,
+      "minWitchPower": 2
+    }
+  ],
+  "conditions": {
+    "celestialConditions": [],
+    "requireCat": false,
+    "ritualData": {},
+    "weather": []
+  },
+  "covenCount": 0,
+  "floatingItemOutput": false,
+  "inputEntities": [],
+  "inputItems": [
+    {
+      "id": "minecraft:stick"
+    }
+  ],
+  "isInfinite": false,
+  "outputEntities": [],
+  "outputItems": [],
+  "pattern": [
+    "__SSS__",
+    "_S___S_",
+    "S_____S",
+    "S__G__S",
+    "S_____S",
+    "_S___S_",
+    "__SSS__"
+  ],
+  "ritual": {
+    "id": "witchery:empty"
+  },
+  "ticks": 20
+}

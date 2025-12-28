@@ -1,0 +1,48 @@
+{
+  "type": "witchery:cauldron_crafting",
+  "altarPower": 100,
+  "inputItems": [
+    {
+      "color": -52686,
+      "itemStack": {
+        "count": 1,
+        "id": "minecraft:blaze_rod"
+      },
+      "order": 0
+    },
+    {
+      "color": -9882886,
+      "itemStack": {
+        "count": 1,
+        "id": "witchery:eternal_catalyst"
+      },
+      "order": 1
+    },
+    {
+      "color": -13461866,
+      "itemStack": {
+        "count": 1,
+        "id": "minecraft:breeze_rod"
+      },
+      "order": 2
+    },
+    {
+      "color": -1,
+      "itemStack": {
+        "count": 1,
+        "id": "witchery:ritual_chalk"
+      },
+      "order": 3
+    }
+  ],
+  "outputItems": [
+    {
+      "count": 1,
+      "id": "witchery:binding_chalk"
+    },
+    {
+      "count": 1,
+      "id": "witchery:eternal_catalyst"
+    }
+  ]
+}
