@@ -3,10 +3,15 @@ package dev.sterner.witchery.features.curse
 import dev.sterner.witchery.core.api.Curse
 import dev.sterner.witchery.core.api.WitcheryApi
 import dev.sterner.witchery.core.registry.WitcheryCurseRegistry
+import dev.sterner.witchery.network.DropItemS2CPayload
+import net.minecraft.client.gui.screens.Screen
+import net.minecraft.server.level.ServerPlayer
+import net.minecraft.world.InteractionHand
 import net.minecraft.world.effect.MobEffectInstance
 import net.minecraft.world.effect.MobEffects
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.Level
+import net.neoforged.neoforge.network.PacketDistributor
 
 class CurseOfMisfortune : Curse() {
 
@@ -40,19 +45,25 @@ class CurseOfMisfortune : Curse() {
                 player.addEffect(MobEffectInstance(MobEffects.DIG_SLOWDOWN, effectDuration, 0))
             }
             if (level.random.nextDouble() < effectChance) {
-                player.addEffect(MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, effectDuration, 0))
+                player.addEffect(MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, effectDuration * 2, 0))
             }
             if (level.random.nextDouble() < effectChance) {
                 player.addEffect(MobEffectInstance(MobEffects.BLINDNESS, effectDuration, 0))
             }
             if (level.random.nextDouble() < effectChance) {
-                player.addEffect(MobEffectInstance(MobEffects.WEAKNESS, effectDuration, 0))
+                player.addEffect(MobEffectInstance(MobEffects.WEAKNESS, effectDuration * 2, 0))
             }
             if (level.random.nextDouble() < effectChance) {
                 player.addEffect(MobEffectInstance(MobEffects.GLOWING, effectDuration, 0))
             }
             if (level.random.nextDouble() < effectChance) {
                 player.addEffect(MobEffectInstance(MobEffects.DARKNESS, effectDuration, 0))
+            }
+
+            if (level.random.nextDouble() < 0.005 * witchPowerAmplifier) {
+                if (!player.mainHandItem.isEmpty && player is ServerPlayer) {
+                    PacketDistributor.sendToPlayer(player, DropItemS2CPayload())
+                }
             }
         }
 

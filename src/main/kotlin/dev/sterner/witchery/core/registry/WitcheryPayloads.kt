@@ -106,6 +106,12 @@ object WitcheryPayloads {
             payload.handleOnClient(ctx)
         }
         registrar.playToClient(
+            DropItemS2CPayload.ID,
+            DropItemS2CPayload.STREAM_CODEC
+        ) { payload, ctx ->
+            payload.handleOnClient(ctx)
+        }
+        registrar.playToClient(
             OptimizedSelectiveSyncPayload.ID,
             OptimizedSelectiveSyncPayload.STREAM_CODEC
         ) { payload, ctx ->
