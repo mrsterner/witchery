@@ -16,7 +16,6 @@ import dev.sterner.witchery.features.blood.BloodPoolLivingEntityAttachment
 import dev.sterner.witchery.features.spirit_world.ManifestationPlayerAttachment
 import dev.sterner.witchery.features.necromancy.SoulPoolPlayerAttachment
 import dev.sterner.witchery.core.util.WitcheryUtil
-import dev.sterner.witchery.data_gen.WitcheryAdvancementProvider
 import dev.sterner.witchery.features.affliction.AfflictionPlayerAttachment
 import dev.sterner.witchery.features.curse.CurseHandler
 import dev.sterner.witchery.features.familiar.FamiliarHandler
@@ -25,6 +24,8 @@ import dev.sterner.witchery.features.affliction.lich.LichdomLeveling
 import dev.sterner.witchery.features.affliction.lich.LichdomSpecificEventHandler
 import dev.sterner.witchery.features.affliction.vampire.VampireLeveling
 import dev.sterner.witchery.features.affliction.vampire.VampireLeveling.levelToBlood
+import dev.sterner.witchery.features.affliction.villager_afflictions.VillagerDataAttachment
+import dev.sterner.witchery.features.affliction.villager_afflictions.VillagerWerewolfHandler
 import dev.sterner.witchery.features.affliction.werewolf.WerewolfLeveling
 import dev.sterner.witchery.features.coven.CovenHandler
 import dev.sterner.witchery.features.coven.CovenPlayerAttachment
@@ -50,6 +51,7 @@ import net.minecraft.server.level.ServerPlayer
 import net.minecraft.util.Mth
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.entity.npc.Villager
 import net.neoforged.neoforge.registries.DeferredRegister
 import java.util.function.Supplier
 
@@ -95,7 +97,138 @@ object WitcheryCommands {
                 .then(registerTarotCommands())
                 .then(registerPetrificationCommands())
                 .then(registerDebugCommands())
+                .then(registerVillagerWerewolfCommands())
         )
+    }
+
+    private fun registerVillagerWerewolfCommands(): LiteralArgumentBuilder<CommandSourceStack> {
+        return Commands.literal("villagerwerewolf")
+            .requires { it.hasPermission(2) }
+            .then(
+                Commands.literal("infect")
+                    .then(
+                        Commands.argument("villager", EntityArgument.entity())
+                            .executes { ctx ->
+                                val entity = EntityArgument.getEntity(ctx, "villager")
+
+                                if (entity !is Villager) {
+                                    ctx.source.sendFailure(
+                                        Component.literal("Target must be a villager")
+                                    )
+                                    return@executes 0
+                                }
+
+                                VillagerWerewolfHandler.infectVillager(entity, null)
+
+                                ctx.source.sendSuccess(
+                                    { Component.literal("Infected villager ${entity.name.string}. Transformation in 20 seconds.") },
+                                    true
+                                )
+                                1
+                            }
+                    )
+            )
+            .then(
+                Commands.literal("cure")
+                    .then(
+                        Commands.argument("villager", EntityArgument.entity())
+                            .executes { ctx ->
+                                val entity = EntityArgument.getEntity(ctx, "villager")
+
+                                if (entity !is Villager) {
+                                    ctx.source.sendFailure(
+                                        Component.literal("Target must be a villager")
+                                    )
+                                    return@executes 0
+                                }
+
+                                val data = VillagerDataAttachment.getData(entity)
+                                VillagerDataAttachment.setData(
+                                    entity,
+                                    data.copy(infectedTicks = 0, isWerewolf = false)
+                                )
+
+                                ctx.source.sendSuccess(
+                                    { Component.literal("Cured villager ${entity.name.string} of lycanthropy.") },
+                                    true
+                                )
+                                1
+                            }
+                    )
+            )
+            .then(
+                Commands.literal("status")
+                    .then(
+                        Commands.argument("villager", EntityArgument.entity())
+                            .executes { ctx ->
+                                val entity = EntityArgument.getEntity(ctx, "villager")
+
+                                if (entity !is Villager) {
+                                    ctx.source.sendFailure(
+                                        Component.literal("Target must be a villager")
+                                    )
+                                    return@executes 0
+                                }
+
+                                val data = VillagerDataAttachment.getData(entity)
+
+                                val status = buildString {
+                                    appendLine("§6=== Werewolf Status for ${entity.name.string} ===")
+                                    appendLine("§7Infected: §f${if (data.infectedTicks > 0) "Yes" else "No"}")
+                                    appendLine("§7Infection Progress: §f${data.infectedTicks}/400 ticks")
+                                    appendLine("§7Is Werewolf: §f${if (data.isWerewolf) "Yes" else "No"}")
+
+                                    if (data.isWerewolf) {
+                                        val shouldTransform = VillagerWerewolfHandler.shouldTransformToWerewolf(entity)
+                                        appendLine("§7Should Transform Now: §f${if (shouldTransform) "Yes (Full Moon)" else "No"}")
+                                    }
+
+                                    appendLine("§7Moon Phase: §f${entity.level().moonPhase}")
+                                    appendLine("§7Is Day: §f${entity.level().isDay}")
+                                }
+
+                                ctx.source.sendSuccess(
+                                    { Component.literal(status) },
+                                    false
+                                )
+                                1
+                            }
+                    )
+            )
+            .then(
+                Commands.literal("infectAll")
+                    .then(
+                        Commands.argument("radius", IntegerArgumentType.integer(1, 100))
+                            .executes { ctx ->
+                                val radius = IntegerArgumentType.getInteger(ctx, "radius")
+                                val source = ctx.source.position
+                                val level = ctx.source.level
+
+                                val villagers = level.getEntitiesOfClass(
+                                    Villager::class.java,
+                                    net.minecraft.world.phys.AABB(
+                                        source.x - radius, source.y - radius, source.z - radius,
+                                        source.x + radius, source.y + radius, source.z + radius
+                                    )
+                                )
+
+                                var infected = 0
+                                villagers.forEach { villager ->
+                                    val data = VillagerDataAttachment.getData(villager)
+                                    if (data.infectedTicks == 0 && !data.isWerewolf) {
+                                        VillagerWerewolfHandler.infectVillager(villager, null)
+                                        infected++
+                                    }
+                                }
+
+                                ctx.source.sendSuccess(
+                                    { Component.literal("Infected $infected villagers within $radius blocks.") },
+                                    true
+                                )
+                                1
+                            }
+                    )
+            )
     }
 
     private fun registerDebugCommands(): LiteralArgumentBuilder<CommandSourceStack> {

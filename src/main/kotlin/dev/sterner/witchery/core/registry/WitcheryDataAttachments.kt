@@ -5,6 +5,7 @@ import dev.sterner.witchery.features.misc.TeleportQueueLevelAttachment
 import dev.sterner.witchery.features.affliction.AfflictionPlayerAttachment
 import dev.sterner.witchery.features.affliction.TransformationPlayerAttachment
 import dev.sterner.witchery.features.affliction.vampire.VampireChildrenHuntLevelAttachment
+import dev.sterner.witchery.features.affliction.villager_afflictions.VillagerDataAttachment
 import dev.sterner.witchery.features.altar.ChunkedAltarPositionsAttachment
 import dev.sterner.witchery.features.coven.CovenPlayerAttachment
 import dev.sterner.witchery.features.curse.CursePlayerAttachment
@@ -53,6 +54,16 @@ object WitcheryDataAttachments {
     val ATTACHMENT_TYPES: DeferredRegister<AttachmentType<*>> =
         DeferredRegister.create(NeoForgeRegistries.ATTACHMENT_TYPES, Witchery.MODID)
 
+    @JvmStatic
+    val VILLAGER_ATTACHMENT: Supplier<AttachmentType<VillagerDataAttachment.Data>> =
+        ATTACHMENT_TYPES.register(
+            "villager_data",
+            Supplier {
+                AttachmentType.builder(Supplier { VillagerDataAttachment.Data() })
+                    .serialize(VillagerDataAttachment.Data.CODEC)
+                    .build()
+            }
+        )
 
     @JvmStatic
     val CHUNKED_ALTAR_POSITIONS_ATTACHMENT: Supplier<AttachmentType<ChunkedAltarPositionsAttachment.Data>> =

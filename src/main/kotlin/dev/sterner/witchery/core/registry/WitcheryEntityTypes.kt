@@ -292,7 +292,7 @@ object WitcheryEntityTypes {
             { _: EntityType<WerewolfEntity>, level: Level ->
                 WerewolfEntity(level)
             }, MobCategory.MONSTER
-        ).sized(1.15F, 1.8F).build(Witchery.id("werewolf").toString())
+        ).sized(1.2F, 2.2F).build(Witchery.id("werewolf").toString())
     }
 
     val LILITH = register("lilith", Supplier {

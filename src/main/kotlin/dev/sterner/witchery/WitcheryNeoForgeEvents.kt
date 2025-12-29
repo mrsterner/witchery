@@ -27,6 +27,7 @@ import dev.sterner.witchery.features.affliction.event.TransformationHandler
 import dev.sterner.witchery.features.affliction.lich.LichdomSpecificEventHandler
 import dev.sterner.witchery.features.affliction.vampire.VampireChildrenHuntHandler
 import dev.sterner.witchery.features.affliction.vampire.VampireSpecificEventHandler
+import dev.sterner.witchery.features.affliction.villager_afflictions.VillagerWerewolfHandler
 import dev.sterner.witchery.features.affliction.werewolf.WerewolfLeveling
 import dev.sterner.witchery.features.affliction.werewolf.WerewolfSpecificEventHandler
 import dev.sterner.witchery.features.bark_belt.BarkBeltHandler
@@ -66,6 +67,7 @@ import net.minecraft.world.damagesource.DamageTypes
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.animal.Wolf
 import net.minecraft.world.entity.monster.EnderMan
+import net.minecraft.world.entity.npc.Villager
 import net.minecraft.world.entity.npc.VillagerTrades
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.Items
@@ -250,6 +252,10 @@ object WitcheryNeoForgeEvents {
             TarotPlayerAttachment.serverTick(entity)
         }
         BindingRitualAttachment.tick(entity)
+
+        if (entity is Villager) {
+            VillagerWerewolfHandler.tickVillager(entity)
+        }
     }
 
 

@@ -10,6 +10,7 @@ import net.minecraft.client.model.geom.builders.CubeDeformation
 import net.minecraft.client.model.geom.builders.CubeListBuilder
 import net.minecraft.client.model.geom.builders.LayerDefinition
 import net.minecraft.client.model.geom.builders.MeshDefinition
+import net.minecraft.util.Mth
 import kotlin.math.cos
 import kotlin.math.sin
 
@@ -43,6 +44,12 @@ class WerewolfEntityModel(root: ModelPart) : HumanoidModel<WerewolfEntity>(root)
         head.xRot = headPitch * (Math.PI.toFloat() / 180f)
 
         head.yRot += cos(ageInTicks * 0.05f) * 0.02f
+
+        if (entity.isHowling()) {
+            val base = -Math.toRadians(35.0).toFloat()
+            val sway = sin(ageInTicks * 0.2f) * 0.05f
+            head.xRot = Mth.lerp(head.xRot, base + sway, 0.15f)
+        }
     }
 
     companion object {
