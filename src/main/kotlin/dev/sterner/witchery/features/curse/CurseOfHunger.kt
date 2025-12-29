@@ -24,9 +24,9 @@ class CurseOfHunger : Curse() {
         val totalMultiplier = effectivenessMultiplier * witchPowerAmplifier
 
         val exhaustionRate = if (WitcheryApi.isWitchy(player)) {
-            0.005f * totalMultiplier
+            0.25f * totalMultiplier
         } else {
-            0.001f * totalMultiplier
+            0.1f * totalMultiplier
         }
 
         if (level.gameTime % 20 == 0L) {
