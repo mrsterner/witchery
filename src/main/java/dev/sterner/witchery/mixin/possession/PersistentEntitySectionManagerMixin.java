@@ -1,7 +1,7 @@
 package dev.sterner.witchery.mixin.possession;
 
 import dev.sterner.witchery.core.api.interfaces.Possessable;
-import dev.sterner.witchery.core.api.interfaces.ProtoPossessable;
+import dev.sterner.witchery.core.api.interfaces.PossessableBase;
 import dev.sterner.witchery.features.possession.PossessionComponentAttachment;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
@@ -21,8 +21,8 @@ public abstract class PersistentEntitySectionManagerMixin<T extends EntityAccess
             at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/entity/PersistentEntitySectionManager;addEntity(Lnet/minecraft/world/level/entity/EntityAccess;Z)Z")
     )
     private void possessLoadedEntities(T entity, CallbackInfoReturnable<Boolean> cir) {
-        if (entity instanceof ProtoPossessable && entity instanceof Mob) {
-            Player possessor = ((ProtoPossessable) entity).getPossessor();
+        if (entity instanceof PossessableBase && entity instanceof Mob) {
+            Player possessor = ((PossessableBase) entity).getPossessor();
             if (possessor != null) {
                 PossessionComponentAttachment.PossessionComponent possessionComponent = PossessionComponentAttachment.INSTANCE.get(possessor);
                 if (possessionComponent.getHost() != entity) {

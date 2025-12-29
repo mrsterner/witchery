@@ -1,7 +1,7 @@
 package dev.sterner.witchery.mixin.possession.possessed;
 
 import dev.sterner.witchery.core.api.interfaces.Possessable;
-import dev.sterner.witchery.core.api.interfaces.ProtoPossessable;
+import dev.sterner.witchery.core.api.interfaces.PossessableBase;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
@@ -20,7 +20,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import javax.annotation.Nullable;
 
 @Mixin(Entity.class)
-public abstract class PossessableEntityMixin implements ProtoPossessable {
+public abstract class PossessableEntityMixin implements PossessableBase {
 
     @Shadow
     private Level level;
