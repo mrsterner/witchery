@@ -275,12 +275,7 @@ class OvenBlockEntity(
     }
 
     private fun getBurnDuration(fuel: ItemStack): Int {
-        if (fuel.isEmpty) {
-            return 0
-        } else {
-            val item = fuel.item
-            return AbstractFurnaceBlockEntity.getFuel().getOrDefault(item, 0)
-        }
+        return fuel.getBurnTime(RecipeType.SMELTING)
     }
 
     private fun getTotalCookTime(level: Level): Int {
