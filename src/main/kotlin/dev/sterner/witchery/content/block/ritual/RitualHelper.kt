@@ -7,6 +7,7 @@ import dev.sterner.witchery.content.entity.FloatingItemEntity
 import dev.sterner.witchery.content.recipe.ritual.RitualRecipe
 import dev.sterner.witchery.core.api.WitcheryPowerHelper
 import dev.sterner.witchery.features.misc.MiscPlayerAttachment
+import dev.sterner.witchery.integration.sable.SableCompat
 import net.minecraft.commands.CommandSourceStack
 import net.minecraft.commands.Commands
 import net.minecraft.core.BlockPos
@@ -61,15 +62,16 @@ object RitualHelper {
     }
 
     fun summonItems(level: Level, blockPos: BlockPos, blockEntity: GoldenChalkBlockEntity) {
-        val x = blockPos.x + 0.5
-        val y = blockPos.y + 0.5
-        val z = blockPos.z + 0.5
+        val spawnPos = SableCompat.projectOutOfSubLevel(level, blockPos)
+        val x = spawnPos.x + 0.5
+        val y = spawnPos.y + 0.5
+        val z = spawnPos.z + 0.5
         if (blockEntity.ritualRecipe != null) {
             for (output in blockEntity.ritualRecipe!!.outputItems) {
                 if (blockEntity.ritualRecipe!!.floatingItemOutput) {
                     val itemEntity = FloatingItemEntity(level)
                     itemEntity.setItem(output.copy())
-                    itemEntity.moveTo(blockPos.x + 0.5, blockPos.y + 0.5, blockPos.z + 0.5, 0f, 0f)
+                    itemEntity.moveTo(spawnPos.x + 0.5, spawnPos.y + 0.5, spawnPos.z + 0.5, 0f, 0f)
                     level.addFreshEntity(itemEntity)
                 } else {
                     Containers.dropItemStack(level, x, y, z, output.copy())
@@ -79,15 +81,16 @@ object RitualHelper {
     }
 
     fun summonSummons(level: Level, blockPos: BlockPos, blockEntity: GoldenChalkBlockEntity) {
+        val spawnPos = SableCompat.projectOutOfSubLevel(level, blockPos)
         if (blockEntity.ritualRecipe != null) {
             for (entityType in blockEntity.ritualRecipe!!.outputEntities) {
                 val entity = entityType.create(level)
                 if (entity is LivingEntity) {
                     val angle: Float = level.random.nextFloat() * 360
                     val distance: Double = level.random.nextDouble() * 2
-                    val x = blockPos.x + distance * cos(Math.toRadians(angle.toDouble()))
-                    val z = blockPos.z + distance * sin(Math.toRadians(angle.toDouble()))
-                    entity.moveTo(x, blockPos.y + 0.2, z, level.random.nextFloat() * 360, 0f)
+                    val x = spawnPos.x + distance * cos(Math.toRadians(angle.toDouble()))
+                    val z = spawnPos.z + distance * sin(Math.toRadians(angle.toDouble()))
+                    entity.moveTo(x, spawnPos.y + 0.2, z, level.random.nextFloat() * 360, 0f)
                     level.addFreshEntity(entity)
                 }
             }
@@ -205,15 +208,18 @@ object RitualHelper {
             }
 
             if (waystonePos != null) {
-                formattedCommand =
-                    formattedCommand.replace("{waystonePos}", "${waystonePos.x} ${waystonePos.y} ${waystonePos.z}")
+                val resolvedPos = SableCompat.projectOutOfSubLevel(level, waystonePos)
+                formattedCommand = formattedCommand.replace(
+                    "{waystonePos}",
+                    "${resolvedPos.x} ${resolvedPos.y} ${resolvedPos.z}"
+                )
             }
             formattedCommand = formattedCommand.replace("{witchPower}", witchPower.toString())
             formattedCommand = formattedCommand.replace("{time}", "${level.dayTime}")
             formattedCommand = formattedCommand.replace("{owner}", "${blockEntity.ownerName}")
             formattedCommand = formattedCommand.replace("{chalkPos}", "${blockPos.x} ${blockPos.y} ${blockPos.z}")
             formattedCommand = "execute as ${blockEntity.ownerName} run execute in ${
-                level.dimension().location().path
+                level.dimension().location()
             } run " + formattedCommand
             val parseResults: ParseResults<CommandSourceStack> =
                 commandManager.dispatcher.parse(formattedCommand, commandSource)
