@@ -2,13 +2,20 @@ package dev.sterner.witchery.content.block
 
 import com.mojang.serialization.MapCodec
 import net.minecraft.core.BlockPos
+import net.minecraft.server.level.ServerLevel
+import net.minecraft.util.RandomSource
+import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.BlockGetter
+import net.minecraft.world.level.Level
+import net.minecraft.world.level.LevelReader
+import net.minecraft.world.level.block.Blocks
+import net.minecraft.world.level.block.BonemealableBlock
 import net.minecraft.world.level.block.BushBlock
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.phys.shapes.CollisionContext
 import net.minecraft.world.phys.shapes.VoxelShape
 
-class GlintweedBlock(properties: Properties) : BushBlock(properties.lightLevel { 14 }) {
+class GlintweedBlock(properties: Properties) : BushBlock(properties.lightLevel { 14 }), BonemealableBlock {
 
     override fun codec(): MapCodec<out BushBlock> {
         return CODEC
@@ -20,12 +27,34 @@ class GlintweedBlock(properties: Properties) : BushBlock(properties.lightLevel {
         pos: BlockPos,
         context: CollisionContext
     ): VoxelShape {
+        Blocks.ROSE_BUSH
         val vec3 = state.getOffset(level, pos)
         return SHAPE.move(vec3.x, vec3.y, vec3.z)
     }
 
-    companion object {
+    override fun isValidBonemealTarget(p_256234_: LevelReader, p_57304_: BlockPos, p_57305_: BlockState): Boolean {
+        return true
+    }
 
+    override fun isBonemealSuccess(
+        p_222573_: Level,
+        p_222574_: RandomSource,
+        p_222575_: BlockPos,
+        p_222576_: BlockState
+    ): Boolean {
+        return true
+    }
+
+    override fun performBonemeal(
+        p_222568_: ServerLevel,
+        p_222569_: RandomSource,
+        p_222570_: BlockPos,
+        p_222571_: BlockState
+    ) {
+        popResource(p_222568_, p_222570_, ItemStack(this))
+    }
+
+    companion object {
         val CODEC: MapCodec<GlintweedBlock> = simpleCodec { arg: Properties ->
             GlintweedBlock(
                 arg
