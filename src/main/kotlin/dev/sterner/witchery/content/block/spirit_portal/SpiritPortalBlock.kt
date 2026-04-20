@@ -9,6 +9,7 @@ import dev.sterner.witchery.core.registry.WitcheryBlocks
 import dev.sterner.witchery.features.spirit_world.ManifestationHandler
 import dev.sterner.witchery.core.registry.WitcheryBlockEntityTypes
 import dev.sterner.witchery.core.registry.WitcheryItems
+import dev.sterner.witchery.integration.sable.SableCompat
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.world.entity.Entity
@@ -152,9 +153,13 @@ class SpiritPortalBlock(properties: Properties) : WitcheryBaseEntityBlock(
                 for (keep in itemsToKeep) {
                     entity.inventory.add(keep.copy())
                 }
+                val globalPos = SableCompat.projectOutOfSubLevel(level, entity.blockPosition())
+
 
                 ManifestationHandler.setManifestationTimer(entity)
-                entity.teleportTo(overworld, entity.x, entity.y, entity.z, setOf(), entity.yHeadRot, entity.xRot)
+                entity.teleportTo(overworld, globalPos.x.toDouble(),
+                    globalPos.y.toDouble(),
+                    globalPos.z.toDouble(), setOf(), entity.yHeadRot, entity.xRot)
             }
         }
     }

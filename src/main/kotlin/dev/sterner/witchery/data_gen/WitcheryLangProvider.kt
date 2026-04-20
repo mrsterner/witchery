@@ -48,6 +48,8 @@ class WitcheryLangProvider(output: PackOutput, modid: String, locale: String) :
                 add("item.witchery.hags_ring", "Hag's Ring")
             } else if (item == "censer_long") {
                 add("item.witchery.censer_long", "Censer")
+            } else if (item == "mutating_spring") {
+                add("item.witchery.mutating_spring", "Mutating Sprig")
             } else {
                 add("item.witchery.$item", formatId(item))
             }

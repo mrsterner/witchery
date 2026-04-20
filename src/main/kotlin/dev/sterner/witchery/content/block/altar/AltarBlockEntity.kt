@@ -9,6 +9,7 @@ import dev.sterner.witchery.network.AltarMultiplierSyncS2CPayload
 import dev.sterner.witchery.core.registry.WitcheryBlockEntityTypes
 import dev.sterner.witchery.core.util.RenderUtils
 import dev.sterner.witchery.features.altar.ChunkedAltarPositionsAttachment
+import dev.sterner.witchery.integration.sable.SableCompat
 import io.netty.buffer.Unpooled
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
@@ -340,7 +341,11 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : MultiBlockCoreEntity(
             for (altarPos in nearbyAltars) {
                 val be = level.getBlockEntity(altarPos)
                 if (be is AltarBlockEntity) {
-                    val distance = pos.distSqr(altarPos)
+                    val distance = SableCompat.distanceSquaredWithSubLevels(
+                        level,
+                        pos,
+                        altarPos
+                    )
                     if (distance < closestDistance) {
                         closestDistance = distance
                         closestAltar = be
