@@ -1214,7 +1214,7 @@ object WitcheryBlocks {
 
 
     val GRAVESTONE = register("gravestone") {
-        GravestoneBlock(Properties.of().requiresCorrectToolForDrops())
+        GravestoneBlock(Properties.ofFullCopy(Blocks.STONE).requiresCorrectToolForDrops())
     }
 
     val SUSPICIOUS_GRAVEYARD_DIRT =
