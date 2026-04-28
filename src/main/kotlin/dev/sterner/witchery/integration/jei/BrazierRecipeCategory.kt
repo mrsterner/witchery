@@ -44,6 +44,7 @@ class BrazierRecipeCategory(var guiHelper: IJeiHelpers) : IRecipeCategory<Brazie
             Minecraft.getInstance().font,
             Component.translatable("${recipe.id}.tooltip"), (width / 2), 2, -1
         )
+        println("${recipe.id}.tooltip")
     }
 
     override fun setRecipe(builder: IRecipeLayoutBuilder, recipe: BrazierSummoningJeiRecipe, focuses: IFocusGroup) {
