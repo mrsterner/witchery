@@ -181,7 +181,11 @@ object WerewolfLeveling {
             return
         }
 
-        increaseWerewolfLevel(player)
+        val newData = AfflictionPlayerAttachment.smartUpdate(player, sync = true) {
+            withSpreadLycanthropy(true)
+        }
+
+        checkAndLevelUp(player, newData)
     }
 
     //To go from Level 3 -> 4
