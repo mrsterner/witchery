@@ -60,7 +60,7 @@ enum class WerewolfAbility(
                 entity != player &&
                         entity.isAlive &&
                         !entity.isSpectator &&
-                        player.canAttack(entity)
+                        (entity is Player || player.canAttack(entity))
             }
 
             val target = targets.minByOrNull { player.distanceToSqr(it) }
