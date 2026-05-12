@@ -82,14 +82,15 @@ class WineGlassItem(properties: Properties) : Item(properties.stacksTo(1)) {
 
         val data = player.mainHandItem.get(WitcheryDataComponents.BLOOD.get())
         if (data == null && player.isShiftKeyDown && player.offhandItem.`is`(WitcheryItems.BONE_NEEDLE.get())) {
-            player.mainHandItem.set(WitcheryDataComponents.BLOOD.get(), player.uuid)
+            val heldStack = player.getItemInHand(usedHand)
+            heldStack.set(WitcheryDataComponents.BLOOD.get(), player.uuid)
             if (AfflictionPlayerAttachment.getData(player).getVampireLevel() == 10) {
-                player.mainHandItem.set(WitcheryDataComponents.VAMPIRE_BLOOD.get(), true)
+                heldStack.set(WitcheryDataComponents.VAMPIRE_BLOOD.get(), true)
             }
             player.hurt(level.damageSources().playerAttack(player), 4f)
         }
 
-        return InteractionResultHolder.fail(player.mainHandItem)
+        return InteractionResultHolder.fail(player.getItemInHand(usedHand))
     }
 
     override fun useOn(context: UseOnContext): InteractionResult {
