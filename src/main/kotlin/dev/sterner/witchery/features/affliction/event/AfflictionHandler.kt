@@ -107,6 +107,13 @@ object AfflictionHandler {
         transferBlood(player, entity)
         handleTargetDamage(player, entity, targetData)
 
+        if (AfflictionPlayerAttachment.getData(player).getVampireLevel() == 1) {
+            val updatedBlood = BloodPoolLivingEntityAttachment.getData(player)
+            if (updatedBlood.bloodPool >= updatedBlood.maxBlood) {
+                VampireLeveling.increaseVampireLevel(player)
+            }
+        }
+
         return true
     }
 
