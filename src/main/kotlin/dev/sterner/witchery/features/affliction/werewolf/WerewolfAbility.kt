@@ -60,7 +60,7 @@ enum class WerewolfAbility(
                 entity != player &&
                         entity.isAlive &&
                         !entity.isSpectator &&
-                        player.canAttack(entity)
+                        (entity is Player || player.canAttack(entity))
             }
 
             val target = targets.minByOrNull { player.distanceToSqr(it) }
@@ -126,8 +126,8 @@ enum class WerewolfAbility(
             return bite(player)
         }
     },
-    PACK_SUMMON(8, 20 * 60) {
-        override val id: String = "pack_summon"
+    SUMMON_PACK(8, 20 * 60) {
+        override val id: String = "summon_pack"
 
         fun summonPack(player: ServerPlayer){
             val wolfCount = if (TransformationHandler.isWerewolf(player)) 3 else 2

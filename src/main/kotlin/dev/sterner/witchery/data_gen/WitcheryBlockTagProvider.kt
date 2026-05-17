@@ -40,6 +40,7 @@ class WitcheryBlockTagProvider(
             .addTag(Tags.Blocks.ORES)
 
         tag(BlockTags.MINEABLE_WITH_PICKAXE)
+            .add(WitcheryBlocks.GRAVESTONE.get())
             .add(WitcheryBlocks.IRON_WITCHES_OVEN_FUME_EXTENSION_COMPONENT.get())
             .add(WitcheryBlocks.IRON_WITCHES_OVEN.get())
             .add(WitcheryBlocks.IRON_WITCHES_OVEN_FUME_EXTENSION.get())

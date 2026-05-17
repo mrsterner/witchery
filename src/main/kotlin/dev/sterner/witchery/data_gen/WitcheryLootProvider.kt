@@ -271,6 +271,7 @@ class WitcheryLootProvider(packOutput: PackOutput, provider: CompletableFuture<H
                         it != WitcheryBlocks.MIRROR_COMPONENT.get() &&
                         it != WitcheryBlocks.IRON_WITCHES_OVEN_FUME_EXTENSION_COMPONENT.get() &&
                         it != WitcheryBlocks.SACRIFICIAL_CIRCLE_COMPONENT.get() &&
+                        it != WitcheryBlocks.SACRIFICIAL_CIRCLE.get() &&
                         it != WitcheryBlocks.SPIRIT_PORTAL_COMPONENT.get() &&
                         it != WitcheryBlocks.WEREWOLF_ALTAR_COMPONENT.get() &&
                         it != WitcheryBlocks.CAULDRON_DUMMY.get() &&
@@ -353,7 +354,7 @@ class WitcheryLootProvider(packOutput: PackOutput, provider: CompletableFuture<H
             dropSelf(WitcheryBlocks.GRASSPER.get())
             dropSelf(WitcheryBlocks.CRITTER_SNARE.get())
 
-            dropOther(WitcheryBlocks.SACRIFICIAL_CIRCLE.get(), Blocks.SKELETON_SKULL)
+            //dropOther(WitcheryBlocks.SACRIFICIAL_CIRCLE.get(), Blocks.SKELETON_SKULL)
             dropOther(WitcheryBlocks.SOUL_CAGE.get(), WitcheryBlocks.BRAZIER.get())
 
             dropSelf(WitcheryBlocks.IRON_CANDELABRA.get())

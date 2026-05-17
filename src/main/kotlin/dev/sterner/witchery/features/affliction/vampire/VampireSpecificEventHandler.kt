@@ -248,7 +248,7 @@ object VampireSpecificEventHandler {
 
         if (livingEntity is Chicken) {
 
-            if (player.mainHandItem.`is`(WitcheryItems.ARTHANA.get()) || player.offhandItem.`is`(WitcheryItems.WINE_GLASS.get())) {
+            if (player.mainHandItem.`is`(WitcheryItems.ARTHANA.get()) && player.offhandItem.`is`(WitcheryItems.WINE_GLASS.get())) {
                 if (hasNearbySacrificialCircle(livingEntity)) {
                     performChickenBloodRitual(player, livingEntity)
                 }
@@ -268,11 +268,6 @@ object VampireSpecificEventHandler {
             VampireLeveling.resetNightCounter(livingEntity)
         }
     }
-
-
-    //--------------
-    //---HELPERS
-    //--------------
 
     /**
      * Checks if there's a sacrificial circle nearby
@@ -294,9 +289,9 @@ object VampireSpecificEventHandler {
      * Performs the chicken blood ritual
      */
     private fun performChickenBloodRitual(player: Player, chicken: Chicken) {
-        player.offhandItem.shrink(1)
-
         val stackCopy = player.offhandItem.copy()
+
+        player.offhandItem.shrink(1)
         if (!stackCopy.isEmpty) {
             Containers.dropItemStack(chicken.level(), player.x, player.y, player.z, stackCopy)
         }

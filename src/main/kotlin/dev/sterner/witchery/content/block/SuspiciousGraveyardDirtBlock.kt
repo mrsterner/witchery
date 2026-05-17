@@ -69,6 +69,7 @@ class SuspiciousGraveyardDirtBlock(
                 ),
                 level.random.nextLong()
             )
+            blockEntity.setChanged()
         }
 
         level.scheduleTick(pos, this, 2)

@@ -487,7 +487,7 @@ object WitcheryCommands {
                             .then(
                                 Commands.argument("player", EntityArgument.player())
                                     .executes { context ->
-                                        val player = context.source.playerOrException
+                                        val player = EntityArgument.getPlayer(context, "player")
                                         val level =
                                             AfflictionPlayerAttachment.getData(player).getLichLevel()
                                         context.source.sendSuccess(
@@ -507,7 +507,7 @@ object WitcheryCommands {
                                             .executes { context ->
 
                                                 val level = IntegerArgumentType.getInteger(context, "level")
-                                                val player = context.source.playerOrException
+                                                val player = EntityArgument.getPlayer(context, "player")
 
                                                 LichdomLeveling.setLevel(player, level)
                                                 LichdomLeveling.updateModifiers(player, level)
@@ -539,7 +539,7 @@ object WitcheryCommands {
                                             .executes { context ->
 
                                                 val level = IntegerArgumentType.getInteger(context, "level")
-                                                val player = context.source.playerOrException
+                                                val player = EntityArgument.getPlayer(context, "player")
 
                                                 val data = SoulPoolPlayerAttachment.getData(player)
 
@@ -566,7 +566,7 @@ object WitcheryCommands {
                             .then(
                                 Commands.argument("player", EntityArgument.player())
                                     .executes { context ->
-                                        val player = context.source.playerOrException
+                                        val player = EntityArgument.getPlayer(context, "player")
 
                                         val data = SoulPoolPlayerAttachment.getData(player)
                                         player.sendSystemMessage(Component.literal("Soul Level: " + data.soulPool + "/" + data.maxSouls))
@@ -580,7 +580,7 @@ object WitcheryCommands {
                             .then(Commands.argument("enable", BoolArgumentType.bool())
                                 .executes { ctx ->
                                     val enable = BoolArgumentType.getBool(ctx, "enable")
-                                    val player = ctx.source.playerOrException
+                                    val player = EntityArgument.getPlayer(ctx, "player")
 
                                     val isSoulForm = AfflictionPlayerAttachment.getData(player).isSoulForm()
                                     val isVagrant = AfflictionPlayerAttachment.getData(player).isVagrant()
@@ -627,7 +627,7 @@ object WitcheryCommands {
                             )
                             .then(Commands.literal("cure")
                                 .executes { ctx ->
-                                    val player = ctx.source.playerOrException
+                                    val player = EntityArgument.getPlayer(ctx, "player")
                                     val possess = PossessionComponentAttachment.get(player)
                                     possess.startCuring()
 
@@ -648,7 +648,7 @@ object WitcheryCommands {
                             .then(
                                 Commands.argument("player", EntityArgument.player())
                                     .executes { context ->
-                                        val player = context.source.playerOrException
+                                        val player = EntityArgument.getPlayer(context, "player")
                                         val level = AfflictionPlayerAttachment.getData(player).getVampireLevel()
                                         context.source.sendSuccess(
                                             { Component.literal("Level: $level for ${player.name.string}") },
@@ -667,7 +667,7 @@ object WitcheryCommands {
                                             .executes { context ->
 
                                                 val level = IntegerArgumentType.getInteger(context, "level")
-                                                val player = context.source.playerOrException
+                                                val player = EntityArgument.getPlayer(context, "player")
 
                                                 VampireLeveling.setLevel(player, level)
                                                 VampireLeveling.updateModifiers(player, level, false)
@@ -704,7 +704,7 @@ object WitcheryCommands {
                                             .executes { context ->
 
                                                 val level = IntegerArgumentType.getInteger(context, "level")
-                                                val player = context.source.playerOrException
+                                                val player = EntityArgument.getPlayer(context, "player")
 
                                                 val data = BloodPoolLivingEntityAttachment.getData(player)
 
@@ -731,7 +731,7 @@ object WitcheryCommands {
                             .then(
                                 Commands.argument("player", EntityArgument.player())
                                     .executes { context ->
-                                        val player = context.source.playerOrException
+                                        val player = EntityArgument.getPlayer(context, "player")
 
                                         val data = BloodPoolLivingEntityAttachment.getData(player)
                                         player.sendSystemMessage(Component.literal("Blood Level: " + data.bloodPool + "/" + data.maxBlood))
@@ -751,7 +751,7 @@ object WitcheryCommands {
                             .then(
                                 Commands.argument("player", EntityArgument.player())
                                     .executes { context ->
-                                        val player = context.source.playerOrException
+                                        val player = EntityArgument.getPlayer(context, "player")
                                         val currentLevel = AfflictionPlayerAttachment.getData(player).getWerewolfLevel()
                                         if (currentLevel == 0) {
                                             WitcheryUtil.grantAdvancementCriterion(player, Witchery.id("werewolf/1"), "impossible_1")
@@ -776,7 +776,7 @@ object WitcheryCommands {
                                             .executes { context ->
 
                                                 val level = IntegerArgumentType.getInteger(context, "level")
-                                                val player = context.source.playerOrException
+                                                val player = EntityArgument.getPlayer(context, "player")
 
                                                 WerewolfLeveling.setLevel(player, level)
 
@@ -794,7 +794,7 @@ object WitcheryCommands {
                             .then(
                                 Commands.argument("player", EntityArgument.player())
                                     .executes { context ->
-                                        val player = context.source.playerOrException
+                                        val player = EntityArgument.getPlayer(context, "player")
                                         val level = AfflictionPlayerAttachment.getData(player).getWerewolfLevel()
                                         context.source.sendSuccess(
                                             { Component.literal("Level $level for ${player.name.string}") },

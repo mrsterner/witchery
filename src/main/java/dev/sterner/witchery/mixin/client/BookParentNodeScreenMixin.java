@@ -20,6 +20,10 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
 @Mixin(value = BookParentNodeScreen.class, remap = false)
 public class BookParentNodeScreenMixin {
 
@@ -59,15 +63,18 @@ public class BookParentNodeScreenMixin {
             return;
         }
 
-        if (mc.player != null && mc.hasSingleplayerServer()) {
+        if (mc.hasSingleplayerServer()) {
             MinecraftServer server = mc.getSingleplayerServer();
             if (server != null) {
-                ServerPlayer serverPlayer = server.getPlayerList().getPlayer(mc.player.getUUID());
-                if (serverPlayer != null) {
-                    witchery$grantAllWitcheryAdvancements(serverPlayer, server);
-                }
+                UUID playerUUID = mc.player.getUUID();
+                server.execute(() -> {
+                    ServerPlayer serverPlayer = server.getPlayerList().getPlayer(playerUUID);
+                    if (serverPlayer != null) {
+                        witchery$grantAllWitcheryAdvancements(serverPlayer, server);
+                    }
+                });
             }
-        } else if (mc.player != null) {
+        } else {
             PacketDistributor.sendToServer(new GrantWitcheryAdvancementsC2SPayload());
         }
     }
@@ -84,7 +91,8 @@ public class BookParentNodeScreenMixin {
                 AdvancementProgress progress = player.getAdvancements().getOrStartProgress(holder);
 
                 if (!progress.isDone()) {
-                    for (String criterion : advancement.criteria().keySet()) {
+                    List<String> criteria = new ArrayList<>(advancement.criteria().keySet());
+                    for (String criterion : criteria) {
                         var prog = progress.getCriterion(criterion);
                         if (prog != null && !prog.isDone()) {
                             player.getAdvancements().award(holder, criterion);
